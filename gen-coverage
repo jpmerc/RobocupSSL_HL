@@ -1,0 +1,27 @@
+#!/bin/bash
+SOURCE="${BASH_SOURCE[0]}"
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+ROOT="/Build/CMakeFiles/unittests.dir"
+
+if [ -d coverage-report/ ]; then
+	rm -rf "coverage-report/"
+fi
+mkdir "coverage-report/"
+
+echo "Compiling project..."
+rm -rf Build
+mkdir Build
+cd Build
+cmake ..
+make
+./robocupulaval_tests
+cd ..
+
+echo "Calculating coverage..."
+./gcovr -r . -f "$DIR/src/" --html --html-details -o "coverage-report/covering.html"
+
+if [ -r coverage-report/covering.html ]; then
+	echo "Done! You can go to \"coverage-report\" folder and display \"covering.html\" in a web browser!"
+else
+	echo "Something went wrong..."
+fi

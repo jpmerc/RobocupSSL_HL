@@ -1,0 +1,9 @@
+syntax: glob
+include/proto/pb/
+Build/
+build/
+coverage-report/
+.project
+CMakeLists.txt.user
+ext/boost/
+
