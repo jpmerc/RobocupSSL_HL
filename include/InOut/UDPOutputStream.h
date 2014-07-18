@@ -27,6 +27,13 @@
 #include <cmath>
 #include <vector>
 
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/bind.hpp>
+
+using boost::asio::ip::udp;
+
 class UDPOutputStream: public OutputStream{
 public:
     UDPOutputStream(boost::asio::io_service& iIOService, std::string iAddress, int iPort);
