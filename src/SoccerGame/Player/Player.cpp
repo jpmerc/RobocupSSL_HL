@@ -14,6 +14,7 @@ Player::Player(const PlayerId &iPlayerId,
 {
     mPose = iPose;
     mVelocity = iVelocity;
+    mRole = NULL; //runtime assignation
 }
 
 void Player::move(){

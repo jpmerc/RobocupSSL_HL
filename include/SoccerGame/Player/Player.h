@@ -17,6 +17,7 @@
 #include "Utils/Pose.h"
 #include "Utils/Velocity.h"
 #include "Control/Navigator.h"
+#include "Strategy/Role.h"
 
 class Player :  public MovableObject{
 public:
@@ -32,6 +33,9 @@ public:
     Velocity getCommand() const;
 
     void move();
+
+    //---IA---
+    void setRole(Role *iRole);
 
     //---Path----
     void clearPath();
@@ -49,6 +53,7 @@ private:
     Pose mPoseGoalToReach;
     Velocity mActualCommand;
     Navigator* mNavigator;
+    Role* mRole;
 };
 
 inline PlayerId Player::getId() const {
@@ -70,4 +75,9 @@ inline void Player::setCommand(Velocity iPose){
 inline Velocity Player::getCommand() const{
     return mActualCommand;
 }
+
+inline void Player::setRole(Role *iRole){
+    mRole = iRole;
+}
+
 #endif

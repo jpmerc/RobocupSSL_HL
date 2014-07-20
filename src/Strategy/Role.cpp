@@ -9,3 +9,10 @@ void Role::resetTactics(std::vector<Tactic*> iTacticVector){
     mCurrentTactic = 0;
     mTactics = iTacticVector;
 }
+
+void Role::incrementTactic(){
+    int totalTactics = mTactics.size();
+    if(mCurrentTactic < totalTactics){
+        mCurrentTactic ++;
+    }
+}

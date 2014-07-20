@@ -7,31 +7,37 @@
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/ScoreGameSituation.h"
 
-class Play : public ScoreGameSituation
+#include "SoccerGame/Player/Player.h"
+
+class Play //: public ScoreGameSituation
 {
 public:
     virtual ~Play(){}
 
-    Play* getRequestedPlay() const;
+    //Play* getRequestedPlay() const;
 
-    void update();
+    //void update();
 
     virtual bool isDone() = 0;
+    virtual void update() = 0;
     virtual int scoreCurrentSituation() = 0;
+    virtual int getRoleSize()= 0;
+    virtual void assignRoleToPlayer(Player *iPlayer) = 0;
 protected:
-    Play();
 
     virtual void requestPlay() = 0;
-    virtual void findNextTactics();
-    virtual void updateTactics();
+    //virtual void findNextTactics();
+    //virtual void updateTactics();
+    virtual void createRoles() = 0;
 
-    void switchTactics(Tactic *oldTactic, Tactic *newTactic);
+    //void switchTactics(Tactic *oldTactic, Tactic *newTactic);
 
     TacticFinder tacticFinder;
 
-    Play *requestedPlay;
-    std::vector<Tactic*> currentTactics;
-    std::vector<Tactic*> availableTactics;
+    Play *mRequestedPlay;
+    std::vector<Tactic*> mCurrentTactics;
+    std::vector<Tactic*> mAvailableTactics;
+    std::vector<Role*> mAvailableRoles;
 };
 
 #endif // PLAY_H

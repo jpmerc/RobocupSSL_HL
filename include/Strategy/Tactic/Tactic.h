@@ -1,12 +1,14 @@
 #ifndef TACTIC_H
 #define TACTIC_H
 
+#include "Logger/Logging.h"
+
 class Tactic
 {
 public:
-    Tactic();
+    Tactic(){}
 
-    void update();
+    virtual void update() = 0;
 
     virtual bool isDone() = 0;
 };

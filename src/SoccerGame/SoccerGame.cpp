@@ -4,9 +4,9 @@
 #include <time.h>
 #include "Logger/Logging.h"
 
-SoccerGame::SoccerGame(StrategySwitcher *iStrategySwitcher, Navigator *iNavigator, int iTeam, int iPlayer) :
+SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, int iTeam, int iPlayer) :
     mGame(0),
-    mStrategySwitcher(iStrategySwitcher),
+    mPlayEngine(iPlayEngine),
     mRunning(false),
     mNbTeams(iTeam),
     mNbPlayersPerTeam(iPlayer),
@@ -46,7 +46,7 @@ void SoccerGame::initOuput(bool iIsSimulation){
 SoccerGame::~SoccerGame(){
     INFO << "Delete Game";
     delete mGame;
-    delete mStrategySwitcher;
+    delete mPlayEngine;
     delete mInputStream;
 
     if(mOutputStream) delete mOutputStream;
@@ -217,9 +217,8 @@ void SoccerGame::update(){
     //Update players/ball positions
     this->unwrapVisionPacket(mInputStream->getVisionPacket());
 
+    mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
 
-    //Run strategy
-    //mStrategySwitcher->update();
     INFO << "Run Navigator";
     //Run Navigator
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
@@ -229,7 +228,7 @@ void SoccerGame::update(){
     INFO << "Send Command";
     this->sendCommands();
     INFO << "Switcher";
-    mRunning = !mStrategySwitcher->isDone();
+    mRunning = !mPlayEngine->isDone();
     INFO <<"End Update";
 }
 

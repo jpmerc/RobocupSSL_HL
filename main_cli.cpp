@@ -3,9 +3,9 @@
 #include "SoccerGame/Game/GameFactory.h"
 
 int main(int arc, char* argv[]) {
-    StrategySwitcher *lStrategySwitcher = new StrategySwitcher;
+    PlayEngine *lPlayEngine = new PlayEngine;
     Navigator *lNavigator = new Navigator;
-    SoccerGame lSoccerGame(lStrategySwitcher, lNavigator);
+    SoccerGame lSoccerGame(lPlayEngine, lNavigator);
 
     GameFactory lGameFactory;
 

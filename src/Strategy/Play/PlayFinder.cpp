@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-PlayFinder::PlayFinder()
+/*PlayFinder::PlayFinder()
 {
 }
 
@@ -36,3 +36,4 @@ Play *PlayFinder::findBestPlay(std::vector<Play*> availablePlays)
 
     return bestPlay;
 }
+*/

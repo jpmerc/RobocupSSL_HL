@@ -14,7 +14,7 @@
 #include "Game/Game.h"
 #include "SoccerGame/Game/GameFactory.h"
 
-#include "Strategy/StrategySwitcher.h"
+#include "Strategy/PlayEngine.h"
 
 #include "Control/Navigator.h"
 
@@ -25,7 +25,7 @@
 
 class SoccerGame{
 public:
-    SoccerGame(StrategySwitcher *iStrategySwitcher, Navigator *iNavigator, int iTeam = 2, int iPlayer = 6);
+    SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, int iTeam = 2, int iPlayer = 6);
     virtual ~SoccerGame();
 
     void initOuput(bool iIsSimulation);
@@ -55,7 +55,7 @@ private:
     //TODO: Create methods to retrieve vision data, to filter data, etc.
     virtual void update();
 
-    StrategySwitcher *mStrategySwitcher;
+    PlayEngine *mPlayEngine;
 
     Game* mGame;
     Navigator* mNavigator;

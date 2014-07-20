@@ -129,10 +129,10 @@ void MainBox::startGame(int iTeam,int iPlayer){
     mAITab->setEnabled(true);
     mSimulatorTab->setEnabled(true);
 
-    StrategySwitcher *lStrategySwitcher = new StrategySwitcher();
+    PlayEngine *lPlayEngine = new PlayEngine();
     Navigator *lNavigator = new Navigator;
     mSimulatorCore = new SimulatorCore(iPlayer);
-    mGame = new SoccerGame(lStrategySwitcher, lNavigator, iTeam, iPlayer);
+    mGame = new SoccerGame(lPlayEngine, lNavigator, iTeam, iPlayer);
     GameFactory lFactory;
     mGame->createGame(lFactory);
 

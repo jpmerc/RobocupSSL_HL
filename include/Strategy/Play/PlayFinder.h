@@ -3,7 +3,7 @@
 
 #include "Strategy/Play/Play.h"
 
-class PlayFinder
+/*class PlayFinder
 {
 public:
     PlayFinder();
@@ -13,6 +13,6 @@ private:
     Play* findBestPlay(std::vector<Play*> availablePlays);
 
     std::vector<Play*> availablePlays;
-};
+};*/
 
 #endif // PLAYFINDER_H
