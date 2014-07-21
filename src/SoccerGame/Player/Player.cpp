@@ -38,6 +38,16 @@ void Player::move(){
 
 }
 
+//----Strategy FUNCTION ----
+
+void Player::updateTactic(){
+    std::pair<Tactic *, ParameterStruct> lTactic = mRole->getCurrentTactic();
+    lTactic.second.playerId = this->getId();
+    lTactic.second.teamId = this->getTeamId();
+    lTactic.first->update(lTactic.second);
+}
+
+
 //-----PATH FUNCTION-----
 
 void Player::clearPath(){

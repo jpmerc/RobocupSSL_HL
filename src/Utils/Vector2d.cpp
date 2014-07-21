@@ -35,6 +35,10 @@ double Vector2d::angle(void) const{
     return atan2(y, x);
 }
 
+double Vector2d::distanceFromCoordinate(const Vector2d &other) const{
+    return sqrt(pow(other.x - x,2) + pow(other.y - y,2));
+}
+
 Vector2d Vector2d::operator+(const Vector2d &other) const{
     return Vector2d(x + other.x, y + other.y);
 }

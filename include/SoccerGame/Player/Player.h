@@ -28,6 +28,7 @@ public:
         Vector2d iVelocity = Vector2d::ZERO);
 
     PlayerId getId() const;
+    TeamId getTeamId() const;
     Pose getPoseToReach() const;
     void setCommand(Velocity iPose);
     Velocity getCommand() const;
@@ -36,6 +37,7 @@ public:
 
     //---IA---
     void setRole(Role *iRole);
+    void updateTactic();
 
     //---Path----
     void clearPath();
@@ -58,6 +60,10 @@ private:
 
 inline PlayerId Player::getId() const {
     return mId;
+}
+
+inline TeamId Player::getTeamId() const{
+    return mTeamId;
 }
 
 inline bool Player::operator==(const Player& other) const {

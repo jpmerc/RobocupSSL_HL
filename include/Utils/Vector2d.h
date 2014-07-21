@@ -19,6 +19,8 @@ struct Vector2d {
     bool isZero(void) const;
     void fromPolar(double lenght, double angle);
 
+    double distanceFromCoordinate(const Vector2d &other) const;
+
     Vector2d operator+(const Vector2d &other) const;
     Vector2d operator-(const Vector2d &other) const;
     Vector2d operator*(const Vector2d &other) const;

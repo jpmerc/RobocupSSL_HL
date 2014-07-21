@@ -3,12 +3,14 @@
 
 #include "Logger/Logging.h"
 #include "Strategy/Tactic/Tactic.h"
+#include "Strategy/Skill/DriveToTarget.h"
+#include "Strategy/GameEvaluator.h"
 
 class Position: public Tactic{
 public:
     Position();
 
-    virtual void update();
+    virtual void update(ParameterStruct iParam);
 
     virtual bool isDone();
 };

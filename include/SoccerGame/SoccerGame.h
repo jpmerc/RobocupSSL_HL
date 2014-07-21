@@ -15,6 +15,7 @@
 #include "SoccerGame/Game/GameFactory.h"
 
 #include "Strategy/PlayEngine.h"
+#include "Strategy/GameEvaluator.h"
 
 #include "Control/Navigator.h"
 
@@ -58,6 +59,7 @@ private:
     PlayEngine *mPlayEngine;
 
     Game* mGame;
+    GameEvaluator* mGameEvaluator;
     Navigator* mNavigator;
     bool mRunning;
 

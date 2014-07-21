@@ -14,10 +14,17 @@ void Offense::requestPlay(){
 }
 
 void Offense::createRoles(){
-    std::vector<Tactic *> lTactic;
-    lTactic.push_back(new Position());
+    //find a more elegant and simple way to create tactics and there parameters
+    std::vector<std::pair<Tactic *, ParameterStruct>> lTactic;
+    std::pair<Tactic *, ParameterStruct> lFirstTactic;
+    ParameterStruct lFirstParam;
+    lFirstParam.target = Pose(100,100);
+    lFirstTactic.first = new Position();
+    lFirstTactic.second = lFirstParam;
 
-    for(int i = 0; i < 5;++i){
+    lTactic.push_back(lFirstTactic);
+
+    for(int i = 0; i < 6;++i){
         mAvailableRoles.push_back(new Role(lTactic,0));
     }
 }

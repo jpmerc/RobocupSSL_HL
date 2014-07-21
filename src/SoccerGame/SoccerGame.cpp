@@ -54,6 +54,7 @@ SoccerGame::~SoccerGame(){
 
 bool SoccerGame::createSoccerGame(GameFactory iGameFactory){
     if(!this->createGame(iGameFactory)) return false;
+    mGameEvaluator = new GameEvaluator(mGame);
 
     return true;
 }
@@ -223,6 +224,8 @@ void SoccerGame::update(){
     //Run Navigator
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
+        lPlayer->updateTactic();
+        //calculate pathfinding
         lPlayer->move();
     }
     INFO << "Send Command";

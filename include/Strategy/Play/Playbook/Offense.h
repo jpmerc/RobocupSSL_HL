@@ -8,6 +8,7 @@
 #include "Strategy/Tactic/Position.h"
 #include "Strategy/ScoreGameSituation.h"
 #include "Strategy/Play/Play.h"
+#include "Strategy/ParameterStruct.h"
 
 #include "Logger/Logging.h"
 

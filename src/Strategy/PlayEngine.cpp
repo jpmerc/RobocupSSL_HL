@@ -22,9 +22,8 @@ bool PlayEngine::isDone()
 void PlayEngine::update(Team* iTeam)
 {
     //this->findNextPlay();
-    this->updateRoles();
+    mCurrentPlay->update();
     this->assignRoles(iTeam);
-    //this->currentPlay->update();
 }
 
 void PlayEngine::updateRoles(){

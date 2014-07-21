@@ -2,6 +2,7 @@
 #define ROLE_H
 
 #include "Strategy/Tactic/Tactic.h"
+#include "Strategy/ParameterStruct.h"
 
 #include "Logger/Logging.h"
 
@@ -9,18 +10,18 @@
 
 class Role{
 public:
-    Role(std::vector<Tactic*> iTacticVector,int iRoleId);
-    void resetTactics(std::vector<Tactic*> iTacticVector);
-    Tactic * getCurrentTactic();
+    Role(std::vector<std::pair <Tactic*,ParameterStruct>> iTacticVector,int iRoleId);
+    void resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector);
+    std::pair<Tactic *, ParameterStruct> getCurrentTactic();
     void incrementTactic();
 
 private:
     int mRoleId;
     int mCurrentTactic;
-    std::vector<Tactic*> mTactics;
+    std::vector<std::pair<Tactic *, ParameterStruct> > mTactics;
 };
 
-inline Tactic * Role::getCurrentTactic(){
+inline std::pair<Tactic *, ParameterStruct>  Role::getCurrentTactic(){
     return mTactics[mCurrentTactic];
 }
 
