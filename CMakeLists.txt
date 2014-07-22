@@ -26,6 +26,13 @@ if (MINGW)
 endif ()
 
 set(Boost_ADDITIONAL_VERSIONS "1.55" "1.53" "1.46")
+set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/ext/boost)
+set(Boost_INCLUDE_DIR ${BOOST_ROOT}/include)
+set(Boost_LIBRARY_DIRS ${BOOST_ROOT}/lib)
+
+
+
+set(Boost_LIBRARIES ${BOOST_ROOT}/lib/libboost_filesystem.a ${BOOST_ROOT}/lib/libboost_system.a ${BOOST_ROOT}/lib/libboost_program_options.a ${BOOST_ROOT}/lib/libboost_thread.a)
 
 
 
@@ -42,16 +49,20 @@ set(QT_USE_QTNETWORK true)
 set(QT_USE_QTAPPLICATION true)
 set(QT_USE_QTCORE true)
 set(QT_USE_QTOPENGL true)
-find_package(Qt4 REQUIRED)
+find_package(Qt4 REQUIRED )
+
+#We first use manual moc so we can an option to each moc
+#file(GLOB_RECURSE SAMPLE_MOC_HDRS
+#   "./include/GUI/*.h"
+#    "./include/Simulator/*.h"
+#)
+# -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+# -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED
+#QT4_WRAP_CPP(SAMPLE_MOC_SRCS ${SAMPLE_MOC_HDRS} OPTIONS -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATIOND)
+
+
 include(${QT_USE_FILE})
 list(APPEND libs ${QT_LIBRARIES})
-
-set(CMAKE_AUTOMOC ON)
-
-# Protobuf
-find_package(Protobuf REQUIRED)
-include_directories(${PROTOBUF_INCLUDE_DIRS})
-list(APPEND libs ${PROTOBUF_LIBRARIES})
 
 # Include files
 file(GLOB_RECURSE files_SRC
@@ -61,6 +72,15 @@ file(GLOB_RECURSE files_SRC
     "./src/*.cc"
     "./include/*.pb*"
 )
+
+
+set(CMAKE_AUTOMOC ON)
+
+# Protobuf
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIRS})
+list(APPEND libs ${PROTOBUF_LIBRARIES})
+
 
 set (PROJECT_INCLUDE_DIR include)
 include_directories(${PROJECT_INCLUDE_DIR})
@@ -107,9 +127,10 @@ if(USE_TESTS)
 
 endif(USE_TESTS)
 
-add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
+add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp ${SAMPLE_MOC_SRCS})
 target_link_libraries(robocupulaval_qt ${libs})
 
-add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp)
+add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp ${SAMPLE_MOC_SRCS})
 target_link_libraries(robocupulaval_cli ${libs})
+
 

@@ -1,3 +1,5 @@
+
+#include "GUI/MainBox.h"
 #include "SoccerGame/SoccerGame.h"
 
 #include "SoccerGame/Game/GameFactory.h"

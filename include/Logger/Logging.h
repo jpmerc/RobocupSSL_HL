@@ -1,12 +1,13 @@
 
 #ifndef LOGGING_H
 #define LOGGING_H
-
+#ifndef Q_MOC_RUN
 #include <boost/log/expressions.hpp>
 #include <boost/log/sources/global_logger_storage.hpp>
 #include <boost/log/support/date_time.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup.hpp>
+
 
 #define INFO  BOOST_LOG_SEV(my_logger::get(), boost::log::trivial::info)
 #define WARN  BOOST_LOG_SEV(my_logger::get(), boost::log::trivial::warning)
@@ -19,7 +20,7 @@ typedef boost::log::sources::severity_logger_mt<boost::log::trivial::severity_le
 
 //declares a global logger with a custom initialization
 BOOST_LOG_GLOBAL_LOGGER(my_logger, logger_t)
-
+#endif
 
 
 
