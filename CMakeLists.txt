@@ -27,9 +27,7 @@ endif ()
 
 set(Boost_ADDITIONAL_VERSIONS "1.55" "1.53" "1.46")
 
-
-
-find_package(Boost COMPONENTS filesystem system program_options thread log log_setup REQUIRED)
+find_package(Boost COMPONENTS filesystem system regex program_options thread log log_setup REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND libs ${Boost_LIBRARIES})
@@ -46,6 +44,7 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 list(APPEND libs ${QT_LIBRARIES})
 
+set(CMAKE_AUTOMOC_MOC_OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED -DBOOST_LEXICAL_CAST_INCLUDED -DBOOST_VF2_SUB_GRAPH_ISO_HPP)
 set(CMAKE_AUTOMOC ON)
 
 # Protobuf
