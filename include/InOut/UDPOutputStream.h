@@ -14,7 +14,8 @@
 
 #include "OutputStream.h"
 
-
+#include <boost/asio.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "proto/pb/messages_robocup_ssl_wrapper.pb.h"
 #include "proto/pb/messages_robocup_ssl_detection.pb.h"
 #include "proto/pb/messages_robocup_ssl_geometry.pb.h"
