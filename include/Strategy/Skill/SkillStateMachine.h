@@ -4,12 +4,13 @@
 #include "Logger/Logging.h"
 #include "Strategy/ParameterStruct.h"
 #include "Strategy/Skill/SkillAtom/Skill.h"
+#include "Strategy/CommandStruct.h"
 
 class SkillStateMachine{
 public:
     SkillStateMachine(){}
 
-    virtual void update(ParameterStruct iParam) = 0;
+    virtual CommandStruct update(ParameterStruct iParam) = 0;
 
 protected:
     Skill * mActualSkill;

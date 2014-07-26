@@ -17,6 +17,8 @@
 #include "Strategy/PlayEngine.h"
 #include "Strategy/GameEvaluator.h"
 
+#include "Pathfinder/Pathfinder.h"
+
 #include "Control/Navigator.h"
 
 #include "InOut/InputStream.h"
@@ -26,7 +28,7 @@
 
 class SoccerGame{
 public:
-    SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, int iTeam = 2, int iPlayer = 6);
+    SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator,Pathfinder *iPathfinder, int iTeam = 2, int iPlayer = 6);
     virtual ~SoccerGame();
 
     void initOuput(bool iIsSimulation);
@@ -61,6 +63,7 @@ private:
     Game* mGame;
     GameEvaluator* mGameEvaluator;
     Navigator* mNavigator;
+    Pathfinder* mPathfinder;
     bool mRunning;
 
     //Configs

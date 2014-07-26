@@ -5,7 +5,8 @@
 int main(int arc, char* argv[]) {
     PlayEngine *lPlayEngine = new PlayEngine;
     Navigator *lNavigator = new Navigator;
-    SoccerGame lSoccerGame(lPlayEngine, lNavigator);
+    Pathfinder *lPathfinder = new Pathfinder;
+    SoccerGame lSoccerGame(lPlayEngine, lNavigator, lPathfinder);
 
     GameFactory lGameFactory;
 

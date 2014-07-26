@@ -34,13 +34,13 @@ void PlayEngine::updateRoles(){
 void PlayEngine::assignRoles(Team* iTeam){
     //logic to get the best robot for each roles
     int lRoleSize = mCurrentPlay->getRoleSize();
-    int lTeamSize = iTeam->getPlayers().size() - 1;  //goali have no role
+    int lTeamSize = iTeam->getPlayers().size();  //goali have no role
     if(lRoleSize < lTeamSize)
         WARN << "Not enough roles";
     else if(lRoleSize > lTeamSize)
         WARN << "Too much roles";
     for(int i = 0; i < lRoleSize; ++i){
-        mCurrentPlay->assignRoleToPlayer(iTeam->getPlayers()[PlayerId(i)]);
+        mCurrentPlay->assignRoleToPlayers(iTeam->getPlayers());
     }
 
 }

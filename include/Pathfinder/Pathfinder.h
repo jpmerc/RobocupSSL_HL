@@ -10,16 +10,15 @@
 
 class Pathfinder{
 public:
-    Pathfinder(const Ball &iBall);
+    Pathfinder();
     virtual ~Pathfinder();
 
     virtual bool addObstacle(const Player &iObstacle);
 
-    virtual std::queue<Vector2d> findPath(Vector2d iStart, Vector2d iGoal);
+    virtual std::queue<Pose> findPath(Pose iStart, Pose iGoal);
 
 protected:
     std::vector<Player> mObstacles;
-    Ball mBall;
 };
 
 #endif

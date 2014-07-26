@@ -10,6 +10,7 @@
 #include "Strategy/Play/Play.h"
 #include "Strategy/ParameterStruct.h"
 
+#include "SoccerGame/Exception/RobocupException.h"
 #include "Logger/Logging.h"
 
 class Offense : public Play{
@@ -21,11 +22,15 @@ public:
     virtual void update();
     virtual int scoreCurrentSituation();
     virtual int getRoleSize();
-    virtual void assignRoleToPlayer(Player *iPlayer);
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
 protected:
 
     virtual void requestPlay();
     virtual void createRoles();
+    virtual Role* getRole(int iId);
+
+private:
+    std::vector<Pose> mPositions;
 
 };
 

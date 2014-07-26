@@ -6,12 +6,13 @@
 #include "Strategy/Skill/SkillAtom/Skill.h"
 #include "Strategy/Skill/SkillStateMachine.h"
 #include "Strategy/Skill/SkillAtom/Move.h"
+#include "Strategy/CommandStruct.h"
 
 class DriveToTarget:public SkillStateMachine{
 public:
     DriveToTarget();
 
-    virtual void update(ParameterStruct iParam);
+    virtual CommandStruct update(ParameterStruct iParam);
 
 
 };

@@ -14,24 +14,45 @@ void Offense::requestPlay(){
 }
 
 void Offense::createRoles(){
-    //find a more elegant and simple way to create tactics and there parameters
-    std::vector<std::pair<Tactic *, ParameterStruct>> lTactic;
-    std::pair<Tactic *, ParameterStruct> lFirstTactic;
-    ParameterStruct lFirstParam;
-    lFirstParam.target = Pose(100,100);
-    lFirstTactic.first = new Position();
-    lFirstTactic.second = lFirstParam;
 
-    lTactic.push_back(lFirstTactic);
+    mPositions.push_back(Pose(-2500,0,0));
+    mPositions.push_back(Pose(-1800,800,0));
+    mPositions.push_back(Pose(-1800,-800,0));
+    mPositions.push_back(Pose(-800,0,0));
+    mPositions.push_back(Pose(-100,1000,0));
+    mPositions.push_back(Pose(-100,-1000,0));
 
     for(int i = 0; i < 6;++i){
-        mAvailableRoles.push_back(new Role(lTactic,0));
+        std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;
+        std::pair<Tactic *, ParameterStruct> lTactic(new Position(), ParameterStruct(mPositions[i]));
+        lTacticVector.push_back(lTactic);
+        mAvailableRoles.push_back(new Role(lTacticVector,i));
     }
 }
 
-void Offense::assignRoleToPlayer(Player *iPlayer){
-    iPlayer->setRole(mAvailableRoles[iPlayer->getId().getValue()]);  //for now
-    INFO << "Player " << iPlayer->getId().getValue() << " Have a Role";
+void Offense::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
+
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+
+        if(!(*it)->isAssigned()){
+            std::pair<Tactic *, ParameterStruct> lTactic = (*it)->getCurrentTactic();
+            PlayerId lPlayerId = GameEvaluator::getClosestPlayerWithoutRole(TeamId(0),lTactic.second.target.Position); //TODO : change team id..
+            (*it)->setAssignation(true);
+            iPlayers[lPlayerId]->setRole(*it);
+            INFO << "Player : " << lPlayerId.getValue() << " got role : " << (*it)->getId();
+        }
+    }
+
+}
+
+Role* Offense::getRole(int iId){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        if(iId == (*it)->getId()){
+            return (*it);
+        }
+    }
+    //else
+    throw RoleNotFoundException("No Ids matching for getRole()");
 }
 
 bool Offense::isDone(){

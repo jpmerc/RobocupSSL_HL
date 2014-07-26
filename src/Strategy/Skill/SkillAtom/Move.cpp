@@ -4,6 +4,8 @@ Move::Move(){
 
 }
 
-void Move::update(ParameterStruct iParam){
-
+CommandStruct Move::update(ParameterStruct iParam){
+    CommandStruct command;
+    command.target = iParam.target;
+    return command;
 }

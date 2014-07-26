@@ -4,6 +4,6 @@ DriveToTarget::DriveToTarget(){
     mActualSkill = new Move();
 }
 
-void DriveToTarget::update(ParameterStruct iParam){
-    INFO << "Send DriveToTarget Command ARGGG";
+CommandStruct DriveToTarget::update(ParameterStruct iParam){
+    return mActualSkill->update(iParam);
 }

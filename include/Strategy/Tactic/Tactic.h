@@ -10,7 +10,7 @@ class Tactic
 public:
     Tactic(){}
 
-    virtual void update(ParameterStruct iParam) = 0;
+    virtual std::pair<SkillStateMachine*,ParameterStruct> update(ParameterStruct iParam) = 0;
 
     virtual bool isDone() = 0;
 protected:

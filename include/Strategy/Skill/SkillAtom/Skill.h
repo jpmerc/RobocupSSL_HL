@@ -3,13 +3,14 @@
 
 #include "Logger/Logging.h"
 #include "Strategy/ParameterStruct.h"
+#include "Strategy/CommandStruct.h"
 
 class Skill
 {
 public:
     Skill(){}
 
-    virtual void update(ParameterStruct iParam) = 0;
+    virtual CommandStruct update(ParameterStruct iParam) = 0;
 
 private:
 

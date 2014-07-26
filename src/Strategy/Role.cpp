@@ -1,7 +1,8 @@
 #include "Strategy/Role.h"
 
 
-Role::Role(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector, int iRoleId):mTactics(iTacticVector),mRoleId(iRoleId),mCurrentTactic(0){
+Role::Role(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector, int iRoleId):
+    mTactics(iTacticVector),mRoleId(iRoleId),mCurrentTactic(0),mIsAssigned(false){
 
 }
 

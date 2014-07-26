@@ -10,7 +10,7 @@ typedef struct ParameterStruct{
     Pose target;
     int roleTarget;
 
-    ParameterStruct():playerId(0),teamId(0),target(0,0,0), roleTarget(0){}
+    ParameterStruct(Pose iTarget = Pose::ZERO):playerId(0),teamId(0),target(iTarget), roleTarget(0){}
 
 }ParameterStruct;
 

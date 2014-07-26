@@ -37,7 +37,8 @@ public:
 
     //---IA---
     void setRole(Role *iRole);
-    void updateTactic();
+    bool haveRole();
+    std::pair<Tactic *, ParameterStruct> getTactic();
 
     //---Path----
     void clearPath();
@@ -84,6 +85,14 @@ inline Velocity Player::getCommand() const{
 
 inline void Player::setRole(Role *iRole){
     mRole = iRole;
+}
+
+inline bool Player::haveRole(){
+    if(mRole){
+        return true;
+    }
+    else
+        return false;
 }
 
 #endif

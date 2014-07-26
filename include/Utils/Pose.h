@@ -13,6 +13,8 @@ public:
     Pose(double iX = 0, double iY = 0, double iOrientation = 0, double iSpeed = 0);
     Pose(const Pose &other);
 
+    void setPosition(double x, double y);
+
     Pose fromGlobalToRelative(const double iAngleRelative);
 
     bool operator==(const Pose &other) const;
@@ -25,6 +27,11 @@ public:
     static const Pose ZERO;
 
 };
+
+inline void Pose::setPosition(double x, double y){
+    Position.x = x;
+    Position.y = y;
+}
 
 
 #endif

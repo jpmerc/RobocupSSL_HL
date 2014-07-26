@@ -131,8 +131,9 @@ void MainBox::startGame(int iTeam,int iPlayer){
 
     PlayEngine *lPlayEngine = new PlayEngine();
     Navigator *lNavigator = new Navigator;
+    Pathfinder *lPathfinder = new Pathfinder;
     mSimulatorCore = new SimulatorCore(iPlayer);
-    mGame = new SoccerGame(lPlayEngine, lNavigator, iTeam, iPlayer);
+    mGame = new SoccerGame(lPlayEngine, lNavigator,lPathfinder, iTeam, iPlayer);
     GameFactory lFactory;
     mGame->createGame(lFactory);
 

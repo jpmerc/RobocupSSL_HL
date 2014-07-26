@@ -11,6 +11,7 @@ public:
 
     static double getDistanceBetweenPlayers(PlayerId iPlayer1, TeamId iTeam1, PlayerId iPlayer2, TeamId iTeam2);
     static double getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId iTeam, Vector2d coord);
+    static PlayerId getClosestPlayerWithoutRole(TeamId iTeam, Vector2d iCoord);
 
 private:
     static Game* mGame;

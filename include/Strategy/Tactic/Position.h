@@ -10,7 +10,7 @@ class Position: public Tactic{
 public:
     Position();
 
-    virtual void update(ParameterStruct iParam);
+    virtual std::pair<SkillStateMachine *, ParameterStruct> update(ParameterStruct iParam);
 
     virtual bool isDone();
 };

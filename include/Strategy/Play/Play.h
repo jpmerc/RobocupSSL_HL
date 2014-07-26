@@ -22,13 +22,14 @@ public:
     virtual void update() = 0;
     virtual int scoreCurrentSituation() = 0;
     virtual int getRoleSize()= 0;
-    virtual void assignRoleToPlayer(Player *iPlayer) = 0;
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
 protected:
 
     virtual void requestPlay() = 0;
     //virtual void findNextTactics();
     //virtual void updateTactics();
     virtual void createRoles() = 0;
+    virtual Role* getRole(int iId) = 0;
 
     //void switchTactics(Tactic *oldTactic, Tactic *newTactic);
 
