@@ -16,6 +16,12 @@ public:
         RobocupException(iMessage){}
 };
 
+class RoleNotFoundException : RobocupException{
+public:
+    RoleNotFoundException(const std::string &iMessage) :
+        RobocupException(iMessage){}
+};
+
 
 
 #endif

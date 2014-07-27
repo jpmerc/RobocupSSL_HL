@@ -20,6 +20,7 @@
 #include "Utils/Pose.h"
 #include "Utils/Velocity.h"
 #include "Control/Navigator.h"
+#include "Strategy/Role.h"
 
 class Player :  public MovableObject{
 public:
@@ -30,13 +31,17 @@ public:
         Vector2d iVelocity = Vector2d::ZERO);
 
     PlayerId getId() const;
+    TeamId getTeamId() const;
     Pose getPoseToReach() const;
     void setCommand(Velocity iPose);
     Velocity getCommand() const;
 
     void move();
 
-    void generatePath(const Geometry2d::CompositeShape& global_obstacles);
+    //---IA---
+    void setRole(Role *iRole);
+    bool haveRole();
+    std::pair<Tactic *, ParameterStruct> getTactic();
 
     //---Path----
     void clearPath();
@@ -54,12 +59,15 @@ private:
     Pose mPoseGoalToReach;
     Velocity mActualCommand;
     Navigator* mNavigator;
-    Planning::RRTPlanner mPlanner;
-    Planning::Path mCurrentPath;
+    Role* mRole;
 };
 
 inline PlayerId Player::getId() const {
     return mId;
+}
+
+inline TeamId Player::getTeamId() const{
+    return mTeamId;
 }
 
 inline bool Player::operator==(const Player& other) const {
@@ -77,4 +85,17 @@ inline void Player::setCommand(Velocity iPose){
 inline Velocity Player::getCommand() const{
     return mActualCommand;
 }
+
+inline void Player::setRole(Role *iRole){
+    mRole = iRole;
+}
+
+inline bool Player::haveRole(){
+    if(mRole){
+        return true;
+    }
+    else
+        return false;
+}
+
 #endif

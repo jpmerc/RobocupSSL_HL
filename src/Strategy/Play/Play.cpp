@@ -3,16 +3,12 @@
 #include <stdexcept>
 #include <algorithm>
 
-Play::Play()
-    : requestedPlay(0)
-{
-}
 
-Play* Play::getRequestedPlay() const
+/*Play* Play::getRequestedPlay() const
 {
-    if(!this->requestedPlay) throw std::runtime_error("No requested play");
+    if(!this->mRequestedPlay) throw std::runtime_error("No requested play");
 
-    return this->requestedPlay;
+    return this->mRequestedPlay;
 }
 
 void Play::update()
@@ -23,9 +19,9 @@ void Play::update()
 
 void Play::findNextTactics()
 {
-    for(auto currentTactic : this->currentTactics){
+    for(auto currentTactic : this->mCurrentTactics){
         if(currentTactic->isDone()){
-            Tactic *newTactic = this->tacticFinder.findTactics(currentTactic, this->availableTactics);
+            Tactic *newTactic = this->tacticFinder.findTactics(currentTactic, this->mAvailableTactics);
             this->switchTactics(currentTactic, newTactic);
         }
     }
@@ -33,7 +29,7 @@ void Play::findNextTactics()
 
 void Play::updateTactics()
 {
-    for(auto tactic : this->currentTactics){
+    for(auto tactic : this->mCurrentTactics){
         tactic->update();
     }
 }
@@ -41,13 +37,13 @@ void Play::updateTactics()
 void Play::switchTactics(Tactic *oldTactic, Tactic *newTactic)
 {
     if(oldTactic != newTactic){
-        auto it = std::find(this->currentTactics.begin(), this->currentTactics.end(), oldTactic);
+        auto it = std::find(this->mCurrentTactics.begin(), this->mCurrentTactics.end(), oldTactic);
 
-        if (it != this->currentTactics.end()){
-            this->currentTactics.erase(it);
+        if (it != this->mCurrentTactics.end()){
+            this->mCurrentTactics.erase(it);
 
             delete oldTactic;
-            this->currentTactics.push_back(newTactic);
+            this->mCurrentTactics.push_back(newTactic);
         }
     }
-}
+}*/

@@ -4,13 +4,14 @@
 #include <time.h>
 #include "Logger/Logging.h"
 
-SoccerGame::SoccerGame(StrategySwitcher *iStrategySwitcher, Navigator *iNavigator, int iTeam, int iPlayer) :
+SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, Pathfinder *iPathfinder, int iTeam, int iPlayer) :
     mGame(0),
-    mStrategySwitcher(iStrategySwitcher),
+    mPlayEngine(iPlayEngine),
     mRunning(false),
     mNbTeams(iTeam),
     mNbPlayersPerTeam(iPlayer),
-    mNavigator(iNavigator){
+    mNavigator(iNavigator),
+    mPathfinder(iPathfinder){
 
     INFO << "Creating Game";
     this->loadConfig();
@@ -46,7 +47,7 @@ void SoccerGame::initOuput(bool iIsSimulation){
 SoccerGame::~SoccerGame(){
     INFO << "Delete Game";
     delete mGame;
-    delete mStrategySwitcher;
+    delete mPlayEngine;
     delete mInputStream;
 
     if(mOutputStream) delete mOutputStream;
@@ -54,6 +55,7 @@ SoccerGame::~SoccerGame(){
 
 bool SoccerGame::createSoccerGame(GameFactory iGameFactory){
     if(!this->createGame(iGameFactory)) return false;
+    mGameEvaluator = new GameEvaluator(mGame);
 
     return true;
 }
@@ -98,8 +100,7 @@ void SoccerGame::startGame(){
 
         lNow = clock();
         clock_t lDiff = lNow - lLastTime;
-
-        if(lDiff > mDelay){
+        if(lDiff < mDelay){
             long lTimeout = clock() + (mDelay - lDiff);
             INFO << "Wait for " << mDelay - lDiff << "ms";
             while( clock() < lTimeout ) continue;
@@ -203,8 +204,6 @@ bool SoccerGame::loadConfig(){
 }
 
 void SoccerGame::update(){
-    //std::cout << "I'm running bitches!" << std::endl;
-    INFO << "Update Soccer Game";
 
     //Retrieve players/ball positions
     try{
@@ -214,22 +213,32 @@ void SoccerGame::update(){
      catch(std::exception& e){
          ERROR << e.what();
      }
+    clock_t lNow, lLastTime;
+    lLastTime = clock();
     //Update players/ball positions
     this->unwrapVisionPacket(mInputStream->getVisionPacket());
 
+    mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
 
-    //Run strategy
-    //mStrategySwitcher->update();
-    INFO << "Run Navigator";
-    //Run Navigator
+
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
+        clock_t lNowPlayer, lLastTimePlayer;
+        lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
+        std::pair<Tactic *, ParameterStruct> lTactic = lPlayer->getTactic();
+        std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
+        CommandStruct lCommand = lSkill.first->update(lSkill.second);
+
+        std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.target);
+        lPlayer->refreshPath(lPath);
         lPlayer->move();
+        lNowPlayer = clock();
+        //INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }
-    INFO << "Send Command";
+
     this->sendCommands();
-    INFO << "Switcher";
-    mRunning = !mStrategySwitcher->isDone();
-    INFO <<"End Update";
+    mRunning = !mPlayEngine->isDone();
+    lNow = clock();
+    INFO << "Send Command logic execution time = " << lNow - lLastTime << " ms";
 }
 

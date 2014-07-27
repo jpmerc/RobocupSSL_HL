@@ -5,9 +5,10 @@
 #include "SoccerGame/Game/GameFactory.h"
 
 int main(int arc, char* argv[]) {
-    StrategySwitcher *lStrategySwitcher = new StrategySwitcher;
+    PlayEngine *lPlayEngine = new PlayEngine;
     Navigator *lNavigator = new Navigator;
-    SoccerGame lSoccerGame(lStrategySwitcher, lNavigator);
+    Pathfinder *lPathfinder = new Pathfinder;
+    SoccerGame lSoccerGame(lPlayEngine, lNavigator, lPathfinder);
 
     GameFactory lGameFactory;
 

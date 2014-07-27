@@ -3,6 +3,7 @@
 
 const Pose Pose::ZERO(0.0, 0.0, 0.0, 0.0);
 
+
 Pose::Pose(Vector2d iPosition, Orientation iOrientation, double iSpeed):Position(iPosition),
     Angle(iOrientation),
     Speed(iSpeed){

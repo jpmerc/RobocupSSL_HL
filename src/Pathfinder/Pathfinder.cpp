@@ -2,8 +2,7 @@
 
 #include <algorithm>
 
-Pathfinder::Pathfinder(const Ball &iBall)
-    : mBall(iBall){
+Pathfinder::Pathfinder(){
 }
 
 Pathfinder::~Pathfinder(){
@@ -20,10 +19,10 @@ bool Pathfinder::addObstacle(const Player &iObstacle){
     return true;
 }
 
-std::queue<Vector2d> Pathfinder::findPath(Vector2d iStart, Vector2d iGoal)
+std::queue<Pose> Pathfinder::findPath(Pose iStart, Pose iGoal)
 {
     //TODO: Define this method as pure virtual and implement a pathfinder
-    std::queue<Vector2d> lPath;
+    std::queue<Pose> lPath;
 
     lPath.push(iGoal);
 

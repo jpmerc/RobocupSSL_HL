@@ -14,6 +14,7 @@ Player::Player(const PlayerId &iPlayerId,
 {
     mPose = iPose;
     mVelocity = iVelocity;
+    mRole = NULL; //runtime assignation
 }
 
 void Player::move(){
@@ -37,6 +38,16 @@ void Player::move(){
 
 }
 
+//----Strategy FUNCTION ----
+
+std::pair<Tactic *, ParameterStruct> Player::getTactic(){
+    std::pair<Tactic *, ParameterStruct> lTactic = mRole->getCurrentTactic();
+    lTactic.second.teamId = this->getTeamId();
+    lTactic.second.playerId = this->getId();
+    return lTactic;
+}
+
+
 //-----PATH FUNCTION-----
 
 void Player::clearPath(){
@@ -53,6 +64,7 @@ void Player::refreshPath(std::queue<Pose> iNewPath){
         this->mPath.push(iNewPath.front());
         iNewPath.pop();
     }
+    this->updateGoal();
 }
 
 void Player::updateGoal(){

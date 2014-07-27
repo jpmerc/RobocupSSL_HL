@@ -19,6 +19,8 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/bind.hpp>
 
+#include <boost/asio.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "proto/pb/messages_robocup_ssl_wrapper.pb.h"
 #include "proto/pb/messages_robocup_ssl_detection.pb.h"
 #include "proto/pb/messages_robocup_ssl_geometry.pb.h"
@@ -30,6 +32,13 @@
 #include <cstring>
 #include <cmath>
 #include <vector>
+
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/bind.hpp>
+
+using boost::asio::ip::udp;
 
 class UDPOutputStream: public OutputStream{
 public:

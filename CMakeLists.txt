@@ -54,6 +54,15 @@ find_package(Qt4 REQUIRED )
 include(${QT_USE_FILE})
 list(APPEND libs ${QT_LIBRARIES})
 
+
+set(CMAKE_AUTOMOC_MOC_OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED -DBOOST_LEXICAL_CAST_INCLUDED -DBOOST_VF2_SUB_GRAPH_ISO_HPP)
+set(CMAKE_AUTOMOC ON)
+
+# Protobuf
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIRS})
+list(APPEND libs ${PROTOBUF_LIBRARIES})
+
 # Include files
 file(GLOB_RECURSE files_SRC
     "./src/*.cpp"
