@@ -51,16 +51,6 @@ set(QT_USE_QTCORE true)
 set(QT_USE_QTOPENGL true)
 find_package(Qt4 REQUIRED )
 
-#We first use manual moc so we can an option to each moc
-#file(GLOB_RECURSE SAMPLE_MOC_HDRS
-#   "./include/GUI/*.h"
-#    "./include/Simulator/*.h"
-#)
-# -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-# -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED
-#QT4_WRAP_CPP(SAMPLE_MOC_SRCS ${SAMPLE_MOC_HDRS} OPTIONS -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATIOND)
-
-
 include(${QT_USE_FILE})
 list(APPEND libs ${QT_LIBRARIES})
 

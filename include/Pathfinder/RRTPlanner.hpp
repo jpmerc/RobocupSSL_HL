@@ -28,7 +28,7 @@ namespace Planning
 				return _maxIterations;
 			}
 			/**
-			 * sets the maximum number of iterations for th RRT algorithm
+             * sets the maximum number of iterations for the RRT algorithm
 			 */
 			void maxIterations(int value)
 			{

@@ -10,6 +10,9 @@
 
 #include "SoccerGame/MovableObject.h"
 
+#include "Pathfinder/RRTPlanner.hpp"
+#include "Utils/Geometry2d/CompositeShape.hpp"
+
 #include "SoccerGame/Player/PlayerId.h"
 #include "SoccerGame/Team/TeamId.h"
 #include "Utils/Orientation.h"
@@ -33,6 +36,8 @@ public:
 
     void move();
 
+    void generatePath(const Geometry2d::CompositeShape& global_obstacles);
+
     //---Path----
     void clearPath();
     void addVectorToPath(Pose iPosition);
@@ -49,6 +54,8 @@ private:
     Pose mPoseGoalToReach;
     Velocity mActualCommand;
     Navigator* mNavigator;
+    Planning::RRTPlanner mPlanner;
+    Planning::Path mCurrentPath;
 };
 
 inline PlayerId Player::getId() const {
