@@ -63,9 +63,9 @@ private slots:
 
 private:
 
-    InputStream *mCameraInput;
+    VisionInputStream *mCameraInput;
     UDPOutputStream *mCameraOutput;
-    InputStream *mCommandInput;
+    VisionInputStream *mCommandInput;
     UDPOutputStream *mCommandOutput;
 
     TeamSim *mYellowTeam;

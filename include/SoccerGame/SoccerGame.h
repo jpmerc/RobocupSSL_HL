@@ -39,11 +39,12 @@ public:
     virtual void startGame();
 
     void unwrapVisionPacket(SSL_WrapperPacket iPacket);
+    void unwrapRefPacket(SSL_Referee iPacket);
 
     std::map<PlayerId, Pose> getTeamPositions(TeamId id) const;
     Pose getBallPosition() const;
 
-    InputStream* getInputStream() const;
+    VisionInputStream* getVisionInputStream() const;
     OutputStream* getOutputStream() const;
     void setOuputStream(OutputStream* pOutputStream);
     void sendCommands();
@@ -88,8 +89,9 @@ private:
     int mDelay;
 
     //IO
-    InputStream *mInputStream;
-    OutputStream * mOutputStream;
+    VisionInputStream *mVisionInputStream;
+    RefInputStream *mRefInputStream;
+    OutputStream *mOutputStream;
 
     boost::asio::io_service mIOService;
 };
@@ -102,8 +104,8 @@ inline void SoccerGame::setOuputStream(OutputStream* pOutputStream){
     mOutputStream = pOutputStream;
 }
 
-inline InputStream* SoccerGame::getInputStream() const{
-    return mInputStream;
+inline VisionInputStream* SoccerGame::getVisionInputStream() const{
+    return mVisionInputStream;
 }
 
 inline OutputStream* SoccerGame::getOutputStream() const{

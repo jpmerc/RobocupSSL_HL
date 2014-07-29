@@ -13,11 +13,10 @@ SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, Pathfinde
     mNavigator(iNavigator),
     mPathfinder(iPathfinder){
 
-    INFO << "Creating Game";
     this->loadConfig();
-    INFO << "Creating vision input stream";
     //boost::asio::io_service mIOService;
-    mInputStream = new InputStream(mIOService,"224.5.23.2",10020);
+    mVisionInputStream = new VisionInputStream(mIOService,"224.5.23.2",10020);
+    mRefInputStream = new RefInputStream(mIOService,"224.5.23.1",10003);
 
     this->initOuput(mSimulationMode);
 
@@ -48,7 +47,7 @@ SoccerGame::~SoccerGame(){
     INFO << "Delete Game";
     delete mGame;
     delete mPlayEngine;
-    delete mInputStream;
+    delete mVisionInputStream;
 
     if(mOutputStream) delete mOutputStream;
 }
@@ -163,6 +162,10 @@ void SoccerGame::unwrapVisionPacket(SSL_WrapperPacket iPacket){
 
 }
 
+void SoccerGame::unwrapRefPacket(SSL_Referee iPacket){
+
+}
+
 void SoccerGame::updateNavigator(){    //for Qt test
     INFO << "Update Navigator QT";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
@@ -216,7 +219,8 @@ void SoccerGame::update(){
     clock_t lNow, lLastTime;
     lLastTime = clock();
     //Update players/ball positions
-    this->unwrapVisionPacket(mInputStream->getVisionPacket());
+    this->unwrapVisionPacket(mVisionInputStream->getPacket());
+    this->unwrapRefPacket(mRefInputStream->getPacket());
 
     mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
 

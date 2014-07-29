@@ -12,9 +12,9 @@ SimulatorCore::SimulatorCore(int iNbPlayer):mNbPlayerPerTeam(iNbPlayer){
 
     /*************************IN/OUT***********************************/
     boost::asio::io_service IOService;
-    mCameraInput = new InputStream(IOService,"127.0.0.1",20003);
+    mCameraInput = new VisionInputStream(IOService,"127.0.0.1",20003);
     mCameraOutput = new UDPOutputStream(IOService,"127.0.0.1",20009);
-    mCommandInput = new InputStream(IOService,"127.0.0.1",20004);
+    mCommandInput = new VisionInputStream(IOService,"127.0.0.1",20004);
     mCommandOutput = new UDPOutputStream(IOService,"127.0.0.1",20011);
 
     mCameraModel->start();
