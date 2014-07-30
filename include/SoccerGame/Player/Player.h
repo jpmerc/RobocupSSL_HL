@@ -30,8 +30,9 @@ public:
     PlayerId getId() const;
     TeamId getTeamId() const;
     Pose getPoseToReach() const;
-    void setCommand(Velocity iPose);
-    Velocity getCommand() const;
+    void setCommand(CommandStruct iCommand);
+    void setSpeedCommand(Pose iCommand);
+    CommandStruct getCommand() const;
 
     void move();
 
@@ -54,7 +55,7 @@ private:
     TeamId mTeamId;
     std::queue<Pose> mPath;
     Pose mPoseGoalToReach;
-    Velocity mActualCommand;
+    CommandStruct mActualCommand;
     Navigator* mNavigator;
     Role* mRole;
 };
@@ -75,11 +76,15 @@ inline Pose Player::getPoseToReach()const{
     return mPoseGoalToReach;
 }
 
-inline void Player::setCommand(Velocity iPose){
-    mActualCommand = iPose;
+inline void Player::setCommand(CommandStruct iCommand){
+    mActualCommand = iCommand;
 }
 
-inline Velocity Player::getCommand() const{
+inline void Player::setSpeedCommand(Pose iCommand){
+   mActualCommand.velocity = iCommand;
+}
+
+inline CommandStruct Player::getCommand() const{
     return mActualCommand;
 }
 

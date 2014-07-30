@@ -4,6 +4,7 @@
 #include "Logger/Logging.h"
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/Skill/DriveToTarget.h"
+#include "Strategy/Skill/DriveToPosition.h"
 #include "Strategy/GameEvaluator.h"
 
 class Position: public Tactic{

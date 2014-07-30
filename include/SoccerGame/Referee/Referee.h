@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "proto/pb/referee.pb.h"
+#include "Logger/Logging.h"
 
 
 class Referee

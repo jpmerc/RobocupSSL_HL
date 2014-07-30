@@ -1,19 +1,19 @@
-#include "Strategy/Play/Playbook/Offense.h"
+#include "Strategy/Play/Playbook/KickOff.h"
 
-Offense::Offense(){
-    INFO << "Create Offense Play";
+KickOff::KickOff(){
+    INFO << "Create KickOff Play";
     this->createRoles();
 }
 
-void Offense::update(){
+void KickOff::update(){
     //look if important tactic finished, if it is, in crement tactic
 }
 
-void Offense::requestPlay(){
+void KickOff::requestPlay(){
 
 }
 
-void Offense::createRoles(){
+void KickOff::createRoles(){
 
     mPositions.push_back(Pose(-2500,0,0));
     mPositions.push_back(Pose(-1800,800,0));
@@ -30,7 +30,7 @@ void Offense::createRoles(){
     }
 }
 
-void Offense::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
+void KickOff::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
 
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
 
@@ -45,7 +45,7 @@ void Offense::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
 
 }
 
-Role* Offense::getRole(int iId){
+Role* KickOff::getRole(int iId){
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
         if(iId == (*it)->getId()){
             return (*it);
@@ -55,11 +55,10 @@ Role* Offense::getRole(int iId){
     throw RoleNotFoundException("No Ids matching for getRole()");
 }
 
-bool Offense::isDone(){
+bool KickOff::isDone(){
 
 }
 
-int Offense::scoreCurrentSituation(){
+int KickOff::scoreCurrentSituation(){
 
 }
-

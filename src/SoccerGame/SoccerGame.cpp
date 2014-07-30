@@ -117,8 +117,12 @@ void SoccerGame::sendCommands(){
         std::map<PlayerId, Player*>::iterator it;
 
         for(it = lPlayers.begin();it != lPlayers.end();++it){
-            Pose lRep = it->second->getCommand();
-            mOutputStream->AddgrSimCommand(lRep,false,it->first.getValue());
+            CommandStruct lPlayerCommand = it->second->getCommand();
+            Pose lVelocityCommand = Pose::ZERO;
+            if(!lPlayerCommand.stopFlag){
+                lVelocityCommand = lPlayerCommand.velocity;
+            }
+            mOutputStream->AddgrSimCommand(lVelocityCommand,false,it->first.getValue());
         }
         mOutputStream->SendCommandDatagram();
     }
@@ -189,10 +193,13 @@ void SoccerGame::update(){
         std::pair<Tactic *, ParameterStruct> lTactic = lPlayer->getTactic();
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
+        lPlayer->setCommand(lCommand);
+        if(!lCommand.stopFlag){
+            std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.positionTarget);
+            lPlayer->refreshPath(lPath);
+            lPlayer->move();
+        }
 
-        std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.target);
-        lPlayer->refreshPath(lPath);
-        lPlayer->move();
         lNowPlayer = clock();
         //INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }

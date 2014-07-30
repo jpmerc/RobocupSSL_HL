@@ -9,6 +9,8 @@
 #include "Strategy/Role.h"
 
 #include "Strategy/Play/Playbook/Offense.h"
+#include "Strategy/Play/Playbook/KickOff.h"
+#include "Strategy/Play/Playbook/Idle.h"
 
 #include "Logger/Logging.h"
 

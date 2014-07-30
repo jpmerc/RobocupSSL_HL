@@ -27,14 +27,14 @@ void Player::move(){
         lOrientationCommand = mNavigator->calculateNewOrientation();
     }
 
-    Velocity lCommand(lPositionCommand,lOrientationCommand);
+    Pose lCommand(lPositionCommand,lOrientationCommand);
 
-    if(lCommand == Velocity::ZERO){
+    if(lCommand == Pose::ZERO){
         this->updateGoal();
     }
 
     lCommand = lCommand.fromGlobalToRelative(mPose.Angle.getPolar());
-    mActualCommand = lCommand;
+    mActualCommand.velocity = lCommand;
 
 }
 

@@ -6,8 +6,10 @@ PlayEngine::PlayEngine()
     : isGameEnded(false){
     INFO << "Create PlayEngine";
     mAvailablePlays.push_back(new Offense());
+    mAvailablePlays.push_back(new KickOff());
+    mAvailablePlays.push_back(new Idle());
     //Choose a default play when game is initialized (NOT yet started)
-    this->mCurrentPlay = mAvailablePlays[0];
+    this->mCurrentPlay = mAvailablePlays[1];
 }
 
 PlayEngine::~PlayEngine(){

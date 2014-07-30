@@ -33,7 +33,6 @@ void VisionInputStream::handleReceive(const boost::system::error_code& error,
         mMessage = std::string(mRecvbuffer.begin(), mRecvbuffer.end());
         mPacket.ParseFromString(mMessage);
         startReceive();
-        INFO << "gotVision!";
         mIOService.stop();
     }
 }
@@ -49,6 +48,5 @@ void RefInputStream::handleReceive(const boost::system::error_code& error,
         mMessage = std::string(mRecvbuffer.begin(), mRecvbuffer.end());
         mPacket.ParseFromString(mMessage);
         startReceive();
-        INFO << "gotRef!";
     }
 }
