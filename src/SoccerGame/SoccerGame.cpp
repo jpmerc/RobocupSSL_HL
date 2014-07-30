@@ -67,7 +67,9 @@ bool SoccerGame::createGame(GameFactory iFactory){
     BallId lBallId(0);
     Ball* lBall = iFactory.createBall(lBallId);
 
-    mGame = iFactory.createGame(lBall, lField);
+    Referee* lRef = iFactory.createRef();
+
+    mGame = iFactory.createGame(lBall, lField, lRef);
 
     for(int i = 0; i < mNbTeams; i++){
         TeamId lTeamId(i);
@@ -122,50 +124,6 @@ void SoccerGame::sendCommands(){
     }
 }
 
-
-void SoccerGame::unwrapVisionPacket(SSL_WrapperPacket iPacket){
-    SSL_DetectionRobot lPacketRobotBlue;
-    SSL_DetectionRobot lPacketRobotYellow;
-    SSL_DetectionBall lPacketBall;
-    if(iPacket.detection().balls_size()){
-        lPacketBall = iPacket.detection().balls(0);
-        mGame->getBall()->setPose(Pose(lPacketBall.x(),lPacketBall.y(),0));
-    }
-
-    Team* lBlueTeam = mGame->getTeams().find(TeamId(0))->second;
-    Team* lYellowTeam = mGame->getTeams().find(TeamId(1))->second;
-
-    std::map<PlayerId, Pose> lBlueVectorMap;
-    std::map<PlayerId, Pose> lYellowVectorMap;
-
-    int lBlueSize = iPacket.detection().robots_blue_size();
-    int lYellowSize = iPacket.detection().robots_yellow_size();
-
-    for(int i = 0; i < lBlueSize; ++i){
-        lPacketRobotBlue = iPacket.detection().robots_blue(i);
-        int lRobotId = lPacketRobotBlue.robot_id();
-        lBlueVectorMap[PlayerId(lRobotId)]=Pose(lPacketRobotBlue.x(),
-                                             lPacketRobotBlue.y(),
-                                             lPacketRobotBlue.orientation());
-    }
-
-    for(int i = 0; i < lYellowSize; ++i){
-        lPacketRobotYellow = iPacket.detection().robots_yellow(i);
-        int lRobotId = lPacketRobotYellow.robot_id();
-        lYellowVectorMap[PlayerId(lRobotId)]=Pose(lPacketRobotYellow.x(),
-                                             lPacketRobotYellow.y(),
-                                             lPacketRobotYellow.orientation());
-    }
-
-    lBlueTeam->updatePlayersPositions(lBlueVectorMap);
-    lYellowTeam->updatePlayersPositions(lYellowVectorMap);
-
-}
-
-void SoccerGame::unwrapRefPacket(SSL_Referee iPacket){
-
-}
-
 void SoccerGame::updateNavigator(){    //for Qt test
     INFO << "Update Navigator QT";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
@@ -198,7 +156,7 @@ bool SoccerGame::loadConfig(){
     mVisionPort = 10020;
     mGrSimAddress = "127.0.0.1";
     mGrSimPort = 20011;
-    mSerialPort = "/dev/USB";
+    mSerialPort = "/dev/USB0";
     mSerialBaud = 115200;
 
     mSimulationMode = true;
@@ -218,9 +176,8 @@ void SoccerGame::update(){
      }
     clock_t lNow, lLastTime;
     lLastTime = clock();
-    //Update players/ball positions
-    this->unwrapVisionPacket(mVisionInputStream->getPacket());
-    this->unwrapRefPacket(mRefInputStream->getPacket());
+
+    this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
 
     mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
 

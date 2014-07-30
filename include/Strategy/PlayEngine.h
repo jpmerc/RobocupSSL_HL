@@ -1,7 +1,6 @@
 #ifndef PLAYENGINE_H
 #define PLAYENGINE_H
 
-#include "SoccerGame/Referee/RefereeListener.h"
 #include "SoccerGame/Team/Team.h"
 #include "SoccerGame/Player/Player.h"
 
@@ -13,7 +12,7 @@
 
 #include "Logger/Logging.h"
 
-class PlayEngine : public RefereeListener
+class PlayEngine
 {
 public:
     PlayEngine();

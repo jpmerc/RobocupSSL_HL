@@ -3,22 +3,22 @@
 
 #include <vector>
 
-#include "RefereeListener.h"
+#include "proto/pb/referee.pb.h"
 
-class RefereeListener;
 
 class Referee
 {
 public:
     Referee();
 
-    void addListener(RefereeListener *listener);
-private:
-    void fireGameStarted();
-    void fireGamePaused();
-    void fireGameEnded();
+    void setData(SSL_Referee* iPacket);
 
-    std::vector<RefereeListener*> listeners;
+private:
+    SSL_Referee::Stage mStage;
+    int mStageTimeLeft;
+    SSL_Referee::Command mCommand;
+
 };
+
 
 #endif // REFEREE_H

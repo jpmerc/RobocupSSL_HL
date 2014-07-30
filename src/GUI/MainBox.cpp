@@ -147,7 +147,7 @@ void MainBox::startGame(int iTeam,int iPlayer){
 }
 
 void MainBox::updateGameData(SSL_WrapperPacket iPacket){
-    mGame->unwrapVisionPacket(iPacket);
+    //mGame->unwrapVisionPacket(iPacket);
     this->updateGame();
 }
 

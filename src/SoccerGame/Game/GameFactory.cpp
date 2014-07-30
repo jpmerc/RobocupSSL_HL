@@ -1,7 +1,7 @@
 #include "SoccerGame/Game/GameFactory.h"
 
-Game* GameFactory::createGame(Ball* iBall, Field* iField) const{
-    return new Game(iBall, iField);
+Game* GameFactory::createGame(Ball* iBall, Field* iField, Referee* iRef) const{
+    return new Game(iBall, iField, iRef);
 }
 
 Field* GameFactory::createField(double iWidth,
@@ -23,4 +23,8 @@ Player* GameFactory::createPlayer(PlayerId iPlayerId, TeamId iTeamId,
 
 Ball* GameFactory::createBall(BallId iBallId) const{
     return new Ball(iBallId);
+}
+
+Referee* GameFactory::createRef() const{
+    return new Referee;
 }

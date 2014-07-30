@@ -38,9 +38,6 @@ public:
 
     virtual void startGame();
 
-    void unwrapVisionPacket(SSL_WrapperPacket iPacket);
-    void unwrapRefPacket(SSL_Referee iPacket);
-
     std::map<PlayerId, Pose> getTeamPositions(TeamId id) const;
     Pose getBallPosition() const;
 
@@ -54,10 +51,8 @@ public:
 
 private:
     virtual bool loadConfig();
-
-
-    //TODO: Create methods to retrieve vision data, to filter data, etc.
     virtual void update();
+
 
     PlayEngine *mPlayEngine;
 
@@ -77,13 +72,6 @@ private:
     double mFieldPlayableWidth;
     double mFieldPlayableHeight;
 
-    std::string mVisionAddress;
-    int mVisionPort;
-    std::string mGrSimAddress;
-    int mGrSimPort;
-    std::string mSerialPort;
-    int mSerialBaud;
-
     bool mSimulationMode;
 
     int mDelay;
@@ -92,6 +80,12 @@ private:
     VisionInputStream *mVisionInputStream;
     RefInputStream *mRefInputStream;
     OutputStream *mOutputStream;
+    std::string mVisionAddress;
+    int mVisionPort;
+    std::string mGrSimAddress;
+    int mGrSimPort;
+    std::string mSerialPort;
+    int mSerialBaud;
 
     boost::asio::io_service mIOService;
 };

@@ -12,6 +12,7 @@
 
 #include "SoccerGame/Player/Player.h"
 #include "SoccerGame/Player/PlayerId.h"
+#include "proto/pb/messages_robocup_ssl_wrapper.pb.h"
 
 #include <map>
 
@@ -28,6 +29,8 @@ public:
     bool hasPlayer(PlayerId iPlayerId) const;
 
     void updatePlayersPositions(const std::map<PlayerId, Pose> &iPositions);
+
+    void setPlayersPositions(const google::protobuf::RepeatedPtrField< SSL_DetectionRobot >& iPositions);
 
     std::map<PlayerId, Pose> getPlayersPosition() const;
 

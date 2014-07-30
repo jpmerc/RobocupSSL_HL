@@ -61,7 +61,7 @@ protected:
 class VisionInputStream:public InputStream{
 public:
     VisionInputStream(boost::asio::io_service& io_service, std::string iMulticastAdress, int iPort);
-    SSL_WrapperPacket getPacket();
+    SSL_WrapperPacket* getPacket();
 
 protected:
     virtual void handleReceive(const boost::system::error_code& error,
@@ -71,15 +71,15 @@ private:
     SSL_WrapperPacket mPacket;
 };
 
-inline SSL_WrapperPacket VisionInputStream::getPacket(){
-    return mPacket;
+inline SSL_WrapperPacket* VisionInputStream::getPacket(){
+    return &mPacket;
 }
 
 
 class RefInputStream:public InputStream{
 public:
     RefInputStream(boost::asio::io_service& io_service, std::string iMulticastAdress, int iPort);
-    SSL_Referee getPacket();
+    SSL_Referee* getPacket();
 
 protected:
     virtual void handleReceive(const boost::system::error_code& error,
@@ -89,8 +89,8 @@ private:
     SSL_Referee mPacket;
 };
 
-inline SSL_Referee RefInputStream::getPacket(){
-    return mPacket;
+inline SSL_Referee *RefInputStream::getPacket(){
+    return &mPacket;
 }
 
 

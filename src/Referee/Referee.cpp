@@ -4,28 +4,8 @@ Referee::Referee()
 {
 }
 
-void Referee::addListener(RefereeListener *listener)
-{
-    this->listeners.push_back(listener);
-}
-
-void Referee::fireGameStarted()
-{
-    for(auto listener : this->listeners){
-        listener->gameStarted();
-    }
-}
-
-void Referee::fireGamePaused()
-{
-    for(auto *listener : this->listeners){
-        listener->gamePaused();
-    }
-}
-
-void Referee::fireGameEnded()
-{
-    for(auto *listener : this->listeners){
-        listener->gameEnded();
-    }
+void Referee::setData(SSL_Referee* iPacket){
+    mCommand = iPacket->command();
+    mStage = iPacket->stage();
+    mStageTimeLeft = iPacket->stage_time_left();
 }
