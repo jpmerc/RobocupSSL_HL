@@ -34,3 +34,12 @@ double GameEvaluator::getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId 
     Pose playerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
     return playerPosition.Position.distanceFromCoordinate(iCoord);
 }
+
+bool GameEvaluator::isGamePaused(){
+    if(mGame->getRef()->getCommand() == SSL_Referee::HALT){
+        return true;
+    }
+    else{
+        return false;
+    }
+}

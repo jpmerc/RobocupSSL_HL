@@ -14,12 +14,28 @@ public:
 
     void setData(SSL_Referee* iPacket);
 
+    int getCommand();
+    int getStage();
+    int getTimeLeft();
+
 private:
-    SSL_Referee::Stage mStage;
+    int mStage;
     int mStageTimeLeft;
-    SSL_Referee::Command mCommand;
+    int mCommand;
 
 };
+
+inline int Referee::getCommand(){
+    return mCommand;
+}
+inline int Referee::getStage(){
+    return mStage;
+}
+inline int Referee::getTimeLeft(){
+    return mStageTimeLeft;
+}
+
+
 
 
 #endif // REFEREE_H

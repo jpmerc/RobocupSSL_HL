@@ -13,6 +13,8 @@ public:
     static double getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId iTeam, Vector2d coord);
     static PlayerId getClosestPlayerWithoutRole(TeamId iTeam, Vector2d iCoord);
 
+    static bool isGamePaused();
+
 private:
     static Game* mGame;
 
