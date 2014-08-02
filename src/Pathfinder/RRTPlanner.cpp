@@ -13,12 +13,12 @@
 using namespace std;
 using namespace Planning;
 
-Geometry2d::Point Planning::randomPoint()
+ Vector2f Planning::randomPoint()
 {
 	float x = Floor_Width * (drand48() - 0.5f);
 	float y = Floor_Length * drand48() - Field_Border;
 
-	return Geometry2d::Point(x, y);
+	return  Vector2f(x, y);
 }
 
 RRTPlanner::RRTPlanner()
@@ -27,10 +27,10 @@ RRTPlanner::RRTPlanner()
 }
 
 void RRTPlanner::run(
-		const Geometry2d::Point &start,
+		const  Vector2f &start,
 		const float angle, 
-		const Geometry2d::Point &vel,
-		const Geometry2d::Point &goal,
+		const  Vector2f &vel,
+		const  Vector2f &goal,
 		const Geometry2d::CompositeShape *obstacles,
 		Planning::Path &path)
 {
@@ -48,7 +48,7 @@ void RRTPlanner::run(
 	}
 
 	/// Locate a non blocked goal point
-	Geometry2d::Point newGoal = goal;
+	 Vector2f newGoal = goal;
 
 	if (obstacles && obstacles->hit(goal))
 	{
@@ -60,7 +60,7 @@ void RRTPlanner::run(
 		// extend the tree until we find an unobstructed point
 		for (int i= 0 ; i< 100 ; ++i)
 		{
-			Geometry2d::Point r = randomPoint();
+			 Vector2f r = randomPoint();
 
 			//extend to a random point
 			Tree::Point* newPoint = goalTree.extend(r);
@@ -107,7 +107,7 @@ void RRTPlanner::run(
 
 	for (unsigned int i=0 ; i<_maxIterations; ++i)
 	{
-		Geometry2d::Point r = randomPoint();
+		 Vector2f r = randomPoint();
 
 		Tree::Point* newPoint = ta->extend(r);
 
@@ -198,11 +198,11 @@ void RRTPlanner::optimize(Planning::Path &path, const Geometry2d::CompositeShape
 		return;
 	}
 
-	vector<Geometry2d::Point> pts;
+	vector< Vector2f> pts;
 	pts.reserve(path.points.size());
 
 	// Copy all points that won't be optimized
-	vector<Geometry2d::Point>::const_iterator begin = path.points.begin();
+	vector< Vector2f>::const_iterator begin = path.points.begin();
 	pts.insert(pts.end(), begin, begin + start);
 
 	// The set of obstacles the starting point was inside of

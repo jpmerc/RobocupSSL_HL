@@ -11,7 +11,7 @@ Navigator::~Navigator(){
 
 //return true if goal is reached
 bool Navigator::isPositionGoalReached(){
-    double lDistanceFromGoal = (mGoalPose.Position - mActualPose.Position).length();
+    double lDistanceFromGoal = (mGoalPose.Position - mActualPose.Position).mag();
     return lDistanceFromGoal < mWaypointRadius;
 }
 
@@ -31,9 +31,9 @@ Vector2d Navigator::calculateNewVector(){
     Vector2d lVect = mGoalPose.Position - mActualPose.Position;
     double lSpeed = _calculateSpeed(mGoalPose.Speed,
                                     mActualPose.Speed,
-                                    lVect.length());
+                                    lVect.mag());
 
-    return  lVect / lVect.length() * lSpeed;
+    return  lVect / lVect.mag() * lSpeed;
 }
 
 Orientation Navigator::calculateNewOrientation(){

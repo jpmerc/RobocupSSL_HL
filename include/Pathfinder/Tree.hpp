@@ -17,16 +17,16 @@ namespace Planning
 			class Point
 			{
 				public:
-					Point(const Geometry2d::Point& pos, Point* parent);
+					Point(const  Vector2f& pos, Point* parent);
 					
 					//field position of the point
-					Geometry2d::Point pos;
+					 Vector2f pos;
 					
 					// Which obstacles contain this point
 					std::set<std::shared_ptr<Geometry2d::Shape>> hit;
 					
 					//velocity information (used by dynamic tree)
-					Geometry2d::Point vel;
+					 Vector2f vel;
 					
 					bool leaf;
 					
@@ -45,18 +45,18 @@ namespace Planning
 			/** cleanup the tree */
 			void clear();
 			
-			void init(const Geometry2d::Point &start, const Geometry2d::CompositeShape *obstacles);
+			void init(const  Vector2f &start, const Geometry2d::CompositeShape *obstacles);
 			
 			/** find the point of the tree closest to @a pt */
-			Point* nearest(Geometry2d::Point pt);
+			Point* nearest( Vector2f pt);
 			
 			/** grow the tree in the direction of pt
 			 *  returns the new tree point.
 			 *  If base == 0, then the closest tree point is used */
-			virtual Point* extend(Geometry2d::Point pt, Point* base = 0) = 0;
+			virtual Point* extend( Vector2f pt, Point* base = 0) = 0;
 			
 			/** attempt to connect the tree to the point */
-			virtual bool connect(const Geometry2d::Point pt) = 0;
+			virtual bool connect(const  Vector2f pt) = 0;
 			
 			/** make a path from the dest point's root to the dest point
 			 *  If rev is true, the path will be from the dest point to its root */
@@ -83,7 +83,7 @@ namespace Planning
 		public:
 			FixedStepTree() {}
 			
-			Tree::Point* extend(Geometry2d::Point pt, Tree::Point* base = 0);
-			bool connect(Geometry2d::Point pt);
+			Tree::Point* extend( Vector2f pt, Tree::Point* base = 0);
+			bool connect( Vector2f pt);
 	};
 }

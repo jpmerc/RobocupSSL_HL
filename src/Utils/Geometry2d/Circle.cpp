@@ -8,19 +8,19 @@ Shape *Circle::clone() const {
     return new Circle(*this);
 }
 
-int Circle::intersects(Circle &other, Point *i) const
+int Circle::intersects(Circle &other, Vector2f *i) const
 {
     // http://local.wasp.uwa.edu.au/~pbourke/geometry/2circle/
     // (Mathworld's solution uses inconvenient coordinates)
     //
     // This is rearranged to perform the sqrts after the number
-    // of intersection points is known, so they can be omitted
-    // if the points are not needed or if the circles don't intersect.
+    // of intersection Vector2fs is known, so they can be omitted
+    // if the Vector2fs are not needed or if the circles don't intersect.
     
-    float dsq = (center - other.center).magsq();
+    float dsq = (center - other.center).magSquared();
     if (dsq == 0)
     {
-        // Concentric circles: no points or all points
+        // Concentric circles: no Vector2fs or all Vector2fs
         return 0;
     }
     
@@ -68,7 +68,7 @@ int Circle::intersects(Circle &other, Point *i) const
     return n;
 }
 
-int Circle::intersects(const Line &line, Point *i) const
+int Circle::intersects(const Line &line, Vector2f *i) const
 {
     // http://mathworld.wolfram.com/Circle2d-LineIntersection.html
     float cx = center.x;
@@ -91,7 +91,7 @@ int Circle::intersects(const Line &line, Point *i) const
         return 0;
     } else if (disc == 0)
     {
-        // One point
+        // One Vector2f
         if (i)
         {
             i[0].x = det * dy / drsq + cx;
@@ -100,7 +100,7 @@ int Circle::intersects(const Line &line, Point *i) const
         
         return 1;
     } else {
-        // Two points
+        // Two Vector2fs
         if (i)
         {
             float sgn_dy = (dy < 0) ? -1 : 1;
@@ -118,16 +118,16 @@ int Circle::intersects(const Line &line, Point *i) const
     }
 }
 
-bool Circle::containsPoint(const Point &pt) const {
+bool Circle::containsPoint(const Vector2f &pt) const {
     return (pt - center).mag() < radius();
 }
 
-Point Circle::nearestPoint(const Geometry2d::Point &P) const {
+Vector2f Circle::nearestPoint(const Vector2f &P) const {
 	return (P-center).normalized() * _r + center;
 }
 
-bool Circle::tangentPoints(const Geometry2d::Point &src, 
-	Geometry2d::Point* p1, Geometry2d::Point* p2) const
+bool Circle::tangentPoints(const Vector2f &src,
+	Vector2f* p1, Vector2f* p2) const
 {
 	if (!p1 && !p2)
 	{
@@ -160,14 +160,14 @@ bool Circle::tangentPoints(const Geometry2d::Point &src,
 		
 		if (p1)
 		{
-			Point final = center;
+			Vector2f final = center;
 			final.rotate(src, degT);
 			*p1 = final;
 		}
 		
 		if (p2)
 		{
-			Point final = center;
+			Vector2f final = center;
 			final.rotate(src, -degT);
 			*p2 = final;
 		}
@@ -176,12 +176,12 @@ bool Circle::tangentPoints(const Geometry2d::Point &src,
 	return true;
 }
 
-bool Circle::hit(const Geometry2d::Point &pt) const
+bool Circle::hit(const Vector2f &pt) const
 {
-    return pt.nearPoint(center, radius() + Robot_Radius);
+	return pt.nearPoint(center, radius() + Robot_Radius);
 }
 
 bool Circle::hit(const Geometry2d::Segment &seg) const
 {
-    return seg.nearPoint(center, radius() + Robot_Radius);
+	return seg.nearPoint(center, radius() + Robot_Radius);
 }

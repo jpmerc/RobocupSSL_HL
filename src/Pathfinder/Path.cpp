@@ -11,11 +11,11 @@ using namespace Planning;
 
 #pragma mark Path
 
-Planning::Path::Path(const Geometry2d::Point& p0) {
+Planning::Path::Path(const  Vector2f& p0) {
 	points.push_back(p0);
 }
 
-Planning::Path::Path(const Geometry2d::Point& p0, const Geometry2d::Point& p1) {
+Planning::Path::Path(const  Vector2f& p0, const  Vector2f& p1) {
 	points.push_back(p0);
 	points.push_back(p1);
 }
@@ -35,7 +35,7 @@ float Planning::Path::length(unsigned int start) const
     return length;
 }
 
-boost::optional<Geometry2d::Point> Planning::Path::start() const
+boost::optional< Vector2f> Planning::Path::start() const
 {
 		if (points.empty())
 			return boost::none;
@@ -43,7 +43,7 @@ boost::optional<Geometry2d::Point> Planning::Path::start() const
 			return points.front();
 }
 
-boost::optional<Geometry2d::Point> Planning::Path::destination() const
+boost::optional< Vector2f> Planning::Path::destination() const
 {
 		if (points.empty())
 			return boost::none;
@@ -52,7 +52,7 @@ boost::optional<Geometry2d::Point> Planning::Path::destination() const
 }
 
 // Returns the index of the point in this path nearest to pt.
-int Planning::Path::nearestIndex(const Geometry2d::Point &pt) const
+int Planning::Path::nearestIndex(const  Vector2f &pt) const
 {
 	if (points.size() == 0)
 	{
@@ -105,7 +105,7 @@ bool Planning::Path::hit(const Geometry2d::CompositeShape &obstacles, unsigned i
     return obstacles.hit(points.back());
 }
 
-float Planning::Path::distanceTo(const Geometry2d::Point &pt) const
+float Planning::Path::distanceTo(const  Vector2f &pt) const
 {
     int i = nearestIndex(pt);
     if (i < 0)
@@ -128,7 +128,7 @@ float Planning::Path::distanceTo(const Geometry2d::Point &pt) const
     return dist;
 }
 
-Geometry2d::Segment Planning::Path::nearestSegment(const Geometry2d::Point &pt) const
+Geometry2d::Segment Planning::Path::nearestSegment(const  Vector2f &pt) const
 {
 	Geometry2d::Segment best;
 	float dist = -1;
@@ -152,7 +152,7 @@ Geometry2d::Segment Planning::Path::nearestSegment(const Geometry2d::Point &pt) 
 	return best;
 }
 
-void Planning::Path::startFrom(const Geometry2d::Point& pt, Planning::Path& result) const {
+void Planning::Path::startFrom(const  Vector2f& pt, Planning::Path& result) const {
 
 	// path will start at the current robot pose
 	result.clear();
@@ -171,7 +171,7 @@ void Planning::Path::startFrom(const Geometry2d::Point& pt, Planning::Path& resu
 	Geometry2d::Segment close_segment;
 	float dist = -1;
 	unsigned int i = (points.front().nearPoint(pt, 0.02)) ? 1 : 0;
-	vector<Geometry2d::Point>::const_iterator path_start = ++points.begin();
+	vector< Vector2f>::const_iterator path_start = ++points.begin();
 	for (; i < (points.size() - 1); ++i)
 	{
 		Geometry2d::Segment s(points[i], points[i+1]);
@@ -186,7 +186,7 @@ void Planning::Path::startFrom(const Geometry2d::Point& pt, Planning::Path& resu
 	// slice path
 	// new path will be pt, [closest point on nearest segment], [i+1 to end]
 	if (dist > 0.0 && dist < 0.02) {
-		Geometry2d::Point intersection_pt = close_segment.nearestPoint(pt);
+		 Vector2f intersection_pt = close_segment.nearestPoint(pt);
 		result.points.push_back(intersection_pt);
 	}
 
@@ -194,7 +194,7 @@ void Planning::Path::startFrom(const Geometry2d::Point& pt, Planning::Path& resu
 
 }
 
-float Planning::Path::length(const Geometry2d::Point &pt) const
+float Planning::Path::length(const  Vector2f &pt) const
 {
 	float dist = -1;
 	float length = 0;
@@ -216,7 +216,7 @@ float Planning::Path::length(const Geometry2d::Point &pt) const
 		if (dist < 0 || d < dist)
 		{
 			//closest point on segment
-			Geometry2d::Point p = s.nearestPoint(pt);
+			 Vector2f p = s.nearestPoint(pt);
 			
 			//new best distance
 			dist = d;
@@ -230,7 +230,7 @@ float Planning::Path::length(const Geometry2d::Point &pt) const
 	return length;
 }
 
-bool Planning::Path::getPoint(float distance ,Geometry2d::Point &position, Geometry2d::Point &direction) const
+bool Planning::Path::getPoint(float distance , Vector2f &position,  Vector2f &direction) const
 {
 	if (points.empty())
 	{
@@ -238,7 +238,7 @@ bool Planning::Path::getPoint(float distance ,Geometry2d::Point &position, Geome
 	}
 	for (unsigned int i = 0; i < (points.size() - 1); ++i)
     {
-    	Geometry2d::Point vector(points[i + 1] - points[i]);
+         Vector2f vector(points[i + 1] - points[i]);
 		//Geometry2d::Segment s(points[i], points[i+1]);
 		
 		float vectorLength = vector.mag();
@@ -257,7 +257,7 @@ bool Planning::Path::getPoint(float distance ,Geometry2d::Point &position, Geome
 }
 
 
-bool Planning::Path::evaluate(float t, Geometry2d::Point &targetPosOut, Geometry2d::Point &targetVelOut) const
+bool Planning::Path::evaluate(float t,  Vector2f &targetPosOut,  Vector2f &targetVelOut) const
 {
     if (maxSpeed == -1 || maxAcceleration == -1) {
         throw std::runtime_error("You must set maxSpeed and maxAcceleration before calling Path.evaluate()");
@@ -275,7 +275,7 @@ bool Planning::Path::evaluate(float t, Geometry2d::Point &targetPosOut, Geometry
         linearPos,      //  these are set by reference since C++ can't return multiple values
         linearSpeed);   //
 
-	Geometry2d::Point direction;
+	 Vector2f direction;
 	if(!getPoint(linearPos, targetPosOut, direction)) {
 		return false;
 	}

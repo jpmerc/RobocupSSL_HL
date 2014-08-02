@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.hpp"
+#include "Utils/Vector2f.h"
 
 namespace Geometry2d
 {
@@ -8,7 +8,7 @@ namespace Geometry2d
 	//
 	// This is the 2D equivalent of the usual 3D tranformation matrix
 	// with the bottom row omitted because the bottom (third) element
-	// of a 2D point is always 1.  The third row of the matrix is
+	// of a 2D Vector2f is always 1.  The third row of the matrix is
 	// understood to be [0 0 1].
 	class TransformMatrix
 	{
@@ -33,7 +33,7 @@ namespace Geometry2d
 				_m[5] = f;
 			}
 
-			TransformMatrix(const Geometry2d::Point &origin, float rotation = 0, bool mirror = false, float scale = 1);
+			TransformMatrix(const Vector2f &origin, float rotation = 0, bool mirror = false, float scale = 1);
 
 			TransformMatrix operator*(const TransformMatrix &other) const
 			{
@@ -66,16 +66,16 @@ namespace Geometry2d
 				return *this;
 			}
 
-			Point operator*(const Point &pt) const
+			Vector2f operator*(const Vector2f &pt) const
 			{
-				return Point(pt.x * _m[0] + pt.y * _m[1] + _m[2],
+				return Vector2f(pt.x * _m[0] + pt.y * _m[1] + _m[2],
                                pt.x * _m[3] + pt.y * _m[4] + _m[5]);
 			}
 			
             // Transforms a direction vector (3rd element is zero)
-            Point transformDirection(const Point &dir) const
+            Vector2f transformDirection(const Vector2f &dir) const
             {
-                return Point(dir.x * _m[0] + dir.y * _m[1],
+                return Vector2f(dir.x * _m[0] + dir.y * _m[1],
                                dir.x * _m[3] + dir.y * _m[4]);
             }
             
@@ -83,21 +83,21 @@ namespace Geometry2d
 			float transformAngle(float angle) const;
 
 			// Returns the vector that represents the direction of the transformed X-axis.
-			Point x() const
+			Vector2f x() const
 			{
-				return Point(_m[0], _m[3]);
+				return Vector2f(_m[0], _m[3]);
 			}
 
 			// Returns the vector that represents the direction of the transformed Y-axis.
-			Point y() const
+			Vector2f y() const
 			{
-				return Point(_m[1], _m[4]);
+				return Vector2f(_m[1], _m[4]);
 			}
 
 			// Returns the origin of the transformed coordinate system
-			Point origin() const
+			Vector2f origin() const
 			{
-				return Point(_m[2], _m[5]);
+				return Vector2f(_m[2], _m[5]);
 			}
 
 			// Returns the scaling along the transformed X-axis.
@@ -125,7 +125,7 @@ namespace Geometry2d
 			// Functions to build common transformations:
 			
 			// Translation
-			static TransformMatrix translate(const Point &delta)
+			static TransformMatrix translate(const Vector2f &delta)
 			{
 				return TransformMatrix(1, 0, delta.x,
 									   0, 1, delta.y);
@@ -133,15 +133,15 @@ namespace Geometry2d
 			
 			static TransformMatrix translate(float x, float y)
 			{
-				return translate(Point(x, y));
+				return translate(Vector2f(x, y));
 			}
 
 
 			// Rotation in degrees around origin
 			static TransformMatrix rotate(float angle)
 			{
-				float c = cos(angle * DegreesToRadians);
-				float s = sin(angle * DegreesToRadians);
+				float c = cos(angle * DEGREES_TO_RADIANS);
+				float s = sin(angle * DEGREES_TO_RADIANS);
 
 				return TransformMatrix(c, -s, 0,
 									   s, c, 0);
@@ -162,10 +162,10 @@ namespace Geometry2d
 			}
 
 			// Returns a matrix to rotate <angle> degrees CCW around <center>.
-			static TransformMatrix rotateAroundPoint(const Point &center, float angle);
+			static TransformMatrix rotateAroundPoint(const Vector2f &center, float angle);
 
 			// Returns a matrix to reflect along the line parallel to the Y-axis containing <center>.
-			static TransformMatrix mirrorAroundPoint(const Point &center);
+			static TransformMatrix mirrorAroundPoint(const Vector2f &center);
 
 			static const TransformMatrix identity;
 			static const TransformMatrix mirrorX;

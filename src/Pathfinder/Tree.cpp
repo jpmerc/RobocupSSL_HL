@@ -10,7 +10,7 @@ using namespace Planning;
 using namespace std;
 
 //// Point ////
-Tree::Point::Point(const Geometry2d::Point& p, Tree::Point* parent) :
+Tree::Point::Point(const  Vector2f& p, Tree::Point* parent) :
 	pos(p)
 {
 	_parent = parent;
@@ -57,7 +57,7 @@ void Tree::clear()
     points.clear();
 }
 
-void Tree::init(const Geometry2d::Point& start, const Geometry2d::CompositeShape* obstacles)
+void Tree::init(const  Vector2f& start, const Geometry2d::CompositeShape* obstacles)
 {
 	clear();
 	
@@ -94,14 +94,14 @@ void Tree::addPath(Planning::Path &path, Point* dest, const bool rev)
 	}
 }
 
-Tree::Point* Tree::nearest(Geometry2d::Point pt)
+Tree::Point* Tree::nearest( Vector2f pt)
 {
 	float bestDistance = -1;
     Point *best = 0;
     
     BOOST_FOREACH(Point* other, points)
     {
-        float d = (other->pos - pt).magsq();
+        float d = (other->pos - pt).magSquared();
         if (bestDistance < 0 || d < bestDistance)
         {
             bestDistance = d;
@@ -133,7 +133,7 @@ Tree::Point* Tree::last() const
 }
 
 //// Fixed Step Tree ////
-Tree::Point* FixedStepTree::extend(Geometry2d::Point pt, Tree::Point* base)
+Tree::Point* FixedStepTree::extend( Vector2f pt, Tree::Point* base)
 {
 	//if we don't have a base point, try to find a close point
 	if (!base)
@@ -145,10 +145,10 @@ Tree::Point* FixedStepTree::extend(Geometry2d::Point pt, Tree::Point* base)
 		}
 	}
 	
-	Geometry2d::Point delta = pt - base->pos;
+	 Vector2f delta = pt - base->pos;
 	float d = delta.mag();
 	
-	Geometry2d::Point pos;
+	 Vector2f pos;
 	if (d < step)
 	{
 		pos = pt;
@@ -187,7 +187,7 @@ Tree::Point* FixedStepTree::extend(Geometry2d::Point pt, Tree::Point* base)
 	return p;
 }
 
-bool FixedStepTree::connect(Geometry2d::Point pt)
+bool FixedStepTree::connect( Vector2f pt)
 {
 	//try to reach the goal pt
 	const unsigned int maxAttemps = 50;

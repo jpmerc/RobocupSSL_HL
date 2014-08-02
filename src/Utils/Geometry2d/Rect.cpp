@@ -25,7 +25,7 @@ bool Rect::contains(const Rect &other) const
 	return this->contains(other.pt[0]) && this->contains(other.pt[1]);
 }
 
-bool Rect::contains(const Point &point) const
+bool Rect::contains(const Vector2f &point) const
 {
 	float minx, miny, maxx, maxy;
 
@@ -53,13 +53,13 @@ bool Rect::contains(const Point &point) const
 bool Rect::hit(const Segment &seg) const {
 	return contains(seg.pt[0])
 			|| contains(seg.pt[1])
-			|| seg.intersects(Segment(Point(minx(), miny()), Point(minx(), maxy())))
-			|| seg.intersects(Segment(Point(minx(), miny()), Point(maxx(), miny())))
-			|| seg.intersects(Segment(Point(minx(), maxy()), Point(maxx(), maxy())))
-			|| seg.intersects(Segment(Point(maxx(), maxy()), Point(maxx(), miny())));
+			|| seg.intersects(Segment(Vector2f(minx(), miny()), Vector2f(minx(), maxy())))
+			|| seg.intersects(Segment(Vector2f(minx(), miny()), Vector2f(maxx(), miny())))
+			|| seg.intersects(Segment(Vector2f(minx(), maxy()), Vector2f(maxx(), maxy())))
+			|| seg.intersects(Segment(Vector2f(maxx(), maxy()), Vector2f(maxx(), miny())));
 }
 
-void Rect::expand(const Point &p)
+void Rect::expand(const Vector2f &p)
 {
 	pt[0].x = min(pt[0].x, p.x);
 	pt[0].y = min(pt[0].y, p.y);
@@ -75,8 +75,8 @@ void Rect::expand(const Rect &rect)
 
 bool Rect::nearSegment(const Segment &seg, float threshold) const
 {
-	const Point &p1 = seg.pt[0];
-	const Point &p2 = seg.pt[1];
+	const Vector2f &p1 = seg.pt[0];
+	const Vector2f &p2 = seg.pt[1];
 
 	// Simpler case if this rect is degenerate
 	if (pt[0] == pt[1])
@@ -90,8 +90,8 @@ bool Rect::nearSegment(const Segment &seg, float threshold) const
 
 	// If any corner of this rect is near the segment,
 	// then the segment is near this rect.
-	Point ur = Point(pt[1].x, pt[0].y);
-	Point ll = Point(pt[0].x, pt[1].y);
+	Vector2f ur = Vector2f(pt[1].x, pt[0].y);
+	Vector2f ll = Vector2f(pt[0].x, pt[1].y);
 	if (seg.nearPoint(pt[0], threshold)
 		   || seg.nearPoint(ur, threshold)
 		   || seg.nearPoint(ll, threshold)
@@ -126,18 +126,18 @@ bool Rect::nearSegment(const Segment &seg, float threshold) const
 	return false;
 }
 
-bool Rect::nearPoint(const Point &other, float threshold) const
+bool Rect::nearPoint(const Vector2f &other, float threshold) const
 {
 	// Simpler case if this rect is degenerate
 	if (pt[0] == pt[1])
 		return pt[0].distTo(other) < threshold;
 
-	// If the point is inside this rect then it is near it.
+	// If the Vector2f is inside this rect then it is near it.
 	if (this->contains(other))
 		return true;
 
-	Point ur = Point(pt[1].x, pt[0].y);
-	Point ll = Point(pt[0].x, pt[1].y);
+	Vector2f ur = Vector2f(pt[1].x, pt[0].y);
+	Vector2f ll = Vector2f(pt[0].x, pt[1].y);
 	Segment edge[4] = {
 		Segment(pt[0], ur),
 		Segment(ur, pt[1]),
@@ -145,8 +145,8 @@ bool Rect::nearPoint(const Point &other, float threshold) const
 		Segment(ll, pt[1])
 	};
 
-	// If any edge of this rect is near the point, then the
-	// point is near the rect.
+	// If any edge of this rect is near the Vector2f, then the
+	// Vector2f is near the rect.
 	for (int i = 0; i < 4; i++)
 	{
 		if (edge[i].nearPoint(other,threshold))

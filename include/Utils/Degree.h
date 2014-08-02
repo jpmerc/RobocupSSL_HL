@@ -6,9 +6,9 @@
  ****************************************************************************/
 #ifndef DEGREE_H
 #define DEGREE_H
-
+#include "math.h"
+const float DEGREES_TO_RADIANS = M_PI/180.0;
 //TODO: Add a radian attribute and make a converter from deg to rad
-
 class Degree
 {
 public:

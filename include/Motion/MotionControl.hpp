@@ -1,7 +1,7 @@
 #pragma once
 
 /*#include <Configuration.hpp>*/
-#include <Utils/Geometry2d/Point.hpp>
+#include "Utils/Vector2f.h"
 /*#include <Pid.hpp>*/
 
 class OurRobot;
@@ -34,7 +34,7 @@ private:
 	//	sets the target velocity in the robot's radio packet
 	//	this method is used by both run() and stopped() and does the
 	//	velocity and acceleration limiting and conversion to robot velocity "units"
-	void _targetBodyVel(Geometry2d::Point targetVel);
+	void _targetBodyVel(Vector2f targetVel);
 
 	///	sets the target angle velocity in the robot's radio packet
 	///	does velocity limiting and conversion to robot velocity "units"
@@ -43,7 +43,7 @@ private:
 	//OurRobot *_robot;
 
 	//	these are tracked so we can limit robot acceleration
-	Geometry2d::Point _lastVelCmd;	//	the last velocity (in m/s, not the radioTx value) command that we sent to the robot
+	Vector2f _lastVelCmd;	//	the last velocity (in m/s, not the radioTx value) command that we sent to the robot
 	long _lastCmdTime;	//	the time in microseconds when the last velocity command was sent
 
 	/*

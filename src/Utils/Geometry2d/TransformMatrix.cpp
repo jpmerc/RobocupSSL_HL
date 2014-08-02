@@ -9,7 +9,7 @@ const TransformMatrix TransformMatrix::identity(1, 0, 0,
 const TransformMatrix TransformMatrix::mirrorX(-1, 0, 0,
 		0, 1, 0);
 
-TransformMatrix::TransformMatrix(const Geometry2d::Point &origin, float rotation, bool mirror, float s)
+TransformMatrix::TransformMatrix(const Vector2f &origin, float rotation, bool mirror, float s)
 {
 	// Set up translation
 	_m[0] = 1;
@@ -39,7 +39,7 @@ float TransformMatrix::transformAngle(float angle) const
 	return atan2(ry, rx);
 }
 
-TransformMatrix TransformMatrix::rotateAroundPoint(const Point &center, float angle)
+TransformMatrix TransformMatrix::rotateAroundPoint(const Vector2f &center, float angle)
 {
 	TransformMatrix xf = translate(center);
 	xf *= rotate(angle);
@@ -48,7 +48,7 @@ TransformMatrix TransformMatrix::rotateAroundPoint(const Point &center, float an
 	return xf;
 }
 
-TransformMatrix TransformMatrix::mirrorAroundPoint(const Point &center)
+TransformMatrix TransformMatrix::mirrorAroundPoint(const Vector2f &center)
 {
 	TransformMatrix xf = translate(center);
 	xf *= mirrorX;
@@ -59,7 +59,7 @@ TransformMatrix TransformMatrix::mirrorAroundPoint(const Point &center)
 
 float TransformMatrix::rotation() const
 {
-	float angle = atan2(_m[4], _m[1]) / DegreesToRadians - 90;
+	float angle = atan2(_m[4], _m[1]) / DEGREES_TO_RADIANS - 90;
 	if (angle < 0)
 		angle += 360;
 

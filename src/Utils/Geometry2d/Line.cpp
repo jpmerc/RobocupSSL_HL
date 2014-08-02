@@ -1,12 +1,12 @@
 #include "Utils/Geometry2d/Line.hpp"
-#include "Utils/Geometry2d/Point.hpp"
+#include "Utils/Vector2f.h"
 #include "Utils/Geometry2d/Circle.hpp"
 template <typename T> int sign(T val) {
     return (T(0) < val) - (val < T(0));
 }
 using namespace Geometry2d;
 
-bool Line::intersects(const Line &other, Point *intr) const
+bool Line::intersects(const Line &other, Vector2f *intr) const
 {
 	// From Mathworld:
 	//	http://mathworld.wolfram.com/Line-LineIntersection.html
@@ -36,21 +36,21 @@ bool Line::intersects(const Line &other, Point *intr) const
 	return true;
 }
 
-float Line::distTo(const Point &other) const
+float Line::distTo(const Vector2f &other) const
 {
-	Point delta = pt[1] - pt[0];
+	Vector2f delta = pt[1] - pt[0];
 	float top = delta.x * (pt[0].y - other.y) - (pt[0].x - other.x) * delta.y;
 
 	return fabs(top) / delta.mag();
 }
 
-Point Line::nearestPoint(Point p) const
+Vector2f Line::nearestPoint(Vector2f p) const
 {
-    Point v_hat = delta().normalized();
+    Vector2f v_hat = delta().normalized();
     return pt[0] + v_hat * v_hat.dot(p - pt[0]);
 }
 
-bool Line::intersects(const Circle& circle, Point* p1, Point* p2) const
+bool Line::intersects(const Circle& circle, Vector2f* p1, Vector2f* p2) const
 {
 	//http://mathworld.wolfram.com/Circle-LineIntersection.html
 	
@@ -80,14 +80,14 @@ bool Line::intersects(const Circle& circle, Point* p1, Point* p2) const
 	{
 		float x = x1 + x2;
 		float y = y1 + y2;
-		*p1 = Point(x/dr2, y/dr2);
+		*p1 = Vector2f(x/dr2, y/dr2);
 	}
 	
 	if (p2)
 	{
 		float x = x1 - x2;
 		float y = y1 - y2;
-		*p2 = Point(x/dr2, y/dr2);
+		*p2 = Vector2f(x/dr2, y/dr2);
 	}
 	
 	return true;

@@ -229,10 +229,11 @@ void SoccerGame::update(){
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
 
-        std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.target);
-        lPlayer->refreshPath(lPath);
-        lPlayer->move();
-        lNowPlayer = clock();
+        // TODO add new Path definition
+        //std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.target);
+        //lPlayer->refreshPath(lPath);
+        //lPlayer->move();
+        //lNowPlayer = clock();
         //INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }
 

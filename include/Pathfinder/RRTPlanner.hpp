@@ -11,7 +11,7 @@
 namespace Planning
 {
 	/** generate a random point on the floor */
-	Geometry2d::Point randomPoint();
+	 Vector2f randomPoint();
 	/**
 	 * RRT: http://en.wikipedia.org/wiki/Rapidly-exploring_random_tree
 	 * this plans the motion path for the robot
@@ -38,10 +38,10 @@ namespace Planning
 			///run the path ROTplanner
 			///this will always populate path to be the path we need to travel
 			void run(
-					const Geometry2d::Point& start,
+					const  Vector2f& start,
 					const float angle, 
-					const Geometry2d::Point& vel, 
-					const Geometry2d::Point& goal, 
+					const  Vector2f& vel,
+					const  Vector2f& goal,
 					const Geometry2d::CompositeShape* obstacles, 
 					Planning::Path &path);
 			
@@ -53,7 +53,7 @@ namespace Planning
 		FixedStepTree _fixedStepTree1;
 		
 		/** best goal point */
-		Geometry2d::Point _bestGoal;
+		 Vector2f _bestGoal;
 		
 		///best planned path
 		///this is a fixed step path

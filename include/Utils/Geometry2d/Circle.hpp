@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Shape.hpp"
-#include "Point.hpp"
+#include "Utils/Vector2f.h"
 #include "Line.hpp"
 #include <Utils/Constants.hpp>
 
@@ -16,7 +16,7 @@ namespace Geometry2d
             _rsq = -1;
         }
         
-        Circle(const Point &c, float r)
+        Circle(const Vector2f &c, float r)
         {
             center = c;
             _r = r;
@@ -69,29 +69,29 @@ namespace Geometry2d
             _rsq = -1;
         }
         
-        bool containsPoint(const Point &pt) const;
+        bool containsPoint(const Vector2f &pt) const;
 
-        bool hit(const Point &pt) const;
+        bool hit(const Vector2f &pt) const;
 
         bool hit(const Segment &pt) const;
         
-        // Returns the number of points at which this circle intersects the given circle.
-        // i must be null or point to two points.
-        // Only the first n points in i are modified, where n is the return value.
-        int intersects(Circle &other, Point *i = 0) const;
+        // Returns the number of Vector2fs at which this circle intersects the given circle.
+        // i must be null or Vector2f to two Vector2fs.
+        // Only the first n Vector2fs in i are modified, where n is the return value.
+        int intersects(Circle &other, Vector2f *i = 0) const;
         
-        // Returns the number of points at which this circle intersects the given line.
-        // i must be null or point to two points.
-        // Only the first n points in i are modified, where n is the return value.
-        int intersects(const Line &line, Point *i = 0) const;
+        // Returns the number of Vector2fs at which this circle intersects the given line.
+        // i must be null or Vector2f to two Vector2fs.
+        // Only the first n Vector2fs in i are modified, where n is the return value.
+        int intersects(const Line &line, Vector2f *i = 0) const;
         
-        bool tangentPoints(const Geometry2d::Point &src, 
-                Geometry2d::Point* p1 = 0, Geometry2d::Point* p2 = 0) const;
+        bool tangentPoints(const Vector2f &src,
+                Vector2f* p1 = 0, Vector2f* p2 = 0) const;
         
-        // finds the point on the circle closest to P
-        Point nearestPoint(const Geometry2d::Point &P) const;
+        // finds the Vector2f on the circle closest to P
+        Vector2f nearestPoint(const Vector2f &P) const;
 
-        Point center;
+        Vector2f center;
         
     protected:
         // Radius

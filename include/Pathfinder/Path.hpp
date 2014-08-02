@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <Utils/Geometry2d/Point.hpp>
 #include <Utils/Geometry2d/Segment.hpp>
 #include <Utils/Geometry2d/CompositeShape.hpp>
 #include <Utils/Geometry2d/Utils.hpp>
@@ -19,10 +18,10 @@ namespace Planning
 			Path() {}
 
 			/** constructor with a single point */
-			Path(const Geometry2d::Point& p0);
+			Path(const  Vector2f& p0);
 
 			/** constructor from two points */
-			Path(const Geometry2d::Point& p0, const Geometry2d::Point& p1);
+			Path(const  Vector2f& p0, const  Vector2f& p1);
 
 			bool empty() const
 			{
@@ -38,7 +37,7 @@ namespace Planning
 			float length(unsigned int start = 0) const;
 			
 			/** returns the length of the path from the closet point found to @a pt */
-			float length(const Geometry2d::Point &pt) const;
+			float length(const  Vector2f &pt) const;
 			
 			// number of waypoints
 			size_t size() const { return points.size(); }
@@ -47,29 +46,29 @@ namespace Planning
 			bool valid() const { return !points.empty(); }
 
 			// Returns the index of the point in this path nearest to pt.
-			int nearestIndex(const Geometry2d::Point &pt) const;
+			int nearestIndex(const  Vector2f &pt) const;
 			
 			/** returns the nearest segement of @a pt to the path */
-			Geometry2d::Segment nearestSegment(const Geometry2d::Point &pt) const;
+			Geometry2d::Segment nearestSegment(const  Vector2f &pt) const;
 			
 			// Returns the shortest distance from this path to the given point
-			float distanceTo(const Geometry2d::Point &pt) const;
+			float distanceTo(const  Vector2f &pt) const;
 			
 			// Returns the start of the path
-			boost::optional<Geometry2d::Point> start() const;
+			boost::optional<Vector2f> start() const;
 
 			// Returns a new path starting from a given point
-			void startFrom(const Geometry2d::Point& pt, Planning::Path& result) const;
+			void startFrom(const  Vector2f& pt, Planning::Path& result) const;
 
 			//Returns the destination of this path (the last point in the points array)
-			boost::optional<Geometry2d::Point> destination() const;
+			boost::optional< Vector2f> destination() const;
 
 			// Returns true if the path never touches an obstacle or additionally, when exitObstacles is true, if the path
 			// starts out in an obstacle but leaves and never re-enters any obstacle.
 			bool hit(const Geometry2d::CompositeShape &shape, unsigned int start = 0) const;
 			
 			// Set of points in the path - used as waypoints
-			std::vector<Geometry2d::Point> points;
+			std::vector< Vector2f> points;
 
 			/**
 			 * A path describes the position and velocity a robot should be at for a
@@ -81,8 +80,8 @@ namespace Planning
 			 * @param targetVelOut The target velocity of the robot at the given time
 			 * @return true if the path is valid at time @t, false if you've gone past the end
 			 */
-			bool evaluate(float t, Geometry2d::Point &targetPosOut, Geometry2d::Point &targetVelOut) const;
-			bool getPoint(float distance ,Geometry2d::Point &position, Geometry2d::Point &direction) const;
+			bool evaluate(float t,  Vector2f &targetPosOut,  Vector2f &targetVelOut) const;
+			bool getPoint(float distance , Vector2f &position,  Vector2f &direction) const;
 
 			//static void createConfiguration(Configuration *cfg);
 

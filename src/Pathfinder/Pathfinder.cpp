@@ -9,22 +9,29 @@ Pathfinder::~Pathfinder(){
 }
 
 bool Pathfinder::addObstacle(const Player &iObstacle){
+    /*
     if(std::find(mObstacles.begin(), mObstacles.end(), iObstacle) != mObstacles.end())
     {
         return false;
-    }
-
-    mObstacles.push_back(iObstacle);
+    }*/
+    Geometry2d::Circle shapeObstacle = this->fromPlayerGetShape(iObstacle);
+    mObstacles.add(std::shared_ptr<Geometry2d::Shape>(&shapeObstacle));
 
     return true;
 }
 
-std::queue<Pose> Pathfinder::findPath(Pose iStart, Pose iGoal)
+Geometry2d::Circle Pathfinder::fromPlayerGetShape(const Player &iPlayer){
+    Geometry2d::Circle c(iPlayer.getPosition(),
+                         Robot_Radius);
+    return c;
+}
+
+Planning::Path Pathfinder::findPath(Pose iStart, Pose iGoal)
 {
     //TODO: Define this method as pure virtual and implement a pathfinder
-    std::queue<Pose> lPath;
+    Planning::Path lPath;
 
-    lPath.push(iGoal);
+    //mPathGenerator.run();
 
     return lPath;
 }

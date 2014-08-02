@@ -7,7 +7,7 @@ Shape *CompositeShape::clone() const {
     return new CompositeShape(*this);
 }
 
-bool Geometry2d::CompositeShape::containsPoint(const Point &pt) const {
+bool Geometry2d::CompositeShape::containsPoint(const Vector2f &pt) const {
     for (auto subshape : _subshapes) {
         if (subshape->containsPoint(pt)) return true;
     }

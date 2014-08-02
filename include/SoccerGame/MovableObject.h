@@ -8,7 +8,7 @@
 #ifndef MOVABLEOBJECT_H
 #define MOVABLEOBJECT_H
 
-#include "Utils/Vector2f.h"
+#include "Utils/Vector2d.h"
 #include "Utils/Orientation.h"
 #include "Utils/Pose.h"
 

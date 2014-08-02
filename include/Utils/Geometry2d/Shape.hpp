@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.hpp"
+#include "Utils/Vector2f.h"
 #include <stdexcept>
 
 
@@ -26,7 +26,7 @@ namespace Geometry2d {
             return nullptr;
         }
 
-        virtual bool containsPoint(const Point &pt) const {
+        virtual bool containsPoint(const Vector2f &pt) const {
             throw std::runtime_error("Unimplemented method");
             return false;
         }
@@ -34,7 +34,7 @@ namespace Geometry2d {
 
         /// collision-detection
 
-        virtual bool hit(const Point &pt) const {
+        virtual bool hit(const Vector2f &pt) const {
             throw std::runtime_error("Unimplemented method");
             return false;
         }

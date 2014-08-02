@@ -6,29 +6,56 @@
  ****************************************************************************/
 #ifndef VECTOR_2_D_H
 #define VECTOR_2_D_H
+#include "Utils/Degree.h"
+#include <boost/optional.hpp>
 
 //TODO: Compute dot product and cross product
 
 struct Vector2d {
-    Vector2d(const Vector2d &other);
-    Vector2d(double iX = 0.0, double iY = 0.0);
+    //Vector2d();
+    template<class T> Vector2d(const T &other);
+    Vector2d(double iX = 0.0f, double iY = 0.0f);
     virtual ~Vector2d();
 
-    double length(void) const;
-    double angle(void) const;
-    bool isZero(void) const;
     void fromPolar(double lenght, double angle);
 
     double distanceFromCoordinate(const Vector2d &other) const;
 
+    double mag(void) const;
+    double magSquared(void) const;
+    double angle(void) const;
+    double dot(Vector2d iOther) const;
+    double cross(const Vector2d &other) const;
+    bool isZero() const;
+    void rotate(const Vector2d &origin, double angle);
+    void rotate(double angle);
+    Vector2d rotated(double angle) const;
+    double distTo(const Vector2d &other) const;
+    Vector2d normalized() const;
+    static Vector2d direction(double theta);
+    Vector2d perpCW() const;
+    Vector2d perpCCW() const;
+    double angleTo(const Vector2d& other) const;
+    bool nearPoint(const Vector2d &other, double threshold) const;
+
+
+
     Vector2d operator+(const Vector2d &other) const;
     Vector2d operator-(const Vector2d &other) const;
     Vector2d operator*(const Vector2d &other) const;
-    Vector2d operator*(const float &scalar) const;
+    Vector2d operator*(const double &scalar) const;
     Vector2d operator/(const Vector2d &other) const;
-    Vector2d operator/(const float &scalar) const;
+    Vector2d operator/(const double &scalar) const;
     bool operator==(const Vector2d &other) const;
     bool operator!=(const Vector2d &other) const;
+    Vector2d operator-() const;
+    Vector2d &operator+=(const Vector2d &other);
+    Vector2d &operator-=(const Vector2d &other);
+    Vector2d &operator*=(const double &scalar);
+    Vector2d &operator*=(const Vector2d &other);
+    Vector2d &operator/=(const double &scalar);
+    Vector2d &operator/=(const Vector2d &other);
+
 
     double x;
     double y;

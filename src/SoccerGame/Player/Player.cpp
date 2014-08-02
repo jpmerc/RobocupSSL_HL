@@ -84,11 +84,3 @@ bool Player::pathIsEmpty(){
     }
 }
 
-
-void Player::generatePath(const Geometry2d::CompositeShape& global_obstacles){
-    Planning::Path newlyPlannedPath;
-    Geometry2d::Point myPos((float)this->mPose.Position.x, (float)this->mPose.Position.y);
-    Geometry2d::Point futurePos(1.f, 1.f);
-    Geometry2d::Point velocityFinal(0, 0);
-    this->mPlanner.run(myPos, this->mPose.Angle.getPolar(), velocityFinal, futurePos, &global_obstacles, newlyPlannedPath);
-}

@@ -15,7 +15,7 @@ Orientation::Orientation(double iX, double iY){
     }
     else{
         mCartesian = Vector2d(iX,iY);
-        mMagnitude = mCartesian.length();
+        mMagnitude = mCartesian.mag();
     }
     mPolar = this->_cartesianToPolar(mCartesian);
 }
@@ -27,9 +27,9 @@ Orientation::Orientation(Vector2d iVector){
     }
     else{
         mCartesian = iVector;
-        mMagnitude = mCartesian.length();
+        mMagnitude = mCartesian.mag();
     }
-    mMagnitude = mCartesian.length();
+    mMagnitude = mCartesian.mag();
     mPolar = this->_cartesianToPolar(mCartesian);
 
 }
@@ -47,13 +47,13 @@ void Orientation::setPolar(double iAngle){
 void Orientation::setCartesian(Vector2d iCartesian){
     mCartesian = iCartesian;
     mPolar = this->_cartesianToPolar(mCartesian);
-    mMagnitude = mCartesian.length();
+    mMagnitude = mCartesian.mag();
 }
 
 void Orientation::setCartesian(double iX,double iY){
     mCartesian = Vector2d(iX,iY);
     mPolar = this->_cartesianToPolar(mCartesian);
-    mMagnitude = mCartesian.length();
+    mMagnitude = mCartesian.mag();
 }
 
 double Orientation::_cartesianToPolar(Vector2d iVector){

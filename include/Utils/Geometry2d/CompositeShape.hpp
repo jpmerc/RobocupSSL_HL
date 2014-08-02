@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.hpp"
+#include "Utils/Vector2f.h"
 #include "Shape.hpp"
 #include "Segment.hpp"
 #include <vector>
@@ -34,7 +34,7 @@ namespace Geometry2d {
 
         Shape *clone() const;
 
-        virtual bool containsPoint(const Point &pt) const;
+        virtual bool containsPoint(const Vector2f &pt) const;
 
         void add(const std::shared_ptr<Shape> shape);
 
@@ -78,8 +78,8 @@ namespace Geometry2d {
             return !hitSet.empty();
         }
 
-        bool hit(const Point &pt, std::set<std::shared_ptr<Shape> > &hitSet) const {
-            return hit<Point>(pt, hitSet);
+        bool hit(const Vector2f &pt, std::set<std::shared_ptr<Shape> > &hitSet) const {
+            return hit<Vector2f>(pt, hitSet);
         }
 
         bool hit(const Segment &seg, std::set<std::shared_ptr<Shape> > &hitSet) const {
@@ -106,8 +106,8 @@ namespace Geometry2d {
             return false;
         }
 
-        bool hit(const Point &pt) const {
-            return hit<Point>(pt);
+        bool hit(const Vector2f &pt) const {
+            return hit<Vector2f>(pt);
         }
 
         bool hit(const Segment &seg) const {

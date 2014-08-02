@@ -9,7 +9,9 @@
 #include <stdexcept>
 #include <typeinfo>
 #include <QString>
-#include "Point.hpp"
+
+#include "Utils/Vector2f.h"
+#include "Utils/Degree.h"
 
 // Adjusts an angle in degrees to fit in [-180, 180].
 static inline float fixAngleDegrees(float a)
