@@ -20,6 +20,7 @@ public:
 
     virtual bool isDone();
     virtual void update();
+    virtual void reset();
     virtual int scoreCurrentSituation();
     virtual int getRoleSize();
     virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);

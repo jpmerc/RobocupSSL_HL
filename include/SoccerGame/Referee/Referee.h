@@ -18,12 +18,25 @@ public:
     int getStage();
     int getTimeLeft();
 
+    bool commandAsChanged();
+    void setCommandChanged(bool iFlag);
+
 private:
     int mStage;
     int mStageTimeLeft;
     int mCommand;
+    int mLastCommand;
+    bool mCommandChanged;
 
 };
+
+inline bool Referee::commandAsChanged(){
+    return mCommandChanged;
+}
+
+inline void Referee::setCommandChanged(bool iFlag){
+    mCommandChanged = iFlag;
+}
 
 inline int Referee::getCommand(){
     return mCommand;

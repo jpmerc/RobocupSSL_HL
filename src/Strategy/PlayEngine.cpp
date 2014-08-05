@@ -23,15 +23,14 @@ bool PlayEngine::isDone()
 
 void PlayEngine::update(Team* iTeam)
 {
-    if(GameEvaluator::isGamePaused()){
+    if(GameEvaluator::gameSwitchToHalt()){
         this->onGamePaused();
     }
-    else{
+    if(GameEvaluator::gameSwitchToSomething()){
         this->onGameStarted();
-        //this->findNextPlay();
-        mCurrentPlay->update();
-        this->assignRoles(iTeam);
     }
+    mCurrentPlay->update();
+    this->assignRoles(iTeam);
 }
 
 void PlayEngine::updateRoles(){
@@ -86,11 +85,15 @@ void PlayEngine::gameEnded()
 
 void PlayEngine::onGameStarted()
 {
+    INFO << "Game STARTED";
+    this->mCurrentPlay->reset();
     this->mCurrentPlay = mAvailablePlays[1];
 }
 
 void PlayEngine::onGamePaused()
 {
+    INFO << "Game PAUSED";
+    this->mCurrentPlay->reset();
     this->mCurrentPlay = mAvailablePlays[2];
 }
 

@@ -5,5 +5,11 @@ DriveToPosition::DriveToPosition(){
 }
 
 CommandStruct DriveToPosition::update(ParameterStruct iParam){
+    if(iParam.isIdle){
+        mActualSkill = new Stop();
+    }
+    else{
+        mActualSkill = new Move();
+    }
     return mActualSkill->update(iParam);
 }

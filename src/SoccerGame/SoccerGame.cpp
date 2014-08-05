@@ -180,21 +180,25 @@ void SoccerGame::update(){
      }
     clock_t lNow, lLastTime;
     lLastTime = clock();
-
+    INFO << "unwrap packets";
     this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
-
+    INFO << "Update Playengine";
     mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
 
-
+    INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
+        INFO << "Execute Role";
         std::pair<Tactic *, ParameterStruct> lTactic = lPlayer->getTactic();
+        INFO << "execute Tactic";
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
+        INFO << "execute Skill machine";
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
         lPlayer->setCommand(lCommand);
         if(!lCommand.stopFlag){
+            INFO << "Update path";
             std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.positionTarget);
             lPlayer->refreshPath(lPath);
             lPlayer->move();

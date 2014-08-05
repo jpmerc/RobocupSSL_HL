@@ -6,7 +6,14 @@ Idle::Idle(){
 }
 
 void Idle::update(){
-    //look if important tactic finished, if it is, in crement tactic
+    //look if important tactic finished, if it is, increment tactic
+    INFO << "Update Idle";
+}
+
+void Idle::reset(){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        (*it)->setAssignation(false);
+    }
 }
 
 void Idle::requestPlay(){
@@ -29,9 +36,9 @@ void Idle::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
 
         if(!(*it)->isAssigned()){
-            std::pair<Tactic *, ParameterStruct> lTactic = (*it)->getCurrentTactic();
             (*it)->setAssignation(true);
             iPlayers[(*it)->getId()]->setRole(*it);
+            INFO << "Player : " << iPlayers[(*it)->getId()]->getId().getValue() << " got role : " << (*it)->getId();
         }
     }
 }

@@ -6,6 +6,7 @@
 #include "Strategy/Skill/SkillAtom/Skill.h"
 #include "Strategy/Skill/SkillStateMachine.h"
 #include "Strategy/Skill/SkillAtom/Move.h"
+#include "Strategy/Skill/SkillAtom/Stop.h"
 #include "Strategy/CommandStruct.h"
 
 class DriveToPosition:public SkillStateMachine{

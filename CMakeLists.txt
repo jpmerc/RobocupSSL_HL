@@ -108,8 +108,8 @@ if(USE_TESTS)
 
 endif(USE_TESTS)
 
-add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
-target_link_libraries(robocupulaval_qt ${libs})
+#add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
+#target_link_libraries(robocupulaval_qt ${libs})
 
 add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp)
 target_link_libraries(robocupulaval_cli ${libs})
