@@ -183,7 +183,8 @@ void SoccerGame::update(){
     INFO << "unwrap packets";
     this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
     INFO << "Update Playengine";
-    mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
+    Play* lCurrentPlay = mPlayEngine->update();
+    lCurrentPlay->update(mGame->getTeams()[TeamId(0)]->getPlayers());
 
     INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){

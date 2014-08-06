@@ -5,9 +5,10 @@ Idle::Idle(){
     this->createRoles();
 }
 
-void Idle::update(){
+void Idle::update(std::map<PlayerId, Player*> iPlayers){
     //look if important tactic finished, if it is, increment tactic
     INFO << "Update Idle";
+    this->assignRoleToPlayers(iPlayers);
 }
 
 void Idle::reset(){

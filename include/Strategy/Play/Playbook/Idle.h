@@ -19,13 +19,13 @@ public:
     virtual ~Idle(){}
 
     virtual bool isDone();
-    virtual void update();
+    virtual void update(std::map<PlayerId, Player*> iPlayers);
     virtual void reset();
     virtual int scoreCurrentSituation();
     virtual int getRoleSize();
-    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
 protected:
 
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
     virtual void requestPlay();
     virtual void createRoles();
     virtual Role* getRole(int iId);

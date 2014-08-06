@@ -22,7 +22,7 @@ public:
 
     bool isDone();
 
-    void update(Team *iTeam);
+    Play * update();
 protected:
     virtual void gameStarted();
     virtual void gamePaused();
@@ -30,10 +30,9 @@ protected:
 
     std::vector<Play*> mAvailablePlays;
 private:
-    void assignRoles(Team* iTeam);
+
     void findNextPlay();
     void switchPlays(Play *newPlay);
-    void updateRoles();
 
     void onGameStarted();
     void onGamePaused();

@@ -5,9 +5,10 @@ KickOff::KickOff(){
     this->createRoles();
 }
 
-void KickOff::update(){
+void KickOff::update(std::map<PlayerId, Player*> iPlayers){
     //look if important tactic finished, if it is, increment tactic
     INFO << "Update KickOff";
+    this->assignRoleToPlayers(iPlayers);
 }
 
 void KickOff::reset(){

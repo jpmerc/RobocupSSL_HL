@@ -9,36 +9,24 @@
 
 #include "SoccerGame/Player/Player.h"
 
-class Play //: public ScoreGameSituation
+class Play
 {
 public:
     virtual ~Play(){}
 
-    //Play* getRequestedPlay() const;
-
-    //void update();
-
     virtual bool isDone() = 0;
-    virtual void update() = 0;
+    virtual void update(std::map<PlayerId, Player*> iPlayers) = 0;
     virtual void reset() = 0;
     virtual int scoreCurrentSituation() = 0;
     virtual int getRoleSize()= 0;
-    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
 protected:
 
     virtual void requestPlay() = 0;
-    //virtual void findNextTactics();
-    //virtual void updateTactics();
     virtual void createRoles() = 0;
     virtual Role* getRole(int iId) = 0;
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
 
-    //void switchTactics(Tactic *oldTactic, Tactic *newTactic);
 
-    TacticFinder tacticFinder;
-
-    Play *mRequestedPlay;
-    std::vector<Tactic*> mCurrentTactics;
-    std::vector<Tactic*> mAvailableTactics;
     std::vector<Role*> mAvailableRoles;
 };
 

@@ -5,8 +5,9 @@ Offense::Offense(){
     this->createRoles();
 }
 
-void Offense::update(){
+void Offense::update(std::map<PlayerId, Player*> iPlayers){
     //look if important tactic finished, if it is, in crement tactic
+    this->assignRoleToPlayers(iPlayers);
 }
 
 void Offense::reset(){

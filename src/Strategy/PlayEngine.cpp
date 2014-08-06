@@ -21,7 +21,7 @@ bool PlayEngine::isDone()
     return this->isGameEnded;
 }
 
-void PlayEngine::update(Team* iTeam)
+Play *PlayEngine::update()
 {
     if(GameEvaluator::gameSwitchToHalt()){
         this->onGamePaused();
@@ -29,28 +29,9 @@ void PlayEngine::update(Team* iTeam)
     if(GameEvaluator::gameSwitchToSomething()){
         this->onGameStarted();
     }
-    mCurrentPlay->update();
-    this->assignRoles(iTeam);
+    return mCurrentPlay;
 }
 
-void PlayEngine::updateRoles(){
-    //look if the play is new
-
-}
-
-void PlayEngine::assignRoles(Team* iTeam){
-    //logic to get the best robot for each roles
-    int lRoleSize = mCurrentPlay->getRoleSize();
-    int lTeamSize = iTeam->getPlayers().size();  //goali have no role
-    if(lRoleSize < lTeamSize)
-        WARN << "Not enough roles";
-    else if(lRoleSize > lTeamSize)
-        WARN << "Too much roles";
-    for(int i = 0; i < lRoleSize; ++i){
-        mCurrentPlay->assignRoleToPlayers(iTeam->getPlayers());
-    }
-
-}
 
 void PlayEngine::findNextPlay()
 {
