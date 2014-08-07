@@ -11,12 +11,6 @@ void Idle::update(std::map<PlayerId, Player*> iPlayers){
     this->assignRoleToPlayers(iPlayers);
 }
 
-void Idle::reset(){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        (*it)->setAssignation(false);
-    }
-}
-
 void Idle::requestPlay(){
 
 }
@@ -34,6 +28,7 @@ void Idle::createRoles(){
 
 void Idle::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
 
+    //its job should be to let tactic say wich player is best fit for the role
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
 
         if(!(*it)->isAssigned()){
@@ -44,20 +39,7 @@ void Idle::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
     }
 }
 
-Role* Idle::getRole(int iId){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        if(iId == (*it)->getId()){
-            return (*it);
-        }
-    }
-    //else
-    throw RoleNotFoundException("No Ids matching for getRole()");
-}
-
 bool Idle::isDone(){
 
 }
 
-int Idle::scoreCurrentSituation(){
-
-}

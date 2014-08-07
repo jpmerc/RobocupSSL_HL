@@ -20,25 +20,18 @@ public:
 
     virtual bool isDone();
     virtual void update(std::map<PlayerId, Player*> iPlayers);
-    virtual void reset();
-    virtual int scoreCurrentSituation();
-    virtual int getRoleSize();
 
 protected:
 
     virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
     virtual void requestPlay();
     virtual void createRoles();
-    virtual Role* getRole(int iId);
 
 private:
     std::vector<Pose> mPositions;
 
 };
 
-inline int Offense::getRoleSize(){
-    return mAvailableRoles.size();
-}
 
 
 

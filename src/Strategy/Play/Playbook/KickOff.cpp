@@ -11,12 +11,6 @@ void KickOff::update(std::map<PlayerId, Player*> iPlayers){
     this->assignRoleToPlayers(iPlayers);
 }
 
-void KickOff::reset(){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        (*it)->setAssignation(false);
-    }
-}
-
 void KickOff::requestPlay(){
 
 }
@@ -57,20 +51,7 @@ void KickOff::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
 
 }
 
-Role* KickOff::getRole(int iId){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        if(iId == (*it)->getId()){
-            return (*it);
-        }
-    }
-    //else
-    throw RoleNotFoundException("No Ids matching for getRole()");
-}
 
 bool KickOff::isDone(){
-
-}
-
-int KickOff::scoreCurrentSituation(){
 
 }

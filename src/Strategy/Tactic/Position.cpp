@@ -13,6 +13,10 @@ std::pair<SkillStateMachine*,ParameterStruct> Position::update(ParameterStruct i
     return skillSet;
 }
 
+virtual PlayerId Position::getBestPlayer(TeamId iTeam,std::vector<PlayerId>& iPlayers){
+
+}
+
 bool Position::isDone(){
 
 }

@@ -13,6 +13,8 @@ public:
 
     virtual std::pair<SkillStateMachine *, ParameterStruct> update(ParameterStruct iParam);
 
+    virtual PlayerId getBestPlayer(TeamId iTeam,std::vector<PlayerId>& iPlayers);
+
     virtual bool isDone();
 };
 

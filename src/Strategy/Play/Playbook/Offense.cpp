@@ -10,12 +10,6 @@ void Offense::update(std::map<PlayerId, Player*> iPlayers){
     this->assignRoleToPlayers(iPlayers);
 }
 
-void Offense::reset(){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        (*it)->setAssignation(false);
-    }
-}
-
 void Offense::requestPlay(){
 
 }
@@ -56,21 +50,9 @@ void Offense::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
 
 }
 
-Role* Offense::getRole(int iId){
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-        if(iId == (*it)->getId()){
-            return (*it);
-        }
-    }
-    //else
-    throw RoleNotFoundException("No Ids matching for getRole()");
-}
 
 bool Offense::isDone(){
 
 }
 
-int Offense::scoreCurrentSituation(){
-
-}
 

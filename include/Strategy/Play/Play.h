@@ -7,6 +7,8 @@
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/ScoreGameSituation.h"
 
+#include "SoccerGame/Exception/RobocupException.h"
+
 #include "SoccerGame/Player/Player.h"
 
 class Play
@@ -16,18 +18,21 @@ public:
 
     virtual bool isDone() = 0;
     virtual void update(std::map<PlayerId, Player*> iPlayers) = 0;
-    virtual void reset() = 0;
-    virtual int scoreCurrentSituation() = 0;
-    virtual int getRoleSize()= 0;
+    virtual void reset();
+    virtual int getRoleSize();
 protected:
 
     virtual void requestPlay() = 0;
     virtual void createRoles() = 0;
-    virtual Role* getRole(int iId) = 0;
+    virtual Role* getRole(int iId);
     virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
 
 
     std::vector<Role*> mAvailableRoles;
 };
+
+inline int Play::getRoleSize(){
+    return mAvailableRoles.size();
+}
 
 #endif // PLAY_H
