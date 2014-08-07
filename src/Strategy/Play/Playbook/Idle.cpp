@@ -26,19 +26,6 @@ void Idle::createRoles(){
     }
 }
 
-void Idle::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
-
-    //its job should be to let tactic say wich player is best fit for the role
-    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
-
-        if(!(*it)->isAssigned()){
-            (*it)->setAssignation(true);
-            iPlayers[(*it)->getId()]->setRole(*it);
-            INFO << "Player : " << iPlayers[(*it)->getId()]->getId().getValue() << " got role : " << (*it)->getId();
-        }
-    }
-}
-
 bool Idle::isDone(){
 
 }

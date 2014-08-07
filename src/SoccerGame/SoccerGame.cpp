@@ -188,11 +188,12 @@ void SoccerGame::update(){
 
     INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
+        // we need to find a way to execute players tactic from role
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
         INFO << "Execute Role";
-        std::pair<Tactic *, ParameterStruct> lTactic = lPlayer->getTactic();
+        std::pair<Tactic *, ParameterStruct> lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
         INFO << "execute Tactic";
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         INFO << "execute Skill machine";

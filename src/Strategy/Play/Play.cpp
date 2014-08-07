@@ -1,7 +1,5 @@
 #include "Strategy/Play/Play.h"
 
-#include <stdexcept>
-#include <algorithm>
 
 
 void Play::reset(){
@@ -18,4 +16,32 @@ Role* Play::getRole(int iId){
     }
     //else
     throw RoleNotFoundException("No Ids matching for getRole()");
+}
+
+std::pair<Tactic*,ParameterStruct> Play::getPlayerTactic(PlayerId iPlayer){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        if(iPlayer == (*it)->getCurrentPlayer()){
+            return (*it)->getCurrentTactic();
+        }
+    }
+    //else
+    std::ostringstream ss;
+    ss << "Player with id : " << iPlayer.getValue() << "Have no Role assigned!";
+    throw RoleNotFoundException(ss.str());
+}
+
+void Play::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
+
+    //should create the player's list and pass it to the role, he will ask the tactic wich player
+    std::vector<PlayerId> lPlayers;
+    for(auto it = iPlayers.begin(); it != iPlayers.end(); ++it){
+        lPlayers.push_back(it->first);
+    }
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+
+        if(!(*it)->isAssigned()){
+            (*it)->assignTacticToPlayer(lPlayers);
+        }
+    }
+
 }

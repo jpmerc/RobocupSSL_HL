@@ -13,15 +13,18 @@ public:
     Role(std::vector<std::pair <Tactic*,ParameterStruct>> iTacticVector,int iRoleId);
     void resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector);
     std::pair<Tactic *, ParameterStruct> getCurrentTactic();
+    void assignTacticToPlayer(std::vector<PlayerId>& iPlayers);
     void incrementTactic();
     void setAssignation(bool iIsAssigned);
     bool isAssigned();
     int getId();
+    PlayerId getCurrentPlayer();
 
 private:
     int mRoleId;
-    int mCurrentTactic;
+    PlayerId mCurrentPlayer;
     bool mIsAssigned;
+    int mCurrentTactic; //iterator TODO
     std::vector<std::pair<Tactic *, ParameterStruct> > mTactics;
 };
 
@@ -39,6 +42,10 @@ inline bool Role::isAssigned(){
 
 inline int Role::getId(){
     return mRoleId;
+}
+
+inline PlayerId Role::getCurrentPlayer(){
+    return mCurrentPlayer;
 }
 
 #endif

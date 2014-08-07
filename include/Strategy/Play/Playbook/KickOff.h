@@ -23,7 +23,6 @@ public:
 
 protected:
 
-    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
     virtual void requestPlay();
     virtual void createRoles();
 private:

@@ -14,7 +14,7 @@ public:
 
     virtual bool isDone() = 0;
     
-    virtual PlayerId getBestPlayer(TeamId iTeam,std::vector<PlayerId>& iPlayers)= 0;
+    virtual PlayerId getBestPlayer(TeamId iTeam,std::vector<PlayerId>& iPlayers,ParameterStruct iParam)= 0;
     
 protected:
     SkillStateMachine* mActualSSM;

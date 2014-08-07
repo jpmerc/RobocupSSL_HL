@@ -2,6 +2,10 @@
 #define PLAY_H
 
 #include <vector>
+#include <stdexcept>
+#include <algorithm>
+#include <sstream>
+#include <string>
 
 #include "Strategy/Tactic/TacticFinder.h"
 #include "Strategy/Tactic/Tactic.h"
@@ -20,12 +24,13 @@ public:
     virtual void update(std::map<PlayerId, Player*> iPlayers) = 0;
     virtual void reset();
     virtual int getRoleSize();
+    virtual std::pair<Tactic *, ParameterStruct> getPlayerTactic(PlayerId iPlayer);
 protected:
 
     virtual void requestPlay() = 0;
     virtual void createRoles() = 0;
     virtual Role* getRole(int iId);
-    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
 
 
     std::vector<Role*> mAvailableRoles;

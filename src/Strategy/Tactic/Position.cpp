@@ -13,8 +13,10 @@ std::pair<SkillStateMachine*,ParameterStruct> Position::update(ParameterStruct i
     return skillSet;
 }
 
-virtual PlayerId Position::getBestPlayer(TeamId iTeam,std::vector<PlayerId>& iPlayers){
+PlayerId Position::getBestPlayer(TeamId iTeam, std::vector<PlayerId>& iPlayers, ParameterStruct iParam){
 
+    PlayerId lPlayerId = GameEvaluator::getClosestPlayer(iPlayers,iTeam,iParam.positionTarget.Position); //TODO : change team id..
+    return lPlayerId;
 }
 
 bool Position::isDone(){

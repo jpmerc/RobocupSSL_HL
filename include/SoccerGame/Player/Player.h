@@ -36,11 +36,6 @@ public:
 
     void move();
 
-    //---IA---
-    void setRole(Role *iRole);
-    bool haveRole();
-    std::pair<Tactic *, ParameterStruct> getTactic();
-
     //---Path----
     void clearPath();
     void addVectorToPath(Pose iPosition);
@@ -57,7 +52,6 @@ private:
     Pose mPoseGoalToReach;
     CommandStruct mActualCommand;
     Navigator* mNavigator;
-    Role* mRole;
 };
 
 inline PlayerId Player::getId() const {
@@ -86,18 +80,6 @@ inline void Player::setSpeedCommand(Pose iCommand){
 
 inline CommandStruct Player::getCommand() const{
     return mActualCommand;
-}
-
-inline void Player::setRole(Role *iRole){
-    mRole = iRole;
-}
-
-inline bool Player::haveRole(){
-    if(mRole){
-        return true;
-    }
-    else
-        return false;
 }
 
 #endif
