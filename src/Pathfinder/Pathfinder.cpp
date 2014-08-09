@@ -8,30 +8,44 @@ Pathfinder::Pathfinder(){
 Pathfinder::~Pathfinder(){
 }
 
-bool Pathfinder::addObstacle(const Player &iObstacle){
-    /*
-    if(std::find(mObstacles.begin(), mObstacles.end(), iObstacle) != mObstacles.end())
-    {
-        return false;
-    }*/
-    Geometry2d::Circle shapeObstacle = this->fromPlayerGetShape(iObstacle);
-    mObstacles.add(std::shared_ptr<Geometry2d::Shape>(&shapeObstacle));
-
-    return true;
+void Pathfinder::addObstacle(Geometry2d::Shape &iObstacle){
+    mObstacles.add(std::shared_ptr<Geometry2d::Shape>(&iObstacle));
 }
 
-Geometry2d::Circle Pathfinder::fromPlayerGetShape(const Player &iPlayer){
-    Geometry2d::Circle c(iPlayer.getPosition(),
-                         Robot_Radius);
-    return c;
+void Pathfinder::addPlayer(Player *iPlayer){
+    std::cout<<"Here we asses player with id: "<<iPlayer->getUniqueId() <<std::endl;
+    mPlayers[iPlayer->getUniqueId()] = iPlayer;
 }
 
-Planning::Path Pathfinder::findPath(Pose iStart, Pose iGoal)
-{
-    //TODO: Define this method as pure virtual and implement a pathfinder
+
+
+Planning::Path Pathfinder::findPath(const Player *iPlayer, Pose iGoal){
+
     Planning::Path lPath;
+    Geometry2d::CompositeShape lCompositeShape = this->getCollisionShapeOfOtherPlayer(iPlayer->getUniqueId());
 
-    //mPathGenerator.run();
+    Pose lStart = iPlayer->getPose();
+    mPathGenerator.run(lStart.Position,
+                       lStart.Angle.getPolar(),
+                       Vector2f::ZERO,
+                       iGoal.Position,
+                       &lCompositeShape,
+                       lPath);
 
     return lPath;
+}
+
+
+Geometry2d::CompositeShape Pathfinder::getCollisionShapeOfOtherPlayer(const std::string iPlayerId){
+    Geometry2d::CompositeShape lCompositeShape;
+    for(std::map<std::string, Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it)
+    {
+        if(it->first != iPlayerId){
+            Geometry2d::Circle* s = it->second->getShape();
+            lCompositeShape.add(s->getPointer());
+        }
+    }
+
+
+    return lCompositeShape;
 }

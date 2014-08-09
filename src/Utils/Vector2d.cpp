@@ -15,10 +15,14 @@ const Vector2d Vector2d::UNIT_SCALE(1.0f, 1.0f);
 //    x = y = 0;
 //}
 
+//Vector2d::Vector2d(const Vector2f &other){
+//    x = other.x;
+//    y = other.y;
+//}
 
-template<class T>
-Vector2d::Vector2d(const T &other)
-{
+
+template<typename T>
+Vector2d::Vector2d(const T &other){
     x = other.x;
     y = other.y;
 }

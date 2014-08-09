@@ -79,6 +79,8 @@ bool SoccerGame::createGame(GameFactory iFactory){
             Player* lPlayer = iFactory.createPlayer(lPlayerId, lTeam->getId(),mNavigator);
 
             lTeam->addPlayer(lPlayer);
+
+            this->mPathfinder->addPlayer(lPlayer);
         }
 
         mGame->addTeam(lTeam);
@@ -230,11 +232,11 @@ void SoccerGame::update(){
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
 
         // TODO add new Path definition
-        //std::queue<Pose> lPath = mPathfinder->findPath(lPlayer->getPose(),lCommand.target);
-        //lPlayer->refreshPath(lPath);
-        //lPlayer->move();
-        //lNowPlayer = clock();
-        //INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
+        Planning::Path lPath = mPathfinder->findPath(lPlayer,lCommand.target);
+        lPlayer->refreshPath(lPath);
+        lPlayer->move();
+        lNowPlayer = clock();
+        INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }
 
     this->sendCommands();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "Shape.hpp"
 #include "Utils/Vector2f.h"
 #include "Line.hpp"
@@ -92,6 +93,8 @@ namespace Geometry2d
         Vector2f nearestPoint(const Vector2f &P) const;
 
         Vector2f center;
+        std::shared_ptr<Geometry2d::Shape> getPointer();
+
         
     protected:
         // Radius

@@ -12,6 +12,7 @@
 
 #include "Pathfinder/RRTPlanner.hpp"
 #include "Utils/Geometry2d/CompositeShape.hpp"
+#include "Utils/Geometry2d/Circle.hpp"
 
 #include "SoccerGame/Player/PlayerId.h"
 #include "SoccerGame/Team/TeamId.h"
@@ -32,6 +33,7 @@ public:
 
     PlayerId getId() const;
     TeamId getTeamId() const;
+    std::string getUniqueId() const;
     Pose getPoseToReach() const;
     void setCommand(Velocity iPose);
     Velocity getCommand() const;
@@ -44,9 +46,10 @@ public:
     std::pair<Tactic *, ParameterStruct> getTactic();
 
     //---Path----
+    Geometry2d::Circle* getShape();
     void clearPath();
     void addVectorToPath(Pose iPosition);
-    void refreshPath(std::queue<Pose> iNewPath);
+    void refreshPath(Planning::Path &iNewPath);
     void updateGoal();
     bool pathIsEmpty();
 
@@ -68,6 +71,10 @@ inline PlayerId Player::getId() const {
 
 inline TeamId Player::getTeamId() const{
     return mTeamId;
+}
+
+inline std::string Player::getUniqueId() const{
+    return std::string(std::to_string(mTeamId.getValue()) + std::to_string(mId.getValue()));
 }
 
 inline bool Player::operator==(const Player& other) const {

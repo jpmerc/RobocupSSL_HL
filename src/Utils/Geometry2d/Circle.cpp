@@ -185,3 +185,7 @@ bool Circle::hit(const Geometry2d::Segment &seg) const
 {
 	return seg.nearPoint(center, radius() + Robot_Radius);
 }
+
+std::shared_ptr<Geometry2d::Shape> Geometry2d::Circle::getPointer() {
+	return std::shared_ptr<Geometry2d::Shape>(this);
+}

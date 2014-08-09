@@ -50,6 +50,12 @@ std::pair<Tactic *, ParameterStruct> Player::getTactic(){
 
 //-----PATH FUNCTION-----
 
+
+Geometry2d::Circle* Player::getShape(){
+    return new Geometry2d::Circle(this->getPosition(),
+                                  Robot_Radius);
+}
+
 void Player::clearPath(){
     while(!this->mPath.empty()) this->mPath.pop();
 }
@@ -58,11 +64,15 @@ void Player::addVectorToPath(Pose iPosition){
     this->mPath.push(iPosition);
 }
 
-void Player::refreshPath(std::queue<Pose> iNewPath){
+void Player::refreshPath(Planning::Path &iNewPath){
     this->clearPath();
-    while(!iNewPath.empty()){
-        this->mPath.push(iNewPath.front());
-        iNewPath.pop();
+    for(int i = 0; i < iNewPath.points.size(); i++){
+        // TODO add a way orientation when the pathfinder support Orientation
+        // Switch everything to Vector2f
+        Vector2f e = iNewPath.points.at(i);
+        Vector2d d(e.x, e.y);
+        Pose p(d, 0, 1);
+        this->mPath.push(p);
     }
     this->updateGoal();
 }

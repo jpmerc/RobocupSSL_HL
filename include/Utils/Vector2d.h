@@ -9,11 +9,12 @@
 #include "Utils/Degree.h"
 #include <boost/optional.hpp>
 
+
 //TODO: Compute dot product and cross product
 
 struct Vector2d {
-    //Vector2d();
-    template<class T> Vector2d(const T &other);
+
+    template<typename T> Vector2d(const T &other);
     Vector2d(double iX = 0.0f, double iY = 0.0f);
     virtual ~Vector2d();
 
