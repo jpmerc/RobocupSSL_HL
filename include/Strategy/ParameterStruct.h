@@ -7,10 +7,16 @@
 typedef struct ParameterStruct{
     PlayerId playerId;
     TeamId teamId;
-    Pose target;
-    int roleTarget;
 
-    ParameterStruct(Pose iTarget = Pose::ZERO):playerId(0),teamId(0),target(iTarget), roleTarget(0){}
+    Pose positionTarget;
+    TeamId teamTarget;
+    PlayerId playerTarget;
+    bool isPoseTarget;
+
+    bool isIdle;
+
+    ParameterStruct(Pose iTarget = Pose::ZERO):playerId(0),teamId(0),positionTarget(iTarget),
+        teamTarget(0), playerTarget(0),isPoseTarget(true),isIdle(false){}
 
 }ParameterStruct;
 

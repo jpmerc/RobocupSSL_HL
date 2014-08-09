@@ -2,13 +2,22 @@
 
 
 Role::Role(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector, int iRoleId):
-    mTactics(iTacticVector),mRoleId(iRoleId),mCurrentTactic(0),mIsAssigned(false){
+    mTactics(iTacticVector),mRoleId(iRoleId),mCurrentTactic(0),mIsAssigned(false),mCurrentPlayer(0){  //default player id?
 
 }
 
 void Role::resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> >  iTacticVector){
     mCurrentTactic = 0;
     mTactics = iTacticVector;
+}
+
+void Role::assignTacticToPlayer(std::vector<PlayerId>& iPlayers){
+    ParameterStruct lParam = mTactics[mCurrentTactic].second;
+    mCurrentPlayer = mTactics[mCurrentTactic].first->getBestPlayer(TeamId(0),iPlayers,lParam);
+    lParam.playerId = mCurrentPlayer;
+    lParam.teamId = TeamId(0);
+    INFO << "Player :" << mCurrentPlayer.getValue() << "Get Role " << mRoleId;
+    mIsAssigned = true;
 }
 
 void Role::incrementTactic(){

@@ -35,15 +35,11 @@ public:
     TeamId getTeamId() const;
     std::string getUniqueId() const;
     Pose getPoseToReach() const;
-    void setCommand(Velocity iPose);
-    Velocity getCommand() const;
+    void setCommand(CommandStruct iCommand);
+    void setSpeedCommand(Pose iCommand);
+    CommandStruct getCommand() const;
 
     void move();
-
-    //---IA---
-    void setRole(Role *iRole);
-    bool haveRole();
-    std::pair<Tactic *, ParameterStruct> getTactic();
 
     //---Path----
     Geometry2d::Circle* getShape();
@@ -60,9 +56,8 @@ private:
     TeamId mTeamId;
     std::queue<Pose> mPath;
     Pose mPoseGoalToReach;
-    Velocity mActualCommand;
+    CommandStruct mActualCommand;
     Navigator* mNavigator;
-    Role* mRole;
 };
 
 inline PlayerId Player::getId() const {
@@ -85,24 +80,16 @@ inline Pose Player::getPoseToReach()const{
     return mPoseGoalToReach;
 }
 
-inline void Player::setCommand(Velocity iPose){
-    mActualCommand = iPose;
+inline void Player::setCommand(CommandStruct iCommand){
+    mActualCommand = iCommand;
 }
 
-inline Velocity Player::getCommand() const{
+inline void Player::setSpeedCommand(Pose iCommand){
+   mActualCommand.velocity = iCommand;
+}
+
+inline CommandStruct Player::getCommand() const{
     return mActualCommand;
-}
-
-inline void Player::setRole(Role *iRole){
-    mRole = iRole;
-}
-
-inline bool Player::haveRole(){
-    if(mRole){
-        return true;
-    }
-    else
-        return false;
 }
 
 #endif

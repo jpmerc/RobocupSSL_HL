@@ -1,49 +1,47 @@
 #include "Strategy/Play/Play.h"
 
-#include <stdexcept>
-#include <algorithm>
 
 
-/*Play* Play::getRequestedPlay() const
-{
-    if(!this->mRequestedPlay) throw std::runtime_error("No requested play");
-
-    return this->mRequestedPlay;
+void Play::reset(){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        (*it)->setAssignation(false);
+    }
 }
 
-void Play::update()
-{
-    this->findNextTactics();
-    this->updateTactics();
-}
-
-void Play::findNextTactics()
-{
-    for(auto currentTactic : this->mCurrentTactics){
-        if(currentTactic->isDone()){
-            Tactic *newTactic = this->tacticFinder.findTactics(currentTactic, this->mAvailableTactics);
-            this->switchTactics(currentTactic, newTactic);
+Role* Play::getRole(int iId){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        if(iId == (*it)->getId()){
+            return (*it);
         }
     }
+    //else
+    throw RoleNotFoundException("No Ids matching for getRole()");
 }
 
-void Play::updateTactics()
-{
-    for(auto tactic : this->mCurrentTactics){
-        tactic->update();
-    }
-}
-
-void Play::switchTactics(Tactic *oldTactic, Tactic *newTactic)
-{
-    if(oldTactic != newTactic){
-        auto it = std::find(this->mCurrentTactics.begin(), this->mCurrentTactics.end(), oldTactic);
-
-        if (it != this->mCurrentTactics.end()){
-            this->mCurrentTactics.erase(it);
-
-            delete oldTactic;
-            this->mCurrentTactics.push_back(newTactic);
+std::pair<Tactic*,ParameterStruct> Play::getPlayerTactic(PlayerId iPlayer){
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+        if(iPlayer == (*it)->getCurrentPlayer()){
+            return (*it)->getCurrentTactic();
         }
     }
-}*/
+    //else
+    std::ostringstream ss;
+    ss << "Player with id : " << iPlayer.getValue() << "Have no Role assigned!";
+    throw RoleNotFoundException(ss.str());
+}
+
+void Play::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
+
+    //should create the player's list and pass it to the role, he will ask the tactic wich player
+    std::vector<PlayerId> lPlayers;
+    for(auto it = iPlayers.begin(); it != iPlayers.end(); ++it){
+        lPlayers.push_back(it->first);
+    }
+    for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
+
+        if(!(*it)->isAssigned()){
+            (*it)->assignTacticToPlayer(lPlayers);
+        }
+    }
+
+}

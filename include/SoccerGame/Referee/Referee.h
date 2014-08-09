@@ -3,22 +3,52 @@
 
 #include <vector>
 
-#include "RefereeListener.h"
+#include "proto/pb/referee.pb.h"
+#include "Logger/Logging.h"
 
-class RefereeListener;
 
 class Referee
 {
 public:
     Referee();
 
-    void addListener(RefereeListener *listener);
-private:
-    void fireGameStarted();
-    void fireGamePaused();
-    void fireGameEnded();
+    void setData(SSL_Referee* iPacket);
 
-    std::vector<RefereeListener*> listeners;
+    int getCommand();
+    int getStage();
+    int getTimeLeft();
+
+    bool commandAsChanged();
+    void setCommandChanged(bool iFlag);
+
+private:
+    int mStage;
+    int mStageTimeLeft;
+    int mCommand;
+    int mLastCommand;
+    bool mCommandChanged;
+
 };
+
+inline bool Referee::commandAsChanged(){
+    return mCommandChanged;
+}
+
+inline void Referee::setCommandChanged(bool iFlag){
+    mCommandChanged = iFlag;
+}
+
+inline int Referee::getCommand(){
+    return mCommand;
+}
+inline int Referee::getStage(){
+    return mStage;
+}
+inline int Referee::getTimeLeft(){
+    return mStageTimeLeft;
+}
+
+
+
 
 #endif // REFEREE_H

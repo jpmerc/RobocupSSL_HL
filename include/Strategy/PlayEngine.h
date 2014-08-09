@@ -1,7 +1,6 @@
 #ifndef PLAYENGINE_H
 #define PLAYENGINE_H
 
-#include "SoccerGame/Referee/RefereeListener.h"
 #include "SoccerGame/Team/Team.h"
 #include "SoccerGame/Player/Player.h"
 
@@ -10,10 +9,12 @@
 #include "Strategy/Role.h"
 
 #include "Strategy/Play/Playbook/Offense.h"
+#include "Strategy/Play/Playbook/KickOff.h"
+#include "Strategy/Play/Playbook/Idle.h"
 
 #include "Logger/Logging.h"
 
-class PlayEngine : public RefereeListener
+class PlayEngine
 {
 public:
     PlayEngine();
@@ -21,7 +22,7 @@ public:
 
     bool isDone();
 
-    void update(Team *iTeam);
+    Play * update();
 protected:
     virtual void gameStarted();
     virtual void gamePaused();
@@ -29,10 +30,9 @@ protected:
 
     std::vector<Play*> mAvailablePlays;
 private:
-    void assignRoles(Team* iTeam);
+
     void findNextPlay();
     void switchPlays(Play *newPlay);
-    void updateRoles();
 
     void onGameStarted();
     void onGamePaused();

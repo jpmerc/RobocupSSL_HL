@@ -17,7 +17,7 @@
 #include "Control/Navigator.h"
 
 struct GameFactory{
-    virtual Game* createGame(Ball *iBall, Field *iField) const;
+    virtual Game* createGame(Ball *iBall, Field *iField, Referee *iRef) const;
     virtual Field* createField(
             double iWidth = 0,
             double iHeight = 0,
@@ -27,6 +27,7 @@ struct GameFactory{
     virtual Team* createTeam(TeamId iTeamId) const;
     virtual Player* createPlayer(PlayerId iPlayerId, TeamId iTeamId, Navigator *iNavigator) const;
     virtual Ball* createBall(BallId iBallId) const;
+    virtual Referee* createRef() const;
 
 };
 

@@ -1,5 +1,5 @@
-#ifndef OFFENSE_H
-#define OFFENSE_H
+#ifndef KICKOFF_H
+#define KICKOFF_H
 
 #include <vector>
 
@@ -13,10 +13,10 @@
 #include "SoccerGame/Exception/RobocupException.h"
 #include "Logger/Logging.h"
 
-class Offense : public Play{
+class KickOff : public Play{
 public:
-    Offense();
-    virtual ~Offense(){}
+    KickOff();
+    virtual ~KickOff(){}
 
     virtual bool isDone();
     virtual void update(std::map<PlayerId, Player*> iPlayers);
@@ -25,7 +25,6 @@ protected:
 
     virtual void requestPlay();
     virtual void createRoles();
-
 private:
     std::vector<Pose> mPositions;
 

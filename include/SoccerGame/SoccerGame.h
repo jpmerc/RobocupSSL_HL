@@ -38,12 +38,10 @@ public:
 
     virtual void startGame();
 
-    void unwrapVisionPacket(SSL_WrapperPacket iPacket);
-
     std::map<PlayerId, Pose> getTeamPositions(TeamId id) const;
     Pose getBallPosition() const;
 
-    InputStream* getInputStream() const;
+    VisionInputStream* getVisionInputStream() const;
     OutputStream* getOutputStream() const;
     void setOuputStream(OutputStream* pOutputStream);
     void sendCommands();
@@ -53,10 +51,8 @@ public:
 
 private:
     virtual bool loadConfig();
-
-
-    //TODO: Create methods to retrieve vision data, to filter data, etc.
     virtual void update();
+
 
     PlayEngine *mPlayEngine;
 
@@ -76,20 +72,20 @@ private:
     double mFieldPlayableWidth;
     double mFieldPlayableHeight;
 
+    bool mSimulationMode;
+
+    int mDelay;
+
+    //IO
+    VisionInputStream *mVisionInputStream;
+    RefInputStream *mRefInputStream;
+    OutputStream *mOutputStream;
     std::string mVisionAddress;
     int mVisionPort;
     std::string mGrSimAddress;
     int mGrSimPort;
     std::string mSerialPort;
     int mSerialBaud;
-
-    bool mSimulationMode;
-
-    int mDelay;
-
-    //IO
-    InputStream *mInputStream;
-    OutputStream * mOutputStream;
 
     boost::asio::io_service mIOService;
 };
@@ -102,8 +98,8 @@ inline void SoccerGame::setOuputStream(OutputStream* pOutputStream){
     mOutputStream = pOutputStream;
 }
 
-inline InputStream* SoccerGame::getInputStream() const{
-    return mInputStream;
+inline VisionInputStream* SoccerGame::getVisionInputStream() const{
+    return mVisionInputStream;
 }
 
 inline OutputStream* SoccerGame::getOutputStream() const{

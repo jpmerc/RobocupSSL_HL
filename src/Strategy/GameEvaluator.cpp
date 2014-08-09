@@ -3,7 +3,7 @@
 Game *GameEvaluator::mGame = NULL;
 
 GameEvaluator::GameEvaluator(Game * iGame){
-    mGame = iGame;
+    mGame=iGame;
 }
 
 double GameEvaluator::getDistanceBetweenPlayers(PlayerId iPlayer1, TeamId iTeam1, PlayerId iPlayer2, TeamId iTeam2){
@@ -13,24 +13,50 @@ double GameEvaluator::getDistanceBetweenPlayers(PlayerId iPlayer1, TeamId iTeam1
 
 }
 
-PlayerId GameEvaluator::getClosestPlayerWithoutRole(TeamId iTeam, Vector2d iCoord){
-    std::map<PlayerId, Player*> lPlayers = mGame->getTeams()[iTeam]->getPlayers();
-    double lFinalDistance = INFINITY;
-    PlayerId lPlayerToReturn = 0;
-    for (auto it=lPlayers.begin(); it!=lPlayers.end(); ++it){
-        if(!it->second->haveRole()){
-            PlayerId lPlayer = it->second->getId().getValue();
-            double lDistance = GameEvaluator::getDistanceBetweenPlayerAndCoord(lPlayer,iTeam,iCoord);
-            if(lDistance < lFinalDistance){
-                lFinalDistance = lDistance;
-                lPlayerToReturn = lPlayer;
-            }
+PlayerId GameEvaluator::getClosestPlayer(std::vector<PlayerId>& iPlayers, TeamId iTeam, Vector2d iCoord){
+    double higherDistance = INFINITY;
+    PlayerId lReturnPlayer = 0;
+    int lPosition = -1;
+    int lReturnPosition = 0;
+    for (auto it=iPlayers.begin(); it!=iPlayers.end(); ++it){
+        double lDistance = GameEvaluator::getDistanceBetweenPlayerAndCoord((*it),iTeam,iCoord);
+        lPosition++;
+        if(lDistance < higherDistance){
+            higherDistance = lDistance;
+            lReturnPlayer = (*it);
+            lReturnPosition = lPosition;
         }
     }
-    return lPlayerToReturn;
+    iPlayers.erase(iPlayers.begin()+lReturnPosition);
+
+    return lReturnPlayer;
 }
 
 double GameEvaluator::getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId iTeam, Vector2d iCoord){
     Pose playerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
     return playerPosition.Position.distanceFromCoordinate(iCoord);
+}
+
+bool GameEvaluator::gameSwitchToHalt(){
+    if(mGame->getRef()->commandAsChanged()){
+        if(mGame->getRef()->getCommand() == SSL_Referee::HALT){
+            mGame->getRef()->setCommandChanged(false);
+            return true;
+        }
+    }
+    else{
+        return false;
+    }
+}
+
+bool GameEvaluator::gameSwitchToSomething(){
+    if(mGame->getRef()->commandAsChanged()){
+        if(mGame->getRef()->getCommand() != SSL_Referee::HALT){
+            mGame->getRef()->setCommandChanged(false);
+            return true;
+        }
+    }
+    else{
+        return false;
+    }
 }

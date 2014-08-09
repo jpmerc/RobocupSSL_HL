@@ -10,6 +10,7 @@
 
 int main(int argc, char *argv[])
 {
+    //Currently Not supported!
     QApplication app(argc, argv);
 
     MainBox mainBox;

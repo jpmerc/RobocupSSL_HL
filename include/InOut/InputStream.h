@@ -22,6 +22,7 @@
 #include "proto/pb/messages_robocup_ssl_wrapper.pb.h"
 #include "proto/pb/messages_robocup_ssl_detection.pb.h"
 #include "proto/pb/messages_robocup_ssl_geometry.pb.h"
+#include "proto/pb/referee.pb.h"
 #include "proto/pb/grSim_Packet.pb.h"
 #include "proto/pb/grSim_Commands.pb.h"
 #include "proto/pb/grSim_Replacement.pb.h"
@@ -39,21 +40,13 @@ public:
     InputStream(boost::asio::io_service& io_service, std::string iMulticastAdress, int iPort);
     virtual ~InputStream();
 
-    SSL_WrapperPacket getVisionPacket();
-    grSim_Packet getCommandPacket();
-
-private:
+protected:
 
     void startReceive();
-    void handleReceive(const boost::system::error_code& error,
-                        std::size_t bytes_transferred);
+    virtual void handleReceive(const boost::system::error_code& error,
+                        std::size_t bytes_transferred) = 0;
 
-    std::string mVisionMessage;
-    std::string mRefboxMessage;
-    std::string mCommandMessage;
-
-    SSL_WrapperPacket mVisionPacket;
-    grSim_Packet mCommandPacket;
+    std::string mMessage;
 
     boost::asio::io_service& mIOService;
 
@@ -64,8 +57,40 @@ private:
 
 };
 
-inline SSL_WrapperPacket InputStream::getVisionPacket(){
-    return mVisionPacket;
+
+class VisionInputStream:public InputStream{
+public:
+    VisionInputStream(boost::asio::io_service& io_service, std::string iMulticastAdress, int iPort);
+    SSL_WrapperPacket* getPacket();
+
+protected:
+    virtual void handleReceive(const boost::system::error_code& error,
+                        std::size_t bytes_transferred);
+
+private:
+    SSL_WrapperPacket mPacket;
+};
+
+inline SSL_WrapperPacket* VisionInputStream::getPacket(){
+    return &mPacket;
+}
+
+
+class RefInputStream:public InputStream{
+public:
+    RefInputStream(boost::asio::io_service& io_service, std::string iMulticastAdress, int iPort);
+    SSL_Referee* getPacket();
+
+protected:
+    virtual void handleReceive(const boost::system::error_code& error,
+                        std::size_t bytes_transferred);
+
+private:
+    SSL_Referee mPacket;
+};
+
+inline SSL_Referee *RefInputStream::getPacket(){
+    return &mPacket;
 }
 
 

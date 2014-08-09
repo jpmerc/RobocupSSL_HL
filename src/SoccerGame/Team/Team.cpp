@@ -42,6 +42,16 @@ void Team::updatePlayersPositions(const std::map<PlayerId, Pose> &iPositions) {
     }
 }
 
+void Team::setPlayersPositions(const google::protobuf::RepeatedPtrField< SSL_DetectionRobot >& iPositions){
+
+    for(auto it=iPositions.begin(); it<iPositions.end();++it){
+        PlayerId lRobotId(it->robot_id());
+        if(this->hasPlayer(lRobotId)){
+            this->findPlayerByID(lRobotId)->setPose(Pose(it->x(),it->y(),it->orientation()));
+        }
+    }
+}
+
 Player* Team::findPlayerByID(PlayerId iPlayerId) const{
     std::map<PlayerId, Player*>::const_iterator it = mPlayers.find(iPlayerId);
 

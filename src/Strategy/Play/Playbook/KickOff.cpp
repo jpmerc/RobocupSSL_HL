@@ -1,20 +1,21 @@
-#include "Strategy/Play/Playbook/Offense.h"
+#include "Strategy/Play/Playbook/KickOff.h"
 
-Offense::Offense(){
-    INFO << "Create Offense Play";
+KickOff::KickOff(){
+    INFO << "Create KickOff Play";
     this->createRoles();
 }
 
-void Offense::update(std::map<PlayerId, Player*> iPlayers){
-    //look if important tactic finished, if it is, in crement tactic
+void KickOff::update(std::map<PlayerId, Player*> iPlayers){
+    //look if important tactic finished, if it is, increment tactic
+    INFO << "Update KickOff";
     this->assignRoleToPlayers(iPlayers);
 }
 
-void Offense::requestPlay(){
+void KickOff::requestPlay(){
 
 }
 
-void Offense::createRoles(){
+void KickOff::createRoles(){
 
     mPositions.push_back(Pose(-2500,0,0));
     mPositions.push_back(Pose(-1800,800,0));
@@ -32,8 +33,6 @@ void Offense::createRoles(){
 }
 
 
-bool Offense::isDone(){
+bool KickOff::isDone(){
 
 }
-
-

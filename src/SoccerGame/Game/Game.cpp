@@ -2,9 +2,10 @@
 
 #include <boost/foreach.hpp>
 
-Game::Game(Ball* iBall, Field* iField) :
+Game::Game(Ball* iBall, Field* iField, Referee* iRef) :
     mField(iField),
-    mBall(iBall){
+    mBall(iBall),
+    mRef(iRef){
 }
 
 Game::~Game() {
@@ -45,4 +46,17 @@ bool Game::addTeam(Team *iTeam){
     }
 
     return true;
+}
+
+void Game::unwrapPackets(SSL_Referee* iRefPacket,SSL_WrapperPacket* iWrapperPacket){
+    mRef->setData(iRefPacket);
+
+    if(iWrapperPacket->detection().balls_size()){
+        SSL_DetectionBall lPacketBall = iWrapperPacket->detection().balls(0);
+        mBall->setPose(Pose(lPacketBall.x(),lPacketBall.y(),0));
+    }
+
+    mTeams[TeamId(0)]->setPlayersPositions(iWrapperPacket->detection().robots_blue());
+    mTeams[TeamId(1)]->setPlayersPositions(iWrapperPacket->detection().robots_yellow());
+
 }

@@ -2,43 +2,42 @@
 #define PLAY_H
 
 #include <vector>
+#include <stdexcept>
+#include <algorithm>
+#include <sstream>
+#include <string>
 
 #include "Strategy/Tactic/TacticFinder.h"
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/ScoreGameSituation.h"
 
+#include "SoccerGame/Exception/RobocupException.h"
+
 #include "SoccerGame/Player/Player.h"
 
-class Play //: public ScoreGameSituation
+class Play
 {
 public:
     virtual ~Play(){}
 
-    //Play* getRequestedPlay() const;
-
-    //void update();
-
     virtual bool isDone() = 0;
-    virtual void update() = 0;
-    virtual int scoreCurrentSituation() = 0;
-    virtual int getRoleSize()= 0;
-    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers) = 0;
+    virtual void update(std::map<PlayerId, Player*> iPlayers) = 0;
+    virtual void reset();
+    virtual int getRoleSize();
+    virtual std::pair<Tactic *, ParameterStruct> getPlayerTactic(PlayerId iPlayer);
 protected:
 
     virtual void requestPlay() = 0;
-    //virtual void findNextTactics();
-    //virtual void updateTactics();
     virtual void createRoles() = 0;
-    virtual Role* getRole(int iId) = 0;
+    virtual Role* getRole(int iId);
+    virtual void assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers);
 
-    //void switchTactics(Tactic *oldTactic, Tactic *newTactic);
 
-    TacticFinder tacticFinder;
-
-    Play *mRequestedPlay;
-    std::vector<Tactic*> mCurrentTactics;
-    std::vector<Tactic*> mAvailableTactics;
     std::vector<Role*> mAvailableRoles;
 };
+
+inline int Play::getRoleSize(){
+    return mAvailableRoles.size();
+}
 
 #endif // PLAY_H

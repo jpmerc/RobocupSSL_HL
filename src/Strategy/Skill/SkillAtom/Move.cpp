@@ -6,6 +6,6 @@ Move::Move(){
 
 CommandStruct Move::update(ParameterStruct iParam){
     CommandStruct command;
-    command.target = iParam.target;
+    command.positionTarget = iParam.positionTarget;
     return command;
 }

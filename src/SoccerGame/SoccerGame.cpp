@@ -13,11 +13,10 @@ SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, Pathfinde
     mNavigator(iNavigator),
     mPathfinder(iPathfinder){
 
-    INFO << "Creating Game";
     this->loadConfig();
-    INFO << "Creating vision input stream";
     //boost::asio::io_service mIOService;
-    mInputStream = new InputStream(mIOService,"224.5.23.2",10020);
+    mVisionInputStream = new VisionInputStream(mIOService,"224.5.23.2",10020);
+    mRefInputStream = new RefInputStream(mIOService,"224.5.23.1",10003);
 
     this->initOuput(mSimulationMode);
 
@@ -48,7 +47,7 @@ SoccerGame::~SoccerGame(){
     INFO << "Delete Game";
     delete mGame;
     delete mPlayEngine;
-    delete mInputStream;
+    delete mVisionInputStream;
 
     if(mOutputStream) delete mOutputStream;
 }
@@ -68,7 +67,9 @@ bool SoccerGame::createGame(GameFactory iFactory){
     BallId lBallId(0);
     Ball* lBall = iFactory.createBall(lBallId);
 
-    mGame = iFactory.createGame(lBall, lField);
+    Referee* lRef = iFactory.createRef();
+
+    mGame = iFactory.createGame(lBall, lField, lRef);
 
     for(int i = 0; i < mNbTeams; i++){
         TeamId lTeamId(i);
@@ -118,51 +119,15 @@ void SoccerGame::sendCommands(){
         std::map<PlayerId, Player*>::iterator it;
 
         for(it = lPlayers.begin();it != lPlayers.end();++it){
-            Pose lRep = it->second->getCommand();
-            mOutputStream->AddgrSimCommand(lRep,false,it->first.getValue());
+            CommandStruct lPlayerCommand = it->second->getCommand();
+            Pose lVelocityCommand = Pose::ZERO;
+            if(!lPlayerCommand.stopFlag){
+                lVelocityCommand = lPlayerCommand.velocity;
+            }
+            mOutputStream->AddgrSimCommand(lVelocityCommand,false,it->first.getValue());
         }
         mOutputStream->SendCommandDatagram();
     }
-}
-
-
-void SoccerGame::unwrapVisionPacket(SSL_WrapperPacket iPacket){
-    SSL_DetectionRobot lPacketRobotBlue;
-    SSL_DetectionRobot lPacketRobotYellow;
-    SSL_DetectionBall lPacketBall;
-    if(iPacket.detection().balls_size()){
-        lPacketBall = iPacket.detection().balls(0);
-        mGame->getBall()->setPose(Pose(lPacketBall.x(),lPacketBall.y(),0));
-    }
-
-    Team* lBlueTeam = mGame->getTeams().find(TeamId(0))->second;
-    Team* lYellowTeam = mGame->getTeams().find(TeamId(1))->second;
-
-    std::map<PlayerId, Pose> lBlueVectorMap;
-    std::map<PlayerId, Pose> lYellowVectorMap;
-
-    int lBlueSize = iPacket.detection().robots_blue_size();
-    int lYellowSize = iPacket.detection().robots_yellow_size();
-
-    for(int i = 0; i < lBlueSize; ++i){
-        lPacketRobotBlue = iPacket.detection().robots_blue(i);
-        int lRobotId = lPacketRobotBlue.robot_id();
-        lBlueVectorMap[PlayerId(lRobotId)]=Pose(lPacketRobotBlue.x(),
-                                             lPacketRobotBlue.y(),
-                                             lPacketRobotBlue.orientation());
-    }
-
-    for(int i = 0; i < lYellowSize; ++i){
-        lPacketRobotYellow = iPacket.detection().robots_yellow(i);
-        int lRobotId = lPacketRobotYellow.robot_id();
-        lYellowVectorMap[PlayerId(lRobotId)]=Pose(lPacketRobotYellow.x(),
-                                             lPacketRobotYellow.y(),
-                                             lPacketRobotYellow.orientation());
-    }
-
-    lBlueTeam->updatePlayersPositions(lBlueVectorMap);
-    lYellowTeam->updatePlayersPositions(lYellowVectorMap);
-
 }
 
 void SoccerGame::updateNavigator(){    //for Qt test
@@ -197,7 +162,7 @@ bool SoccerGame::loadConfig(){
     mVisionPort = 10020;
     mGrSimAddress = "127.0.0.1";
     mGrSimPort = 20011;
-    mSerialPort = "/dev/USB";
+    mSerialPort = "/dev/USB0";
     mSerialBaud = 115200;
 
     mSimulationMode = true;
@@ -217,24 +182,33 @@ void SoccerGame::update(){
      }
     clock_t lNow, lLastTime;
     lLastTime = clock();
-    //Update players/ball positions
-    this->unwrapVisionPacket(mInputStream->getVisionPacket());
+    INFO << "unwrap packets";
+    this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
+    INFO << "Update Playengine";
+    Play* lCurrentPlay = mPlayEngine->update();
+    lCurrentPlay->update(mGame->getTeams()[TeamId(0)]->getPlayers());
 
-    mPlayEngine->update(mGame->getTeams()[TeamId(0)]);
-
-
+    INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
+        // we need to find a way to execute players tactic from role
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
-        std::pair<Tactic *, ParameterStruct> lTactic = lPlayer->getTactic();
+        INFO << "Execute Role";
+        std::pair<Tactic *, ParameterStruct> lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
+        INFO << "execute Tactic";
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
+        INFO << "execute Skill machine";
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
+        lPlayer->setCommand(lCommand);
+        if(!lCommand.stopFlag){
+            INFO << "Update path";
+            // TODO add new Path definition
+            Planning::Path lPath = mPathfinder->findPath(lPlayer, lCommand.positionTarget);
+            lPlayer->refreshPath(lPath);
+            lPlayer->move();
+        }
 
-        // TODO add new Path definition
-        Planning::Path lPath = mPathfinder->findPath(lPlayer,lCommand.target);
-        lPlayer->refreshPath(lPath);
-        lPlayer->move();
         lNowPlayer = clock();
         INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }

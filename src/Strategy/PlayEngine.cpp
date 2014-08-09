@@ -6,8 +6,10 @@ PlayEngine::PlayEngine()
     : isGameEnded(false){
     INFO << "Create PlayEngine";
     mAvailablePlays.push_back(new Offense());
+    mAvailablePlays.push_back(new KickOff());
+    mAvailablePlays.push_back(new Idle());
     //Choose a default play when game is initialized (NOT yet started)
-    this->mCurrentPlay = mAvailablePlays[0];
+    this->mCurrentPlay = mAvailablePlays[1];
 }
 
 PlayEngine::~PlayEngine(){
@@ -19,31 +21,17 @@ bool PlayEngine::isDone()
     return this->isGameEnded;
 }
 
-void PlayEngine::update(Team* iTeam)
+Play *PlayEngine::update()
 {
-    //this->findNextPlay();
-    mCurrentPlay->update();
-    this->assignRoles(iTeam);
-}
-
-void PlayEngine::updateRoles(){
-    //look if the play is new
-
-}
-
-void PlayEngine::assignRoles(Team* iTeam){
-    //logic to get the best robot for each roles
-    int lRoleSize = mCurrentPlay->getRoleSize();
-    int lTeamSize = iTeam->getPlayers().size();  //goali have no role
-    if(lRoleSize < lTeamSize)
-        WARN << "Not enough roles";
-    else if(lRoleSize > lTeamSize)
-        WARN << "Too much roles";
-    for(int i = 0; i < lRoleSize; ++i){
-        mCurrentPlay->assignRoleToPlayers(iTeam->getPlayers());
+    if(GameEvaluator::gameSwitchToHalt()){
+        this->onGamePaused();
     }
-
+    if(GameEvaluator::gameSwitchToSomething()){
+        this->onGameStarted();
+    }
+    return mCurrentPlay;
 }
+
 
 void PlayEngine::findNextPlay()
 {
@@ -78,12 +66,16 @@ void PlayEngine::gameEnded()
 
 void PlayEngine::onGameStarted()
 {
-    //Choose a default play when game starts
+    INFO << "Game STARTED";
+    this->mCurrentPlay->reset();
+    this->mCurrentPlay = mAvailablePlays[1];
 }
 
 void PlayEngine::onGamePaused()
 {
-    //Choose a play when game is paused
+    INFO << "Game PAUSED";
+    this->mCurrentPlay->reset();
+    this->mCurrentPlay = mAvailablePlays[2];
 }
 
 void PlayEngine::onGameEnded()
