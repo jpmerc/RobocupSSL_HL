@@ -17,16 +17,20 @@ Player::Player(const PlayerId &iPlayerId,
 }
 
 void Player::move(){
-    Vector2d lPositionCommand = Vector2d::ZERO;
+    Vector2d lSpeedCommand = Vector2d::ZERO;
     Orientation lOrientationCommand = Orientation::ZERO;
+
     mNavigator->setActualPose(mPose);
     mNavigator->setGoalPose(mPoseGoalToReach);
-    lPositionCommand = mNavigator->calculateNewVector();
+    lSpeedCommand = mNavigator->calculateNewVector();
     if(!mNavigator->isAngleGoalReached()){
-        lOrientationCommand = mNavigator->calculateNewOrientation();
+        //lOrientationCommand = mNavigator->calculateNewOrientation();
+        lOrientationCommand = Orientation::ZERO;
     }
 
-    Pose lCommand(lPositionCommand,lOrientationCommand);
+    INFO << "Player " << this->getTeamId().getValue() << " " << this->getId().getValue();
+    INFO << "Command!!: " << lSpeedCommand.x << " " << lSpeedCommand.y;
+    Pose lCommand(lSpeedCommand,lOrientationCommand);
 
     if(lCommand == Pose::ZERO){
         this->updateGoal();

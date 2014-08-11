@@ -202,9 +202,12 @@ void SoccerGame::update(){
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
         lPlayer->setCommand(lCommand);
         if(!lCommand.stopFlag){
-            INFO << "Update path";
+            INFO << "Update path for "<< lPlayer->getTeamId().getValue() <<"-" << lPlayer->getId().getValue();
             // TODO add new Path definition
             Planning::Path lPath = mPathfinder->findPath(lPlayer, lCommand.positionTarget);
+            for(int i =0; i < lPath.points.size(); i++){
+                INFO << "["<<i<<"] "<< lPath.points[i].x << " " << lPath.points[i].y;
+            }
             lPlayer->refreshPath(lPath);
             lPlayer->move();
         }

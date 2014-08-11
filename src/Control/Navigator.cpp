@@ -1,6 +1,7 @@
 
 #include "Control/Navigator.h"
 
+#include "Logger/Logging.h"
 
 Navigator::Navigator(double iWaypointRadius, double iWaypointAngle):mActualPose(Pose::ZERO),mGoalPose(Pose::ZERO),
     mIsNewGoalReady(false),mWaypointRadius(iWaypointRadius),mWaypointAngle(iWaypointAngle){
@@ -27,13 +28,13 @@ bool Navigator::isAngleGoalReached(){
 }
 
 Vector2d Navigator::calculateNewVector(){
-
     Vector2d lVect = mGoalPose.Position - mActualPose.Position;
     double lSpeed = _calculateSpeed(mGoalPose.Speed,
                                     mActualPose.Speed,
                                     lVect.mag());
-
-    return  lVect / lVect.mag() * lSpeed;
+    INFO << "lVect: " << lVect.x << " " << lVect.y << " " << lSpeed;
+    lVect = lVect.normalized();
+    return  lVect * lSpeed;
 }
 
 Orientation Navigator::calculateNewOrientation(){
@@ -64,14 +65,21 @@ double Navigator::_angleBtwTwoAngles(double iangle1, double iangle2){
 
 double Navigator::_calculateSpeed(double iGoalTargetSpeed, double iCurrentSpeed, double distance){
     // If ditance is in the breaking range (0c3m)
-    if(distance <= 300){
-        double newTargetSpeed = distance/300 /(1 - iGoalTargetSpeed) + iGoalTargetSpeed;
+   /* if(distance <= 1000){
+        double newTargetSpeed = distance/100 /(1 - iGoalTargetSpeed) + iGoalTargetSpeed;
         if(newTargetSpeed < 0.001)
             newTargetSpeed = 0;
         return newTargetSpeed;
     }
     else // Maximun speed
+    */
+    if(distance > 300){
         return 1.0;
+    }
+    else{
+        return 0.0;
+    }
+
 }
 
 

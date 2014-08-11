@@ -173,7 +173,7 @@ Vector2d Vector2d::operator/(const Vector2d &other) const{
 }
 
 Vector2d Vector2d::operator/(const double &scalar) const{
-    if(scalar == 0.0f){
+    if(scalar == 0.0d){
         return *this;
     }
 
@@ -218,8 +218,10 @@ Vector2d &Vector2d::operator*=(const double &iScalar)
 
 Vector2d &Vector2d::operator/=(const double &iScalar)
 {
-	x /= iScalar;
-	y /= iScalar;
+	if(iScalar != 0.0d){
+		x /= iScalar;
+		y /= iScalar;
+	}
 
 	return *this;
 }

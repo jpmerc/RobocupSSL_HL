@@ -33,7 +33,6 @@ public:
 
     PlayerId getId() const;
     TeamId getTeamId() const;
-    std::string getUniqueId() const;
     Pose getPoseToReach() const;
     void setCommand(CommandStruct iCommand);
     void setSpeedCommand(Pose iCommand);
@@ -66,10 +65,6 @@ inline PlayerId Player::getId() const {
 
 inline TeamId Player::getTeamId() const{
     return mTeamId;
-}
-
-inline std::string Player::getUniqueId() const{
-    return std::string(std::to_string(mTeamId.getValue()) + std::to_string(mId.getValue()));
 }
 
 inline bool Player::operator==(const Player& other) const {

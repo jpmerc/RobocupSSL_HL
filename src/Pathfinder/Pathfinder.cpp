@@ -13,8 +13,7 @@ void Pathfinder::addObstacle(Geometry2d::Shape &iObstacle){
 }
 
 void Pathfinder::addPlayer(Player *iPlayer){
-    std::cout<<"Here we asses player with id: "<<iPlayer->getUniqueId() <<std::endl;
-    mPlayers[iPlayer->getUniqueId()] = iPlayer;
+    mPlayers.push_back(iPlayer);
 }
 
 
@@ -22,7 +21,7 @@ void Pathfinder::addPlayer(Player *iPlayer){
 Planning::Path Pathfinder::findPath(const Player *iPlayer, Pose iGoal){
 
     Planning::Path lPath;
-    Geometry2d::CompositeShape lCompositeShape = this->getCollisionShapeOfOtherPlayer(iPlayer->getUniqueId());
+    Geometry2d::CompositeShape lCompositeShape = this->getCollisionShapeOfOtherPlayer(iPlayer);
 
     Pose lStart = iPlayer->getPose();
     mPathGenerator.run(lStart.Position,
@@ -31,17 +30,18 @@ Planning::Path Pathfinder::findPath(const Player *iPlayer, Pose iGoal){
                        iGoal.Position,
                        &lCompositeShape,
                        lPath);
-
+    //Let's delete the starting point (we dont need it)
+    lPath.points.erase(lPath.points.begin());
     return lPath;
 }
 
 
-Geometry2d::CompositeShape Pathfinder::getCollisionShapeOfOtherPlayer(const std::string iPlayerId){
+Geometry2d::CompositeShape Pathfinder::getCollisionShapeOfOtherPlayer(const Player *iPlayerNotObstacle){
     Geometry2d::CompositeShape lCompositeShape;
-    for(std::map<std::string, Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it)
+    for(auto it = mPlayers.begin(); it != mPlayers.end(); ++it)
     {
-        if(it->first != iPlayerId){
-            Geometry2d::Circle* s = it->second->getShape();
+        if(*it != iPlayerNotObstacle){
+            Geometry2d::Circle* s = (*it)->getShape();
             lCompositeShape.add(s->getPointer());
         }
     }

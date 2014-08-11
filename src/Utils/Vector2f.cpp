@@ -214,8 +214,10 @@ Vector2f &Vector2f::operator*=(const float &iScalar)
 
 Vector2f &Vector2f::operator/=(const float &iScalar)
 {
-	x /= iScalar;
-	y /= iScalar;
+	if(iScalar != 0.0f){
+		x /= iScalar;
+		y /= iScalar;
+	}
 
 	return *this;
 }

@@ -11,7 +11,7 @@
 #include <queue>
 #include <vector>
 
-//typedef boost::ptr_map<std::string,Player> PlayerMap;
+
 class Pathfinder{
 public:
     Pathfinder();
@@ -23,11 +23,11 @@ public:
     virtual Planning::Path findPath(const Player *iPlayer, Pose iGoal);
 
 protected:
-    std::map<std::string, Player*> mPlayers;
+    std::vector<Player*> mPlayers;
     Geometry2d::CompositeShape mObstacles; // These are the obstacle that are not player for Debugging
 private:
     Geometry2d::Circle fromPlayerGetShape(const Player &iPlayer);
-    Geometry2d::CompositeShape getCollisionShapeOfOtherPlayer(const std::string iPlayerId);
+    Geometry2d::CompositeShape getCollisionShapeOfOtherPlayer(const Player *iPlayer);
 
     Planning::RRTPlanner mPathGenerator;
 };
