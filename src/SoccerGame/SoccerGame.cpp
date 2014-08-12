@@ -170,7 +170,6 @@ bool SoccerGame::loadConfig(){
 
 void SoccerGame::update(){
 
-    //Retrieve players/ball positions
     try{
          mIOService.run();
          mIOService.reset();
@@ -188,7 +187,6 @@ void SoccerGame::update(){
 
     INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
-        // we need to find a way to execute players tactic from role
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];

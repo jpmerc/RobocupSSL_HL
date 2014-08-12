@@ -9,7 +9,7 @@ class Move:public Skill{
 public:
     Move();
 
-    virtual CommandStruct update(ParameterStruct iParam);
+    virtual CommandStruct operator()(ParameterStruct iParam);
 
 private:
 

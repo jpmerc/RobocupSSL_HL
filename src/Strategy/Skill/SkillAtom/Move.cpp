@@ -4,7 +4,7 @@ Move::Move(){
 
 }
 
-CommandStruct Move::update(ParameterStruct iParam){
+CommandStruct Move::operator()(ParameterStruct iParam){
     CommandStruct command;
     command.positionTarget = iParam.positionTarget;
     return command;

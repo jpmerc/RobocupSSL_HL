@@ -1,15 +1,15 @@
 #include "Strategy/Skill/DriveToPosition.h"
 
 DriveToPosition::DriveToPosition(){
-    mActualSkill = new Move();
 }
 
 CommandStruct DriveToPosition::update(ParameterStruct iParam){
     if(iParam.isIdle){
-        mActualSkill = new Stop();
+        mCurrentSkill = new Stop();
     }
     else{
-        mActualSkill = new Move();
+        mCurrentSkill = new Move();
     }
-    return mActualSkill->update(iParam);
+
+    return (*mCurrentSkill)(iParam);
 }
