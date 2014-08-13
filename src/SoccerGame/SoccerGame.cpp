@@ -18,11 +18,11 @@ SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, Pathfinde
     mVisionInputStream = new VisionInputStream(mIOService,"224.5.23.2",10020);
     mRefInputStream = new RefInputStream(mIOService,"224.5.23.1",10003);
 
-    this->initOuput(mSimulationMode);
+    this->initOutput(mSimulationMode);
 
 }
 
-void SoccerGame::initOuput(bool iIsSimulation){
+void SoccerGame::initOutput(bool iIsSimulation){
     if(iIsSimulation){
         INFO << "Creating GrSim Output Stream";
         try{
@@ -91,6 +91,7 @@ bool SoccerGame::createGame(GameFactory iFactory){
 void SoccerGame::startGame(){
     INFO << "Starting Game";
     mRunning = true;
+    this->initGame();
 
     clock_t lNow, lLastTime;
 
@@ -105,6 +106,17 @@ void SoccerGame::startGame(){
             long lTimeout = clock() + (mDelay - lDiff);
             INFO << "Wait for " << mDelay - lDiff << "ms";
             while( clock() < lTimeout ) continue;
+        }
+    }
+}
+
+void SoccerGame::initGame(){
+    //get all player but Goalie into vector to pass to plays
+    std::map<PlayerId, Player*> iPlayers = mGame->getTeams()[mOurTeamId]->getPlayers();
+    for(auto it = iPlayers.begin(); it != iPlayers.end(); ++it){
+        if(it->first != mGoalieId){
+            INFO << "push Player:" << it->first.getValue();
+            mRolablePlayers.push_back(it->first);
         }
     }
 }
@@ -153,6 +165,8 @@ bool SoccerGame::loadConfig(){
     mFieldHeight = 5400;
     mFieldPlayableWidth = 6050;
     mFieldPlayableHeight = 4050;
+    mGoalieId = PlayerId(5);
+    mOurTeamId = TeamId(0);
 
     mDelay = 5;
 
@@ -183,15 +197,21 @@ void SoccerGame::update(){
     this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
     INFO << "Update Playengine";
     Play* lCurrentPlay = mPlayEngine->update();
-    lCurrentPlay->update(mGame->getTeams()[TeamId(0)]->getPlayers());
+    lCurrentPlay->update(mRolablePlayers,mOurTeamId);
 
     INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
-        Player * lPlayer = mGame->getTeams()[TeamId(0)]->getPlayers()[PlayerId(i)];
+        Player * lPlayer = mGame->getTeams()[mOurTeamId]->getPlayers()[PlayerId(i)];
         INFO << "Execute Role";
-        std::pair<Tactic *, ParameterStruct> lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
+        std::pair<Tactic *, ParameterStruct> lTactic;
+        if(i == mGoalieId.getValue()){
+            lTactic = lCurrentPlay->getGoalieTactic();
+        }
+        else{
+            lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
+        }
         INFO << "execute Tactic";
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         INFO << "execute Skill machine";

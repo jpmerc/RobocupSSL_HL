@@ -10,7 +10,8 @@
 
 class TeamId {
 public:
-    TeamId(int iId) : mValue(iId){}
+    //TODO default value non valid team
+    TeamId(int iId=0) : mValue(iId){}
 
     int getValue(void) const;
 

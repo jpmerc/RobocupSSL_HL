@@ -13,7 +13,7 @@ public:
     Role(std::vector<std::pair <Tactic*,ParameterStruct>> iTacticVector,int iRoleId);
     void resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector);
     std::pair<Tactic *, ParameterStruct> getCurrentTactic();
-    void assignTacticToPlayer(std::vector<PlayerId>& iPlayers);
+    void assignTacticToPlayer(std::vector<PlayerId>& iPlayers, TeamId iTeam);
     void incrementTactic();
     void setAssignation(bool iIsAssigned);
     bool isAssigned();
