@@ -8,12 +8,17 @@ https://github.com/mani-monaj/grSim
 ###Referee
 To download and compile refbox (robocup compatible referee input) go to this link:
 https://github.com/Hawk777/ssl-refbox
+#Running Referee:
+```sh
+$ ./sslrefbox -C single.conf
+```
+user manual : http://robocupssl.cpe.ku.ac.th/referee:start
 
 ##Compilation
 
 ###Dependencys
 ```sh
-$ sudo apt-get install mercurial cmake
+$ sudo apt-get install git cmake
 ```
 install protobuf:
 https://code.google.com/p/protobuf/downloads/list
