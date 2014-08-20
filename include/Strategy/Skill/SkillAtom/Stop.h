@@ -9,7 +9,7 @@ class Stop:public Skill{
 public:
     Stop();
 
-    virtual CommandStruct update(ParameterStruct iParam);
+    virtual CommandStruct operator()(ParameterStruct iParam);
 
 private:
 

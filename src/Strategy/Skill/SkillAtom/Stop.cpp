@@ -4,7 +4,7 @@ Stop::Stop(){
 
 }
 
-CommandStruct Stop::update(ParameterStruct iParam){
+CommandStruct Stop::operator()(ParameterStruct iParam){
     CommandStruct command;
     command.stopFlag = true;
     return command;

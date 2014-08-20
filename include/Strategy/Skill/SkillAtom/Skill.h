@@ -10,7 +10,7 @@ class Skill
 public:
     Skill(){}
 
-    virtual CommandStruct update(ParameterStruct iParam) = 0;
+    virtual CommandStruct operator()(ParameterStruct iParam) = 0;
 
 private:
 
