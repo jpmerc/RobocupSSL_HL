@@ -13,6 +13,18 @@ double GameEvaluator::getDistanceBetweenPlayers(PlayerId iPlayer1, TeamId iTeam1
 
 }
 
+double GameEvaluator::getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId iTeam, Vector2d iCoord){
+    Pose playerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
+    return playerPosition.Position.distanceFromCoordinate(iCoord);
+}
+
+Line GameEvaluator::getLineBetweenBallAndCoord(Vector2d iCoord){
+    Vector2d BallPosition = mGame->getBall()->getPosition();
+    return Line(iCoord,BallPosition);
+}
+
+
+
 PlayerId GameEvaluator::getClosestPlayer(std::vector<PlayerId>& iPlayers, TeamId iTeam, Vector2d iCoord){
     double higherDistance = INFINITY;
     PlayerId lReturnPlayer = 0;
@@ -30,11 +42,6 @@ PlayerId GameEvaluator::getClosestPlayer(std::vector<PlayerId>& iPlayers, TeamId
     iPlayers.erase(iPlayers.begin()+lReturnPosition);
 
     return lReturnPlayer;
-}
-
-double GameEvaluator::getDistanceBetweenPlayerAndCoord(PlayerId iPlayer, TeamId iTeam, Vector2d iCoord){
-    Pose playerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
-    return playerPosition.Position.distanceFromCoordinate(iCoord);
 }
 
 bool GameEvaluator::gameSwitchToHalt(){

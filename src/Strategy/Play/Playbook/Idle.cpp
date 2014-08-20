@@ -24,6 +24,12 @@ void Idle::createRoles(){
         lTacticVector.push_back(lTactic);
         mAvailableRoles.push_back(new Role(lTacticVector,i));
     }
+    std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;  //change goalies tactic
+    ParameterStruct lParam;
+    lParam.isIdle = true;
+    std::pair<Tactic *, ParameterStruct> lTactic(new Position(), lParam);
+    lTacticVector.push_back(lTactic);
+    mGoalieRole->resetTactics(lTacticVector);
 }
 
 bool Idle::isDone(){

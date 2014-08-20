@@ -5,6 +5,7 @@
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/Skill/DriveToTarget.h"
 #include "Strategy/Skill/DriveToPosition.h"
+#include "Strategy/Skill/DefendGoal.h"
 #include "Strategy/GameEvaluator.h"
 
 class Goalie: public Tactic{

@@ -2,7 +2,7 @@
 
 Goalie::Goalie(){
     INFO << "Create Position Tactic";
-    mActualSSM = new DriveToPosition();
+    mActualSSM = new DefendGoal();
 }
 
 std::pair<SkillStateMachine*,ParameterStruct> Goalie::update(ParameterStruct iParam){

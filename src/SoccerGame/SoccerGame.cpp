@@ -138,6 +138,9 @@ void SoccerGame::sendCommands(){
         }
         mOutputStream->SendCommandDatagram();
     }
+    else{
+        ERROR << "No Output Stream!";
+    }
 }
 
 void SoccerGame::updateNavigator(){    //for Qt test
