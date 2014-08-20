@@ -99,7 +99,7 @@ void RRTPlanner::run(
 
 	_fixedStepTree0.init(start, obstacles);
 	_fixedStepTree1.init(_bestGoal, obstacles);
-	_fixedStepTree0.step = _fixedStepTree1.step = .15f;
+	_fixedStepTree0.step = _fixedStepTree1.step = 150;//.15f
 
 	/// run global position best path search
 	Tree* ta = &_fixedStepTree0;
@@ -132,6 +132,7 @@ void RRTPlanner::run(
 
 	if (_bestPath.points.empty())
 	{
+		std::cout << "Fail To generate a path..."<< std::endl;
 		// FIXME: without these two lines, an empty path is returned which causes errors down the line.
 		path.points.push_back(start);
 		_bestPath = path;

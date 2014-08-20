@@ -76,6 +76,8 @@ private:
 
     int mDelay;
 
+    int frequencyOfPath;
+
     //IO
     VisionInputStream *mVisionInputStream;
     RefInputStream *mRefInputStream;

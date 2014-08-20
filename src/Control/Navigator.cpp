@@ -32,7 +32,6 @@ Vector2d Navigator::calculateNewVector(){
     double lSpeed = _calculateSpeed(mGoalPose.Speed,
                                     mActualPose.Speed,
                                     lVect.mag());
-    INFO << "lVect: " << lVect.x << " " << lVect.y << " " << lSpeed;
     lVect = lVect.normalized();
     return  lVect * lSpeed;
 }
@@ -73,7 +72,7 @@ double Navigator::_calculateSpeed(double iGoalTargetSpeed, double iCurrentSpeed,
     }
     else // Maximun speed
     */
-    if(distance > 300){
+    if(distance > 100){
         return 1.0;
     }
     else{

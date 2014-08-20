@@ -28,8 +28,6 @@ protected:
 private:
     Geometry2d::Circle fromPlayerGetShape(const Player &iPlayer);
     Geometry2d::CompositeShape getCollisionShapeOfOtherPlayer(const Player *iPlayer);
-
-    Planning::RRTPlanner mPathGenerator;
 };
 
 #endif

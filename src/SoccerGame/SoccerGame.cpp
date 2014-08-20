@@ -11,7 +11,8 @@ SoccerGame::SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator, Pathfinde
     mNbTeams(iTeam),
     mNbPlayersPerTeam(iPlayer),
     mNavigator(iNavigator),
-    mPathfinder(iPathfinder){
+    mPathfinder(iPathfinder),
+    frequencyOfPath(0){
 
     this->loadConfig();
     //boost::asio::io_service mIOService;
@@ -202,19 +203,27 @@ void SoccerGame::update(){
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
         lPlayer->setCommand(lCommand);
         if(!lCommand.stopFlag){
-            INFO << "Update path for "<< lPlayer->getTeamId().getValue() <<"-" << lPlayer->getId().getValue();
             // TODO add new Path definition
-            Planning::Path lPath = mPathfinder->findPath(lPlayer, lCommand.positionTarget);
-            for(int i =0; i < lPath.points.size(); i++){
-                INFO << "["<<i<<"] "<< lPath.points[i].x << " " << lPath.points[i].y;
+            if(this->frequencyOfPath == 0){
+                Planning::Path lPath = mPathfinder->findPath(lPlayer, lCommand.positionTarget);
+                //for(int i =0; i < lPath.points.size(); i++){
+                //    WARN << "["<<i<<"]  ("<< lPath.points[i].x << ", " << lPath.points[i].y<<")";
+                //}
+                //TODO erase this part or implement it in the pathfinder algorithm
+                lPath.points.erase(lPath.points.begin());
+                lPlayer->refreshPath(lPath);
             }
-            lPlayer->refreshPath(lPath);
             lPlayer->move();
         }
 
         lNowPlayer = clock();
         INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }
+
+    if(this->frequencyOfPath == 10)
+        this->frequencyOfPath = 0;
+    else
+        this->frequencyOfPath++;
 
     this->sendCommands();
     mRunning = !mPlayEngine->isDone();

@@ -127,7 +127,7 @@ float Vector2f::angleTo(const Vector2f& other) const
 */
 bool Vector2f::nearPoint(const Vector2f &other, float threshold) const
 {
-    return (*this - other).mag() <= (threshold * threshold);
+	return (*this - other).magSquared() <= (threshold * threshold);
 }
 
 void Vector2f::clamp(float max)

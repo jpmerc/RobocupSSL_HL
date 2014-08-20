@@ -16,22 +16,22 @@ void Pathfinder::addPlayer(Player *iPlayer){
     mPlayers.push_back(iPlayer);
 }
 
-
-
 Planning::Path Pathfinder::findPath(const Player *iPlayer, Pose iGoal){
 
-    Planning::Path lPath;
     Geometry2d::CompositeShape lCompositeShape = this->getCollisionShapeOfOtherPlayer(iPlayer);
 
     Pose lStart = iPlayer->getPose();
-    mPathGenerator.run(lStart.Position,
+
+    Planning::Path lPath;
+    Planning::RRTPlanner lPatGenerator;
+    lPatGenerator.run(lStart.Position,
                        lStart.Angle.getPolar(),
                        Vector2f::ZERO,
                        iGoal.Position,
                        &lCompositeShape,
                        lPath);
     //Let's delete the starting point (we dont need it)
-    lPath.points.erase(lPath.points.begin());
+    //lPath.points.erase(lPath.points.begin());
     return lPath;
 }
 

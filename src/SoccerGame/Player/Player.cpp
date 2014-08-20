@@ -28,8 +28,6 @@ void Player::move(){
         lOrientationCommand = Orientation::ZERO;
     }
 
-    INFO << "Player " << this->getTeamId().getValue() << " " << this->getId().getValue();
-    INFO << "Command!!: " << lSpeedCommand.x << " " << lSpeedCommand.y;
     Pose lCommand(lSpeedCommand,lOrientationCommand);
 
     if(lCommand == Pose::ZERO){

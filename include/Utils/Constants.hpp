@@ -44,7 +44,7 @@ const float Field_GoalFlat = 350;
 const float Floor_Length = Field_Length + 2.0 * Field_Border;
 const float Floor_Width = Field_Width + 2.0 * Field_Border;
 
-const float Robot_Diameter = 180;
+const float Robot_Diameter = 200;//NOT THE REAL ONE - TODO USE THE REAL RADIUS 50
 const float Robot_Radius = Robot_Diameter/2.0f;
 const float Robot_Height = 150;
 const float Robot_MouthWidth = 100;
