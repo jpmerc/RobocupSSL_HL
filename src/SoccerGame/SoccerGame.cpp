@@ -215,7 +215,7 @@ void SoccerGame::update(){
         else{
             lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
         }
-        INFO << "execute Tactic";
+        INFO << "execute Tactic :" << lTactic.second.playerId.getValue();
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         INFO << "execute Skill machine";
         CommandStruct lCommand = lSkill.first->update(lSkill.second);

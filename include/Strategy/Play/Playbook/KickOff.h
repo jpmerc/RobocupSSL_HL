@@ -18,7 +18,6 @@ public:
     KickOff();
     virtual ~KickOff(){}
 
-    virtual bool isDone();
     virtual void update(std::vector<PlayerId> iPlayers, TeamId iTeam);
 
 protected:

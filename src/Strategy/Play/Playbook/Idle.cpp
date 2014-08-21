@@ -32,7 +32,4 @@ void Idle::createRoles(){
     mGoalieRole->resetTactics(lTacticVector);
 }
 
-bool Idle::isDone(){
-
-}
 

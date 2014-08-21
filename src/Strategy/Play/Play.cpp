@@ -1,7 +1,7 @@
 #include "Strategy/Play/Play.h"
 
 
-Play::Play(){
+Play::Play():playIsDone(false){
     std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;
     std::pair<Tactic *, ParameterStruct> lTactic(new Goalie(), ParameterStruct());
     lTacticVector.push_back(lTactic);
@@ -15,6 +15,7 @@ void Play::reset(){
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
         (*it)->setAssignation(false);
     }
+    playIsDone = false;
 }
 
 Role* Play::getRole(int iId){

@@ -20,19 +20,19 @@ void Offense::createRoles(){
     mPositions.push_back(Pose(-1800,-800,0));
     mPositions.push_back(Pose(-800,0,0));
     mPositions.push_back(Pose(-100,1000,0));
-    mPositions.push_back(Pose(-100,-1000,0));
 
-    for(int i = 0; i < 5;++i){
+    for(int i = 0; i < 4;++i){
         std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;
         std::pair<Tactic *, ParameterStruct> lTactic(new Position(), ParameterStruct(mPositions[i]));
         lTacticVector.push_back(lTactic);
         mAvailableRoles.push_back(new Role(lTacticVector,i));
     }
+    std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;
+    std::pair<Tactic *, ParameterStruct> lTactic(new DribbleToPosition(), ParameterStruct());
+    lTacticVector.push_back(lTactic);
+    mAvailableRoles.push_back(new Role(lTacticVector,4));
 }
 
 
-bool Offense::isDone(){
-
-}
 
 

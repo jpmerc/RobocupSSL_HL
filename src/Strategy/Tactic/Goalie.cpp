@@ -1,7 +1,7 @@
 #include "Strategy/Tactic/Goalie.h"
 
 Goalie::Goalie(){
-    INFO << "Create Position Tactic";
+    INFO << "Create Goalie Tactic";
     mActualSSM = new DefendGoal();
 }
 

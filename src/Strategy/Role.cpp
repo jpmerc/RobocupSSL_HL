@@ -12,10 +12,11 @@ void Role::resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> >  iTac
 }
 
 void Role::assignTacticToPlayer(std::vector<PlayerId>& iPlayers,TeamId iTeam){
-    ParameterStruct lParam = mTactics[mCurrentTactic].second;
-    mCurrentPlayer = mTactics[mCurrentTactic].first->getBestPlayer(iTeam,iPlayers,lParam);
-    lParam.playerId = mCurrentPlayer;
-    lParam.teamId = iTeam;
+    ParameterStruct* lParam = &mTactics[mCurrentTactic].second;
+    mCurrentPlayer = mTactics[mCurrentTactic].first->getBestPlayer(iTeam,iPlayers,*lParam);
+
+    lParam->playerId = mCurrentPlayer;
+    lParam->teamId = iTeam;
     INFO << "Player :" << mCurrentPlayer.getValue() << "Get Role " << mRoleId;
     mIsAssigned = true;
 }

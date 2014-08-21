@@ -32,6 +32,4 @@ void KickOff::createRoles(){
 }
 
 
-bool KickOff::isDone(){
 
-}

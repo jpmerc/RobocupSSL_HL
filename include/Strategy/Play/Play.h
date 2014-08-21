@@ -22,12 +22,13 @@ public:
     Play();
     virtual ~Play(){}
 
-    virtual bool isDone() = 0;
     virtual void update(std::vector<PlayerId> iPlayers, TeamId iTeam) = 0;
     virtual void reset();
     virtual int getRoleSize();
     virtual std::pair<Tactic *, ParameterStruct> getPlayerTactic(PlayerId iPlayer);
     std::pair<Tactic*,ParameterStruct> getGoalieTactic();
+    void forceDone();
+    bool isDone();
 protected:
 
     virtual void requestPlay() = 0;
@@ -38,10 +39,17 @@ protected:
 
     std::vector<Role*> mAvailableRoles;
     Role* mGoalieRole;
+    bool playIsDone;
 };
 
 inline int Play::getRoleSize(){
     return mAvailableRoles.size();
+}
+inline void Play::forceDone(){
+    playIsDone = true;
+}
+inline bool Play::isDone(){
+    return playIsDone;
 }
 
 #endif // PLAY_H

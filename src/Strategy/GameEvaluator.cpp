@@ -44,26 +44,25 @@ PlayerId GameEvaluator::getClosestPlayer(std::vector<PlayerId>& iPlayers, TeamId
     return lReturnPlayer;
 }
 
-bool GameEvaluator::gameSwitchToHalt(){
+int GameEvaluator::getCurrentRefCommand(){
+    return mGame->getRef()->getCommand();
+}
+
+bool GameEvaluator::refSwitchCommand(){
     if(mGame->getRef()->commandAsChanged()){
-        if(mGame->getRef()->getCommand() == SSL_Referee::HALT){
-            mGame->getRef()->setCommandChanged(false);
-            return true;
-        }
+        mGame->getRef()->setCommandChanged(false);
+        return true;
     }
     else{
         return false;
     }
 }
 
-bool GameEvaluator::gameSwitchToSomething(){
-    if(mGame->getRef()->commandAsChanged()){
-        if(mGame->getRef()->getCommand() != SSL_Referee::HALT){
-            mGame->getRef()->setCommandChanged(false);
-            return true;
-        }
-    }
-    else{
-        return false;
-    }
+double GameEvaluator::getAngleBetweenPlayerAndBall(PlayerId iPlayer, TeamId iTeam){
+    Vector2d lBallPosition = mGame->getBall()->getPose().Position;
+    Vector2d lPlayerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose().Position;
+    INFO << "Player Pose = x:" << lPlayerPosition.x << " y:" << lPlayerPosition.y;
+    INFO << "Y =" << lBallPosition.y-lPlayerPosition.y;
+    INFO << "X =" << lBallPosition.x-lPlayerPosition.x;
+    return atan2((lBallPosition.y-lPlayerPosition.y),(lBallPosition.x-lPlayerPosition.x));
 }
