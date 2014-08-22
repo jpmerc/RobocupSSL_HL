@@ -18,8 +18,7 @@ public:
     Idle();
     virtual ~Idle(){}
 
-    virtual bool isDone();
-    virtual void update(std::map<PlayerId, Player*> iPlayers);
+    virtual void update(std::vector<PlayerId> iPlayers, TeamId iTeam);
 
 protected:
 

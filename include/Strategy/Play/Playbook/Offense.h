@@ -6,6 +6,7 @@
 #include "Strategy/Tactic/TacticFinder.h"
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/Tactic/Position.h"
+#include "Strategy/Tactic/DribbleToPosition.h"
 #include "Strategy/ScoreGameSituation.h"
 #include "Strategy/Play/Play.h"
 #include "Strategy/ParameterStruct.h"
@@ -18,8 +19,7 @@ public:
     Offense();
     virtual ~Offense(){}
 
-    virtual bool isDone();
-    virtual void update(std::map<PlayerId, Player*> iPlayers);
+    virtual void update(std::vector<PlayerId> iPlayers, TeamId iTeam);
 
 protected:
 

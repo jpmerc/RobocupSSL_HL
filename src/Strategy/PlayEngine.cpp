@@ -23,13 +23,32 @@ bool PlayEngine::isDone()
 
 Play *PlayEngine::update()
 {
-    if(GameEvaluator::gameSwitchToHalt()){
-        this->onGamePaused();
-    }
-    if(GameEvaluator::gameSwitchToSomething()){
-        this->onGameStarted();
-    }
+    this->checkRef();
     return mCurrentPlay;
+}
+
+void PlayEngine::checkRef(){
+
+    if(GameEvaluator::refSwitchCommand()){
+        switch(GameEvaluator::getCurrentRefCommand()){
+        case SSL_Referee::HALT:
+            this->onGamePaused();
+            break;
+        case SSL_Referee::PREPARE_KICKOFF_BLUE:
+            mCurrentPlay->forceDone();
+            mCurrentPlay = mAvailablePlays[1]; //TODO  call find NextPlay or set special state
+            mCurrentPlay->reset();
+            break;
+        case SSL_Referee::NORMAL_START:
+            mCurrentPlay->forceDone();
+            mCurrentPlay = mAvailablePlays[0]; //TODO  call find NextPlay or set special state
+            mCurrentPlay->reset();
+            break;
+        default:
+            this->onGamePaused();
+        }
+    }
+
 }
 
 
@@ -67,15 +86,14 @@ void PlayEngine::gameEnded()
 void PlayEngine::onGameStarted()
 {
     INFO << "Game STARTED";
-    this->mCurrentPlay->reset();
-    this->mCurrentPlay = mAvailablePlays[1];
+    this->findNextPlay();
 }
 
 void PlayEngine::onGamePaused()
 {
     INFO << "Game PAUSED";
-    this->mCurrentPlay->reset();
     this->mCurrentPlay = mAvailablePlays[2];
+    this->mCurrentPlay->reset();
 }
 
 void PlayEngine::onGameEnded()

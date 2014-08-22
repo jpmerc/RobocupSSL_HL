@@ -1,16 +1,17 @@
-#ifndef GOALIE_H
-#define GOALIE_H
+#ifndef DRIBBLETOPOSITION_H
+#define DRIBBLETOPOSITION_H
 
 #include "Logger/Logging.h"
 #include "Strategy/Tactic/Tactic.h"
 #include "Strategy/Skill/DriveToTarget.h"
 #include "Strategy/Skill/DriveToPosition.h"
 #include "Strategy/Skill/DefendGoal.h"
+#include "Strategy/Skill/DriveToBall.h"
 #include "Strategy/GameEvaluator.h"
 
-class Goalie: public Tactic{
+class DribbleToPosition: public Tactic{
 public:
-    Goalie();
+    DribbleToPosition();
 
     virtual std::pair<SkillStateMachine *, ParameterStruct> update(ParameterStruct iParam);
 
@@ -19,4 +20,4 @@ public:
     virtual bool isDone();
 };
 
-#endif // GOALIE_H
+#endif // DRIBBLETOPOSITION_H

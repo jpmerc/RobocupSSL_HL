@@ -31,7 +31,7 @@ public:
     SoccerGame(PlayEngine *iPlayEngine, Navigator *iNavigator,Pathfinder *iPathfinder, int iTeam = 2, int iPlayer = 6);
     virtual ~SoccerGame();
 
-    void initOuput(bool iIsSimulation);
+    void initOutput(bool iIsSimulation);
 
     virtual bool createSoccerGame(GameFactory iGameFactory);
     virtual bool createGame(GameFactory iFactory);
@@ -51,6 +51,7 @@ public:
 
 private:
     virtual bool loadConfig();
+    void initGame();
     virtual void update();
 
 
@@ -71,6 +72,9 @@ private:
     double mFieldHeight;
     double mFieldPlayableWidth;
     double mFieldPlayableHeight;
+    PlayerId mGoalieId;
+    TeamId mOurTeamId;
+    std::vector<PlayerId> mRolablePlayers;
 
     bool mSimulationMode;
 

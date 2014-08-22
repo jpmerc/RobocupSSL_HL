@@ -12,8 +12,9 @@ class Role{
 public:
     Role(std::vector<std::pair <Tactic*,ParameterStruct>> iTacticVector,int iRoleId);
     void resetTactics(std::vector<std::pair<Tactic *, ParameterStruct> > iTacticVector);
+    void setParameterToCurrentTactic(ParameterStruct iParam);
     std::pair<Tactic *, ParameterStruct> getCurrentTactic();
-    void assignTacticToPlayer(std::vector<PlayerId>& iPlayers);
+    void assignTacticToPlayer(std::vector<PlayerId>& iPlayers, TeamId iTeam);
     void incrementTactic();
     void setAssignation(bool iIsAssigned);
     bool isAssigned();
@@ -27,6 +28,10 @@ private:
     int mCurrentTactic; //iterator TODO
     std::vector<std::pair<Tactic *, ParameterStruct> > mTactics;
 };
+
+inline void Role::setParameterToCurrentTactic(ParameterStruct iParam){
+    mTactics[mCurrentTactic].second = iParam;
+}
 
 inline std::pair<Tactic *, ParameterStruct>  Role::getCurrentTactic(){
     return mTactics[mCurrentTactic];

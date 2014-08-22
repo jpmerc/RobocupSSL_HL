@@ -1,11 +1,21 @@
 #include "Strategy/Play/Play.h"
 
 
+Play::Play():playIsDone(false){
+    std::vector<std::pair<Tactic *, ParameterStruct>> lTacticVector;
+    std::pair<Tactic *, ParameterStruct> lTactic(new Goalie(), ParameterStruct());
+    lTacticVector.push_back(lTactic);
+    mGoalieRole = new Role(lTacticVector,5);
+    std::vector<PlayerId> goal;
+    goal.push_back(PlayerId(5));
+    mGoalieRole->assignTacticToPlayer(goal,TeamId(0));
+}
 
 void Play::reset(){
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
         (*it)->setAssignation(false);
     }
+    playIsDone = false;
 }
 
 Role* Play::getRole(int iId){
@@ -30,17 +40,16 @@ std::pair<Tactic*,ParameterStruct> Play::getPlayerTactic(PlayerId iPlayer){
     throw RoleNotFoundException(ss.str());
 }
 
-void Play::assignRoleToPlayers(std::map<PlayerId, Player*> iPlayers){
+std::pair<Tactic*,ParameterStruct> Play::getGoalieTactic(){
+    return mGoalieRole->getCurrentTactic();
+}
 
-    //should create the player's list and pass it to the role, he will ask the tactic wich player
-    std::vector<PlayerId> lPlayers;
-    for(auto it = iPlayers.begin(); it != iPlayers.end(); ++it){
-        lPlayers.push_back(it->first);
-    }
+void Play::assignRoleToPlayers(std::vector<PlayerId> iPlayers,TeamId iTeam){
+
     for (auto it=mAvailableRoles.begin(); it!=mAvailableRoles.end(); ++it){
 
         if(!(*it)->isAssigned()){
-            (*it)->assignTacticToPlayer(lPlayers);
+            (*it)->assignTacticToPlayer(iPlayers,iTeam);
         }
     }
 

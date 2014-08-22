@@ -33,6 +33,7 @@ private:
 
     void findNextPlay();
     void switchPlays(Play *newPlay);
+    void checkRef();
 
     void onGameStarted();
     void onGamePaused();
