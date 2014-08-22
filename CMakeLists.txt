@@ -26,13 +26,13 @@ if (MINGW)
 endif ()
 
 set(Boost_ADDITIONAL_VERSIONS "1.55" "1.53" "1.46")
-set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/ext/boost)
-set(Boost_INCLUDE_DIR ${BOOST_ROOT}/include)
-set(Boost_LIBRARY_DIRS ${BOOST_ROOT}/lib)
+#set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/ext/boost)
+#set(Boost_INCLUDE_DIR ${BOOST_ROOT}/include)
+#set(Boost_LIBRARY_DIRS ${BOOST_ROOT}/lib)
 
 
 
-set(Boost_LIBRARIES ${BOOST_ROOT}/lib/libboost_filesystem.a ${BOOST_ROOT}/lib/libboost_system.a ${BOOST_ROOT}/lib/libboost_program_options.a ${BOOST_ROOT}/lib/libboost_thread.a)
+#set(Boost_LIBRARIES ${BOOST_ROOT}/lib/libboost_filesystem.a ${BOOST_ROOT}/lib/libboost_system.a ${BOOST_ROOT}/lib/libboost_program_options.a ${BOOST_ROOT}/lib/libboost_thread.a)
 
 
 
