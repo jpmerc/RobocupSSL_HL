@@ -16,7 +16,7 @@ user manual : http://robocupssl.cpe.ku.ac.th/referee:start
 
 ##Compilation
 
-###Dependencys
+###Dependencies
 ```sh
 $ sudo apt-get install git cmake
 ```
