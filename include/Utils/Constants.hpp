@@ -3,7 +3,7 @@
 
 #include <string> // for size_t
 
-/// all distances in meters
+/// all distances in mm
 /// all times in seconds
 /// all weights in kilograms
 

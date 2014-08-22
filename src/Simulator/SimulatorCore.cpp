@@ -24,9 +24,9 @@ SimulatorCore::SimulatorCore(int iNbPlayer):mNbPlayerPerTeam(iNbPlayer){
 void SimulatorCore::sendCommandToGrSim(){
     for(int i = 0; i < mNbPlayerPerTeam; ++i){
         RobotModel* lRobotBlue = mBlueTeam->GetRobot(i);
-        mCommandOutput->AddgrSimCommand(lRobotBlue->getCommand(),
-                                        BLUE,
-                                        lRobotBlue->getId());
+        //mCommandOutput->AddgrSimCommand(lRobotBlue->getCommand(),
+                                       // BLUE,
+                                       // lRobotBlue->getId());
     }
     mCommandOutput->SendCommandDatagram();
 }

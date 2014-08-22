@@ -25,7 +25,7 @@ Planning::Path Pathfinder::findPath(const Player *iPlayer, Pose iGoal){
     Planning::Path lPath;
     Planning::RRTPlanner lPatGenerator;
     lPatGenerator.run(lStart.Position,
-                       lStart.Angle.getPolar(),
+                       iGoal.Angle.getPolar(),
                        Vector2f::ZERO,
                        iGoal.Position,
                        &lCompositeShape,

@@ -7,6 +7,9 @@ DribbleToPosition::DribbleToPosition(){
 
 std::pair<SkillStateMachine*,ParameterStruct> DribbleToPosition::update(ParameterStruct iParam){
     std::pair<SkillStateMachine*,ParameterStruct> skillSet(mActualSSM,iParam);
+    if(GameEvaluator::playerAsBall(iParam.playerId,iParam.teamId,AIConst::BallAngleTresh,AIConst::BallDistanceTresh)){
+        INFO << "WOOOT player as ball!";
+    }
     return skillSet;
 }
 

@@ -8,6 +8,7 @@
 #include "Strategy/Skill/DefendGoal.h"
 #include "Strategy/Skill/DriveToBall.h"
 #include "Strategy/GameEvaluator.h"
+#include "Strategy/AIConstants.hpp"
 
 class DribbleToPosition: public Tactic{
 public:

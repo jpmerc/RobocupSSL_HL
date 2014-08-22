@@ -27,15 +27,18 @@ RRTPlanner::RRTPlanner()
 }
 
 void RRTPlanner::run(
-		const  Vector2f &start,
-		const float angle, 
-		const  Vector2f &vel,
-		const  Vector2f &goal,
-		const Geometry2d::CompositeShape *obstacles,
-		Planning::Path &path)
+        const  Vector2f &start,
+        const double angle,
+        const  Vector2f &vel,
+        const  Vector2f &goal,
+        const Geometry2d::CompositeShape *obstacles,
+        Planning::Path &path)
 {
 	//clear any old path
-	path.clear();
+    path.clear();
+
+    //set final angle
+    path.mAngle = angle;
 
 	_obstacles = obstacles;
 
@@ -144,7 +147,7 @@ void RRTPlanner::run(
 
 void RRTPlanner::makePath()
 {
-	Tree::Point* p0 = _fixedStepTree0.last();
+    Tree::Point* p0 = _fixedStepTree0.last();
 	Tree::Point* p1 = _fixedStepTree1.last();
 
 	//sanity check

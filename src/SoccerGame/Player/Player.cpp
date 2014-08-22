@@ -23,7 +23,8 @@ void Player::move(){
     mNavigator->setActualPose(mPose);
     mNavigator->setGoalPose(mPoseGoalToReach);
     lSpeedCommand = mNavigator->calculateNewVector();
-    if(!mNavigator->isAngleGoalReached()){
+    lOrientationCommand = mNavigator->calculateNewOrientation();
+    if(mNavigator->isAngleGoalReached()){
         //lOrientationCommand = mNavigator->calculateNewOrientation();
         lOrientationCommand = Orientation::ZERO;
     }
@@ -62,7 +63,7 @@ void Player::refreshPath(Planning::Path &iNewPath){
         // Switch everything to Vector2f
         Vector2f e = iNewPath.points.at(i);
         Vector2d d(e.x, e.y);
-        Pose p(d, 0, 1);
+        Pose p(d, iNewPath.mAngle, 1);
         this->mPath.push(p);
     }
     this->updateGoal();

@@ -76,6 +76,7 @@ inline Pose Player::getPoseToReach()const{
 }
 
 inline void Player::setCommand(CommandStruct iCommand){
+    iCommand.playerId = mId;
     mActualCommand = iCommand;
 }
 

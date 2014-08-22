@@ -16,6 +16,7 @@
 #include <sstream>
 #include "Utils/Pose.h"
 #include "Logger/Logging.h"
+#include "Strategy/CommandStruct.h"
 
 class OutputStream{
 public:
@@ -23,7 +24,7 @@ public:
     virtual void SetConnection(std::string idata) = 0;
     virtual void SetData(int idata) = 0;
 
-    virtual void AddgrSimCommand(Pose iCommand,bool iTeam,int iRobotId) = 0;
+    virtual void AddgrSimCommand(CommandStruct& iCommand,bool iTeam) = 0;
     virtual void SendCommandDatagram() = 0;
 
 private:

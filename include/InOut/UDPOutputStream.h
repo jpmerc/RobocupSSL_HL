@@ -47,7 +47,7 @@ public:
 
     virtual void SetConnection(std::string iAdress);
     virtual void SetData(int iPort);
-    virtual void AddgrSimCommand(Pose iPose,bool iTeam,int iRobotId);
+    virtual void AddgrSimCommand(CommandStruct &iCommand, bool iTeam);
     virtual void SendCommandDatagram();
 
     void SendUDPVisionDatagram(SSL_WrapperPacket iPacket);

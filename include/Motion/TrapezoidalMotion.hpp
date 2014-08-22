@@ -20,4 +20,4 @@ bool TrapezoidalMotion(
 	float startSpeed,
 	float finalSpeed,
 	float &posOut,
-	float &speedOut);
+    float &speedOut){}

@@ -1,26 +1,35 @@
 
 #include "Utils/ProtoBuffWrapper.h"
+#include "Logger/Logging.h"
 
-void addCommandToGrSimPacket(grSim_Packet * iPacket, int iId, Pose iPose,
+void addCommandToGrSimPacket(grSim_Packet * iPacket,CommandStruct& iCommand,
                              bool iIsTeamYellow){
 
     iPacket->mutable_commands()->set_isteamyellow(iIsTeamYellow);
     iPacket->mutable_commands()->set_timestamp(0.0);
     grSim_Robot_Command* lCommand = iPacket->mutable_commands()->add_robot_commands();
 
-    lCommand->set_id(iId);
+    lCommand->set_id(iCommand.playerId.getValue());
     lCommand->set_wheelsspeed(false); //because we use the robot vel command
     lCommand->set_wheel1(0);
     lCommand->set_wheel2(0);
     lCommand->set_wheel3(0);
     lCommand->set_wheel4(0);
-    lCommand->set_veltangent(iPose.Position.x);
-    lCommand->set_velnormal(iPose.Position.y);
-    lCommand->set_velangular(iPose.Angle.getPolar());
+    lCommand->set_veltangent(iCommand.velocity.Position.x);
+    lCommand->set_velnormal(iCommand.velocity.Position.y);
+    lCommand->set_velangular(iCommand.velocity.Angle.getPolar());
 
-    lCommand->set_kickspeedx(0);
+    int kickSpeed = 0;
+    int DribleSpeed = 0;
+    if(iCommand.kickFlag){
+        kickSpeed = 1;
+    }
+    if(iCommand.dribleFlag){
+        DribleSpeed = 1;
+    }
+    lCommand->set_kickspeedx(kickSpeed);
     lCommand->set_kickspeedz(0);
-    lCommand->set_spinner(0);
+    lCommand->set_spinner(DribleSpeed);
 
 }
 

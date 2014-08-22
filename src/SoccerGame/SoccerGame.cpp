@@ -132,11 +132,10 @@ void SoccerGame::sendCommands(){
 
         for(it = lPlayers.begin();it != lPlayers.end();++it){
             CommandStruct lPlayerCommand = it->second->getCommand();
-            Pose lVelocityCommand = Pose::ZERO;
-            if(!lPlayerCommand.stopFlag){
-                lVelocityCommand = lPlayerCommand.velocity;
+            if(lPlayerCommand.stopFlag){
+                lPlayerCommand.positionTarget = Pose::ZERO;
             }
-            mOutputStream->AddgrSimCommand(lVelocityCommand,false,it->first.getValue());
+            mOutputStream->AddgrSimCommand(lPlayerCommand,false); //TODO set Team
         }
         mOutputStream->SendCommandDatagram();
     }
@@ -198,18 +197,14 @@ void SoccerGame::update(){
      }
     clock_t lNow, lLastTime;
     lLastTime = clock();
-    INFO << "unwrap packets";
     this->mGame->unwrapPackets(mRefInputStream->getPacket(),mVisionInputStream->getPacket());
-    INFO << "Update Playengine";
     Play* lCurrentPlay = mPlayEngine->update();
     lCurrentPlay->update(mRolablePlayers,mOurTeamId);
 
-    INFO << "Update Players";
     for(int i = 0; i < mNbPlayersPerTeam; ++i){
         clock_t lNowPlayer, lLastTimePlayer;
         lLastTimePlayer = clock();
         Player * lPlayer = mGame->getTeams()[mOurTeamId]->getPlayers()[PlayerId(i)];
-        INFO << "Execute Role";
         std::pair<Tactic *, ParameterStruct> lTactic;
         if(i == mGoalieId.getValue()){
             lTactic = lCurrentPlay->getGoalieTactic();
@@ -217,9 +212,7 @@ void SoccerGame::update(){
         else{
             lTactic = lCurrentPlay->getPlayerTactic(PlayerId(i));
         }
-        INFO << "execute Tactic :" << lTactic.second.playerId.getValue();
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
-        INFO << "execute Skill machine";
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
         lPlayer->setCommand(lCommand);
         if(!lCommand.stopFlag){
@@ -235,12 +228,12 @@ void SoccerGame::update(){
         }
 
         lNowPlayer = clock();
-        INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
+        //INFO << "Player Execution Time = " << lNowPlayer - lLastTimePlayer;
     }
 
     this->sendCommands();
     mRunning = !mPlayEngine->isDone();
     lNow = clock();
-    INFO << "Send Command logic execution time = " << lNow - lLastTime << " ms";
+    INFO << "Logic execution time = " << lNow - lLastTime << " ms";
 }
 

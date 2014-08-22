@@ -92,5 +92,8 @@ namespace Planning
 			///	note: you MUST set these before calling evaluate or else it'll throw an exception
 			float maxSpeed = -1;
 			float maxAcceleration = -1;
+
+            //Final Orientation
+            double mAngle;
 	};
 }

@@ -14,9 +14,9 @@ UDPOutputStream::~UDPOutputStream(){
 }
 
 
-void UDPOutputStream::AddgrSimCommand(Pose iPose,bool iTeam, int iRobotId){
+void UDPOutputStream::AddgrSimCommand(CommandStruct& iCommand,bool iTeam){
 
-    addCommandToGrSimPacket(mGrSimPacket, iRobotId, iPose, iTeam);
+    addCommandToGrSimPacket(mGrSimPacket, iCommand, iTeam);
 }
 
 void UDPOutputStream::SendCommandDatagram(){

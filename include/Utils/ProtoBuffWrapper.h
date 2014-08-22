@@ -15,10 +15,10 @@
 #include "proto/pb/grSim_Replacement.pb.h"
 
 #include "Utils/Pose.h"
+#include "Strategy/CommandStruct.h"
 
 
-void addCommandToGrSimPacket(grSim_Packet * iPacket,int iId, Pose iPose,
-                             bool iIsTeamYellow);
+void addCommandToGrSimPacket(grSim_Packet * iPacket, CommandStruct &iCommand, bool iTeam);
 
 Pose unWrapCommand(grSim_Packet * iPacket, int iId);
 

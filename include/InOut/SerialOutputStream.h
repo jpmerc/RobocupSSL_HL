@@ -26,7 +26,7 @@ public:
     virtual ~SerialOutputStream();
     virtual void SetConnection(std::string idata);
     virtual void SetData(int idata);
-    virtual void AddgrSimCommand(Pose iPose,bool iTeam,int iRobotId);
+    virtual void AddgrSimCommand(CommandStruct &iCommand, bool iTeam);
     virtual void SendCommandDatagram();
 
     void updateSetting(string iPort, unsigned int iBaudrate);
@@ -40,7 +40,7 @@ public:
 private:
     boost::asio::io_service mIO;
     boost::asio::serial_port mSerial;
-    map<int,Pose> mCommands;
+    vector<CommandStruct> mCommands;
     Packer *mPacker;
 
 

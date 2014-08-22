@@ -58,11 +58,29 @@ bool GameEvaluator::refSwitchCommand(){
     }
 }
 
+/*
+ * Check if Player as ball : it first check if the robot is well aligned with the ball
+ * if it is, it check if the ball is close enough from the dribler
+ *
+ *
+*/
+bool GameEvaluator::playerAsBall(PlayerId iPlayer, TeamId iTeam, double iAngleTresh, double iDistanceTresh){
+    Pose lPlayerPose = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
+    double lBallAngle = GameEvaluator::getAngleBetweenPlayerAndBall(iPlayer,iTeam);
+    double lDiff = lPlayerPose.Angle.getPolar() - lBallAngle;
+    INFO << "Diff  =  " << lDiff;
+    if(abs(lDiff) < iAngleTresh){
+        double lDistance = GameEvaluator::getDistanceBetweenPlayerAndCoord(iPlayer,iTeam,mGame->getBall()->getPosition());
+        INFO << "Distance  =  " << lDistance;
+        if(lDistance <= iDistanceTresh){
+            return true;
+        }
+    }
+    return false;
+}
+
 double GameEvaluator::getAngleBetweenPlayerAndBall(PlayerId iPlayer, TeamId iTeam){
     Vector2d lBallPosition = mGame->getBall()->getPose().Position;
     Vector2d lPlayerPosition = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose().Position;
-    INFO << "Player Pose = x:" << lPlayerPosition.x << " y:" << lPlayerPosition.y;
-    INFO << "Y =" << lBallPosition.y-lPlayerPosition.y;
-    INFO << "X =" << lBallPosition.x-lPlayerPosition.x;
     return atan2((lBallPosition.y-lPlayerPosition.y),(lBallPosition.x-lPlayerPosition.x));
 }

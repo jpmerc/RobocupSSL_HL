@@ -29,17 +29,18 @@ SerialOutputStream::~SerialOutputStream(){
 
 }
 
-void SerialOutputStream::AddgrSimCommand(Pose iPose, bool iTeam, int iRobotId){
-    mCommands[iRobotId] = iPose;
+void SerialOutputStream::AddgrSimCommand(CommandStruct& iCommand, bool iTeam){
+    mCommands.push_back(iCommand);
 }
 
 void SerialOutputStream::SendCommandDatagram(){
 
-    std::map<int,Pose>::const_iterator
-            lIterator (mCommands.begin()),
-            lEnd(mCommands.end());
-   for(; lIterator != lEnd; ++lIterator) {
-       mPacker->createSpeedCommand(lIterator->second.Position.x,lIterator->second.Position.y,lIterator->second.Angle.getMagnitude(),0);
+
+   for(auto it = mCommands.begin(); it != mCommands.end();++it){
+       mPacker->createSpeedCommand(it->velocity.Position.x,
+                                   it->velocity.Position.y,
+                                   it->velocity.Angle.getPolar(),
+                                   it->playerId.getValue());
        mPacker->sendPacket();
    }
 

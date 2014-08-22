@@ -37,13 +37,12 @@ namespace Planning
 			
 			///run the path ROTplanner
 			///this will always populate path to be the path we need to travel
-			void run(
-					const  Vector2f& start,
-					const float angle, 
-					const  Vector2f& vel,
-					const  Vector2f& goal,
-					const Geometry2d::CompositeShape* obstacles, 
-					Planning::Path &path);
+            void run(const  Vector2f& start,
+                    const double angle,
+                    const  Vector2f& vel,
+                    const  Vector2f& goal,
+                    const Geometry2d::CompositeShape* obstacles,
+                    Planning::Path &path);
 			
 			/** returns the length of the best position planned path */
 			float fixedPathLength() const { return _bestPath.length(); }
