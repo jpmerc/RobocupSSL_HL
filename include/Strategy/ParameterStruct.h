@@ -15,8 +15,11 @@ typedef struct ParameterStruct{
 
     bool isIdle;
 
+    bool canDrible;
+    bool canKick;
+
     ParameterStruct(Pose iTarget = Pose::ZERO):playerId(0),teamId(0),positionTarget(iTarget),
-        teamTarget(0), playerTarget(0),isPoseTarget(true),isIdle(false){}
+        teamTarget(0), playerTarget(0),isPoseTarget(true),isIdle(false),canDrible(false),canKick(false){}
 
 }ParameterStruct;
 

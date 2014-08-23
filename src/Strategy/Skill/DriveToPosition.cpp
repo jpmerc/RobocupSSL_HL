@@ -11,5 +11,11 @@ CommandStruct DriveToPosition::update(ParameterStruct iParam){
         mCurrentSkill = new Move();
     }
 
+    double lDistance = GameEvaluator::getDistanceBetweenPlayerAndCoord(iParam.playerId,iParam.teamId,iParam.positionTarget.Position);
+
+    if(lDistance < 100){
+        mTerminated = true;
+    }
+
     return (*mCurrentSkill)(iParam);
 }

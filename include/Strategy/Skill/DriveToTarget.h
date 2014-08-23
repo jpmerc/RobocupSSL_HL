@@ -14,7 +14,6 @@ public:
 
     virtual CommandStruct update(ParameterStruct iParam);
 
-
 };
 
 #endif // DRIVETOTARGET_H

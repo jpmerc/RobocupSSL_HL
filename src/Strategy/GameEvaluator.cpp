@@ -68,10 +68,8 @@ bool GameEvaluator::playerAsBall(PlayerId iPlayer, TeamId iTeam, double iAngleTr
     Pose lPlayerPose = mGame->getTeams()[iTeam]->getPlayers()[iPlayer]->getPose();
     double lBallAngle = GameEvaluator::getAngleBetweenPlayerAndBall(iPlayer,iTeam);
     double lDiff = lPlayerPose.Angle.getPolar() - lBallAngle;
-    INFO << "Diff  =  " << lDiff;
     if(abs(lDiff) < iAngleTresh){
         double lDistance = GameEvaluator::getDistanceBetweenPlayerAndCoord(iPlayer,iTeam,mGame->getBall()->getPosition());
-        INFO << "Distance  =  " << lDistance;
         if(lDistance <= iDistanceTresh){
             return true;
         }

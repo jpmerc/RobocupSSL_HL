@@ -1,6 +1,6 @@
 #include "Strategy/Skill/SkillStateMachine.h"
 
-SkillStateMachine::SkillStateMachine(){
+SkillStateMachine::SkillStateMachine():mTerminated(false){
     mCurrentSkill = new Stop();
 }
 

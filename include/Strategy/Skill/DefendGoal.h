@@ -17,7 +17,6 @@ public:
 
     virtual CommandStruct update(ParameterStruct iParam);
 
-
 };
 
 #endif // DEFENDGOAL_H

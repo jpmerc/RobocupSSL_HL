@@ -32,8 +32,5 @@ Vector2d Line::getCoordOnLine(double distanceFromStart) const{
     double lAngle = this->angleHypothenuseX();
     double newY = sin(lAngle)*distanceFromStart;
     double newX = cos(lAngle)*distanceFromStart;
-    INFO << "lAngle :" << lAngle;
-    INFO << "X :" << start.x + newX;
-    INFO << "Y :" << start.y + newY;
     return Vector2d(start.x + newX,start.y + newY);
 }

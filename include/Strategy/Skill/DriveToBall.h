@@ -16,7 +16,6 @@ public:
 
     virtual CommandStruct update(ParameterStruct iParam);
 
-
 };
 
 #endif // DRIVETOBALL_H

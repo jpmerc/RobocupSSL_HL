@@ -72,11 +72,14 @@ double Navigator::_calculateSpeed(double iGoalTargetSpeed, double iCurrentSpeed,
     }
     else // Maximun speed
     */
-    if(distance > 100){
-        return 1.0;
+    if(distance < 100){
+        return 0;
+    }
+    else if(distance < 200){
+        return 0.2;
     }
     else{
-        return 0.0;
+        return 1;
     }
 
 }

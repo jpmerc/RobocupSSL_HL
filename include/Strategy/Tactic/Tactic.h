@@ -18,6 +18,7 @@ public:
     
 protected:
     SkillStateMachine* mActualSSM;
+    std::vector<SkillStateMachine*> mSkillList;
 
 };
 
