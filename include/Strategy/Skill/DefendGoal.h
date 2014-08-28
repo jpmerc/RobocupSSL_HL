@@ -8,8 +8,8 @@
 #include "Strategy/Skill/SkillAtom/Move.h"
 #include "Strategy/Skill/SkillAtom/Stop.h"
 #include "Strategy/CommandStruct.h"
+#include "Utils/Line.h"
 #include "Strategy/GameEvaluator.h"
-
 
 class DefendGoal:public SkillStateMachine{
 public:

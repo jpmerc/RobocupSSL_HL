@@ -3,15 +3,13 @@
 
 #include "Logger/Logging.h"
 #include "Strategy/Tactic/Tactic.h"
-#include "Strategy/Skill/DriveToTarget.h"
-#include "Strategy/Skill/DriveToPosition.h"
-#include "Strategy/Skill/DefendGoal.h"
-#include "Strategy/Skill/DriveToBall.h"
-#include "Strategy/GameEvaluator.h"
 #include "Strategy/AIConstants.hpp"
+#include "Strategy/GameEvaluator.h"
+#include "Utils/Line.h"
 
 class DribbleToPosition: public Tactic{
 public:
+    using Tactic::Tactic;
     DribbleToPosition();
 
     virtual std::pair<SkillStateMachine *, ParameterStruct> update(ParameterStruct iParam);

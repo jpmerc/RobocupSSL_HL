@@ -215,7 +215,7 @@ void SoccerGame::update(){
         std::pair<SkillStateMachine*,ParameterStruct> lSkill = lTactic.first->update(lTactic.second);
         CommandStruct lCommand = lSkill.first->update(lSkill.second);
         lPlayer->setCommand(lCommand);
-        if(!lCommand.stopFlag){
+        if(!lCommand.stopFlag){ //navigate flag!
             // TODO add new Path definition
             Planning::Path lPath = mPathfinder->findPath(lPlayer, lCommand.positionTarget);
             //for(int i =0; i < lPath.points.size(); i++){

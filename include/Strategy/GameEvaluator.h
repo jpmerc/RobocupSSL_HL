@@ -4,6 +4,7 @@
 #include "SoccerGame/Game/Game.h"
 #include "Utils/Line.h"
 
+
 class GameEvaluator{
 public:
     GameEvaluator(Game* iGame);

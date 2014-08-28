@@ -16,6 +16,7 @@
 #include "SoccerGame/Referee/Referee.h"
 #include "proto/pb/messages_robocup_ssl_wrapper.pb.h"
 
+
 class Game{
 public:
     Game(Ball* iBall, Field* iField, Referee *iRef);

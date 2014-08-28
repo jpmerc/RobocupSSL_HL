@@ -21,7 +21,9 @@
 #include "Utils/Pose.h"
 #include "Utils/Velocity.h"
 #include "Control/Navigator.h"
-#include "Strategy/Role.h"
+#include "Strategy/CommandStruct.h"
+
+class Role;
 
 class Player :  public MovableObject{
 public:

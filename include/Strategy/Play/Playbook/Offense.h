@@ -13,6 +13,7 @@
 
 #include "SoccerGame/Exception/RobocupException.h"
 #include "Logger/Logging.h"
+#include "Strategy/Role.h"
 
 class Offense : public Play{
 public:

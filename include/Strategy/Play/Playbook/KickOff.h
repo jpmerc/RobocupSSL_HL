@@ -12,6 +12,7 @@
 
 #include "SoccerGame/Exception/RobocupException.h"
 #include "Logger/Logging.h"
+#include "Strategy/Role.h"
 
 class KickOff : public Play{
 public:

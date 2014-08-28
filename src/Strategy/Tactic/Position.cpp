@@ -2,7 +2,7 @@
 
 Position::Position(){
     INFO << "Create Position Tactic";
-    mActualSSM = new DriveToPosition();
+    this->setState(state::DRIVE_TO_POSITION);
 }
 
 std::pair<SkillStateMachine*,ParameterStruct> Position::update(ParameterStruct iParam){

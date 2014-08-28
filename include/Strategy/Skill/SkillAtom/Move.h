@@ -4,6 +4,7 @@
 #include "Logger/Logging.h"
 #include "Strategy/ParameterStruct.h"
 #include "Strategy/Skill/SkillAtom/Skill.h"
+#include "Strategy/CommandStruct.h"
 
 class Move:public Skill{
 public:

@@ -15,6 +15,7 @@
 #include "SoccerGame/Exception/RobocupException.h"
 
 #include "SoccerGame/Player/Player.h"
+#include "Strategy/Role.h"
 
 class Play
 {

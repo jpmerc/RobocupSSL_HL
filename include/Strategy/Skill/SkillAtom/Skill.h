@@ -1,9 +1,8 @@
 #ifndef SKILL_H
 #define SKILL_H
 
-#include "Logger/Logging.h"
-#include "Strategy/ParameterStruct.h"
-#include "Strategy/CommandStruct.h"
+class ParameterStruct;
+class CommandStruct;
 
 class Skill
 {
