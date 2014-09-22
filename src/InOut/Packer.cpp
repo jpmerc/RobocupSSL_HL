@@ -1,4 +1,4 @@
-//version 1.0
+//version 1.1
 #include "InOut/Packer.h"
 
 Packer::Packer(boost::asio::serial_port *pSerial){
