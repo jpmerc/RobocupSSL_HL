@@ -1,5 +1,5 @@
 /*
-    Robocup Protocol V1.0
+    Robocup Protocol V1.1
 
     | Robot's Id | Command | Data |
     Velocity command :
