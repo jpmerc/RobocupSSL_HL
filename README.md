@@ -1,51 +1,78 @@
-#Robocup Ulaval
-##High-Level Programming Team - Complete Game
+Robocup Ulaval
+===========
+This is the repository of the high-level programming team of the Laval University's Robocup project.
 
-###Simulation
-To download and compile grSim (robocup compatible Simulator) go to this link:
-https://github.com/mani-monaj/grSim
 
-###Referee
-To download and compile refbox (robocup compatible referee input) go to this link:
-https://github.com/Hawk777/ssl-refbox
-#Running Referee:
-```sh
-$ ./sslrefbox -C single.conf
-```
-user manual : http://robocupssl.cpe.ku.ac.th/referee:start
-
-##Compilation
-
+#Installation
+These installation instructions have been tested and work on Ubuntu 14, Mint 17, Mint Debian.
 ###Dependencies
 ```sh
-$ sudo apt-get install git cmake
-```
-install protobuf:
-https://code.google.com/p/protobuf/downloads/list
-
-If your not on Ubuntu 14 install boost :
-```sh
-$ wget -O boost_1_54_0.tar.gz http://sourceforge.net/projects/boost/files/boost/1.54.0/boost_1_54_0.tar.gz/download
-$ tar xzvf boost_1_54_0.tar.gz
-$ cd boost_1_54_0/
-$ wget https://dl.dropbox.com/u/88131281/install_boost.sh
-```
-In install_boost.sh, at the line : "sudo ./b2 --with=all -j $n install"
-change $n with the number of core of your machine
-
-```sh
-$ chmod +x install_boost.sh
-$ ./install_boost.sh
+sudo apt-get install git build-essential cmake libqt4-dev libqt4-opengl-dev libgl1-mesa-dev libglu1-mesa-dev protobuf-compiler libprotobuf-dev libode-dev libboost1.54-all-dev libgtkmm-2.4-dev
 ```
 
-###Build
-To build the project go in the folder
+###VarTypes
 ```sh
-$ ./compile.sh
+cd /tmp
+wget http://vartypes.googlecode.com/files/vartypes-0.7.tar.gz
+tar xfz vartypes-0.7.tar.gz
+cd vartypes-0.7
+mkdir build && cd build
+cmake ..
+make 
+sudo make install
 ```
 
-If you use QtCreator, simply open the project with the CmakeList and build
-else
+###GrSim
 ```sh
-$ make
+cd /path/to/your/projects/folder/
+git clone https://github.com/mani-monaj/grSim.git
+cd grSim
+mkdir build && cd build
+cmake ..
+make
 ```
+
+###SSL Refbox
+```sh
+cd /path/to/your/projects/folder/
+git clone https://github.com/Hawk777/ssl-refbox.git
+cd ssl-refbox
+make
+```
+
+###RobocupUlaval SoccerGame
+```sh
+cd /path/to/your/projects/folder/
+git clone https://github.com/RoboCupULaval/RobocupSSL_HL.git
+cd RobocupSSL_HL
+./compile.sh
+mkdir build && cd build
+cmake ..
+make
+```
+
+#Usage
+First, you have to start the referee so the soccer game can listen to its command :
+
+```sh
+cd /path/to/your/ssl-refbox/installation/
+./sslrefbox -C single.conf
+```
+
+Then, start the simulator :
+
+```sh
+cd /path/to/your/grSim/installation/
+cd bin
+./grsim
+```
+
+Finally, launch the soccer game :
+
+```sh
+cd /path/to/your/soccerGame/installation/
+cd build
+./robocupulaval_cli
+```
+
+You should now be able to control the game with the referee.
