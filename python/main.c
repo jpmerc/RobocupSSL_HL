@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     SDL_Init(SDL_INIT_VIDEO);
 
     ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    SDL_WM_SetCaption("Chargement d'images en SDL", NULL);
+    SDL_WM_SetCaption("Robocup Python POC", NULL);
 
     ballonTex = IMG_Load("football.png");
     
