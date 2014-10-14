@@ -19,11 +19,11 @@ int main(int argc, char *argv[])
     posBallon.x = ecran->w/2 - ballonTex->w/2;
     posBallon.y = ecran->h/2 - ballonTex->h/2;
 
-        scriptEngine_init();
+    scriptEngine_init();
 
     int t = 0;
     int exit = 0;
-    while (t < 100){
+    while (t < 10000){
 
 	struct Vector pyPosition = getPosition(t);
 	setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 	t++;
 	exit = 0;
     }
+    scriptEngine_finalize();
     SDL_FreeSurface(ballonTex);
     SDL_Quit();
 

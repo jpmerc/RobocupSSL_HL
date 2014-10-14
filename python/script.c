@@ -8,8 +8,14 @@ int scriptEngine_init(){
     PyObject *sys = PyImport_ImportModule("sys");
     PyObject *path = PyObject_GetAttrString(sys, "path");
     PyList_Append(path, PyUnicode_FromString("."));
-
+    PyRun_SimpleString("import sys"); 
+    PyRun_SimpleString("sys.path.insert(0, '')"); 
     return 0;
+}
+
+int scriptEngine_finalize(){
+	Py_Finalize();	
+	return 0;
 }
 
 struct Vector
@@ -19,9 +25,6 @@ getPosition(int t)
     PyObject *pArgs, *pValue;
 
     struct Vector result = {0,0};
-    Py_Initialize();
-    PyRun_SimpleString("import sys"); 
-    PyRun_SimpleString("sys.path.insert(0, '')"); 
 
     pName = PyUnicode_FromString("position");
     /* Error checking of pName left out */
@@ -74,6 +77,5 @@ getPosition(int t)
         fprintf(stderr, "Failed to load ");
         return result;
     }
-    Py_Finalize();
     return result;
 }
