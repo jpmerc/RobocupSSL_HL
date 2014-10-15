@@ -2,6 +2,11 @@
 
 int main(int argc, char *argv[])
 {
+    const int FPS = 60.0;
+    const int FRAME_TIME = 1000/FPS; //Temps entre chaque frame
+    
+    long time = 0, lastTime = 0;
+    
     SDL_Surface *ecran = NULL, *ballonTex = NULL;
     SDL_Rect posBallon;
     SDL_Event event;
@@ -16,17 +21,13 @@ int main(int argc, char *argv[])
     posBallon.x = ecran->w/2 - ballonTex->w/2;
     posBallon.y = ecran->h/2 - ballonTex->h/2;
 
-    scriptEngine_init();
+    scriptEngine_init(); //Initialiseur de l'engin de script
 
     int exit = 0;
-    long time = 0;
-    long lastTime = 0;
-    const int FPS = 60.0;
-    const int frameTime = 1000/FPS;
     while (!exit){
 
     	time = SDL_GetTicks();
-	if(time - lastTime > frameTime){
+	if(time - lastTime > FRAME_TIME){
 		struct Vector pyPosition = getPosition(SDL_GetTicks());
 		setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
 		
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
 		lastTime = time;
 	}
 	else{
-		SDL_Delay(frameTime - (time - lastTime));
+		SDL_Delay(FRAME_TIME - (time - lastTime));
 	}
 
 	//Gestion d'events (Dans ce cas fermeture de fenêtre)
@@ -58,6 +59,7 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
+//Permet de définir la position d'une texture en prenant son centre comme coordonée (0,0)
 static void setPosition(SDL_Surface *tex,SDL_Rect *pos, double x, double y){
 	pos->x = x - tex->w/2;
 	pos->y = y - tex->h/2;
