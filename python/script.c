@@ -18,8 +18,7 @@ int scriptEngine_finalize(){
 	return 0;
 }
 
-struct Vector
-getPosition(int t)
+struct Vector getPosition(int t)
 {
     PyObject *pName, *pModule, *pFunc;
     PyObject *pArgs, *pValue;
