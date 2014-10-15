@@ -1,13 +1,10 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include "script.h"
+#include "main.h"
 
 int main(int argc, char *argv[])
 {
     SDL_Surface *ecran = NULL, *ballonTex = NULL;
     SDL_Rect posBallon;
+    SDL_Event event;
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -21,20 +18,38 @@ int main(int argc, char *argv[])
 
     scriptEngine_init();
 
-    int t = 0;
     int exit = 0;
-    while (t < 10000){
+    long time = 0;
+    long lastTime = 0;
+    const int FPS = 60.0;
+    const int frameTime = 1000/FPS;
+    while (!exit){
 
-	struct Vector pyPosition = getPosition(t);
-	setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
-	
-	SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
-	SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
+    	time = SDL_GetTicks();
+	if(time - lastTime > frameTime){
+		struct Vector pyPosition = getPosition(SDL_GetTicks());
+		setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
+		
+		SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
+		SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
 
-    	SDL_Flip(ecran);
-    
-	t++;
-	exit = 0;
+		SDL_Flip(ecran);
+
+		lastTime = time;
+	}
+	else{
+		SDL_Delay(frameTime - (time - lastTime));
+	}
+
+	//Gestion d'events (Dans ce cas fermeture de fenêtre)
+	SDL_PollEvent(&event); 
+	switch(event.type)
+	{
+	    case SDL_QUIT:
+		exit = 1;
+		break;
+	}
+
     }
     scriptEngine_finalize();
     SDL_FreeSurface(ballonTex);
@@ -43,7 +58,7 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-void setPosition(SDL_Surface *tex,SDL_Rect *pos, double x, double y){
+static void setPosition(SDL_Surface *tex,SDL_Rect *pos, double x, double y){
 	pos->x = x - tex->w/2;
 	pos->y = y - tex->h/2;
 }
