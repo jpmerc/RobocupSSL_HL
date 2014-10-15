@@ -17,40 +17,45 @@ int main(int argc, char *argv[])
     SDL_WM_SetCaption("Robocup Python POC", NULL);
 
     ballonTex = IMG_Load("football.png");
-    
-    posBallon.x = ecran->w/2 - ballonTex->w/2;
-    posBallon.y = ecran->h/2 - ballonTex->h/2;
+    if(ballonTex != NULL){
+	    
+	    posBallon.x = ecran->w/2 - ballonTex->w/2;
+	    posBallon.y = ecran->h/2 - ballonTex->h/2;
 
-    scriptEngine_init(); //Initialiseur de l'engin de script
+	    scriptEngine_init(); //Initialiseur de l'engin de script
 
-    int exit = 0;
-    while (!exit){
+	    int exit = 0;
+	    while (!exit){
 
-    	time = SDL_GetTicks();
-	if(time - lastTime > FRAME_TIME){
-		struct Vector pyPosition = getPosition(SDL_GetTicks());
-		setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
-		
-		SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
-		SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
+		time = SDL_GetTicks();
+		if(time - lastTime > FRAME_TIME){
+			struct Vector pyPosition = getPosition(SDL_GetTicks());
+			setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
+			
+			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
+			SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
 
-		SDL_Flip(ecran);
+			SDL_Flip(ecran);
 
-		lastTime = time;
-	}
-	else{
-		SDL_Delay(FRAME_TIME - (time - lastTime));
-	}
+			lastTime = time;
+		}
+		else{
+			SDL_Delay(FRAME_TIME - (time - lastTime));
+		}
 
-	//Gestion d'events (Dans ce cas fermeture de fenêtre)
-	SDL_PollEvent(&event); 
-	switch(event.type)
-	{
-	    case SDL_QUIT:
-		exit = 1;
-		break;
-	}
+		//Gestion d'events (Dans ce cas fermeture de fenêtre)
+		SDL_PollEvent(&event); 
+		switch(event.type)
+		{
+		    case SDL_QUIT:
+			exit = 1;
+			break;
+		}
 
+	    }
+    }
+    else{
+	printf("Cannot find \"football.png\". Exiting...\n");
     }
     scriptEngine_finalize();
     SDL_FreeSurface(ballonTex);
