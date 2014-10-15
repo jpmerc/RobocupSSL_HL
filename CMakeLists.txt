@@ -3,7 +3,10 @@ project(RobocupUlaval)
 
 set(CMAKE_BUILD_TYPE Release)
 
-set(USE_TESTS FALSE)
+set(COMPILE_TESTS FALSE)
+set(COMPILE_PYTHONTESTS TRUE)
+set(COMPILE_CLI FALSE)
+set(COMPILE_GUI FALSE)
 
 ADD_CUSTOM_COMMAND(
     OUTPUT BUILD PROTOC
@@ -84,7 +87,7 @@ list(APPEND libs ${PROTOBUF_LIBRARIES})
 set (PROJECT_INCLUDE_DIR include)
 include_directories(${PROJECT_INCLUDE_DIR})
 
-if(USE_TESTS)
+if(COMPILE_TESTS)
     #Code coverage
     set(GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage -fPIC")
     set(GCC_COVERAGE_LINK_FLAGS    "-lgcov")
@@ -124,12 +127,39 @@ if(USE_TESTS)
     add_executable(robocupulaval_tests ${tests_SRC} ${files_SRC})
     target_link_libraries(robocupulaval_tests gtest_main gtest gmock ${libs})
 
-endif(USE_TESTS)
+endif(COMPILE_TESTS)
 
-#add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
-#target_link_libraries(robocupulaval_qt ${libs})
+if(COMPILE_PYTHONTESTS)
+    file(GLOB_RECURSE python_SRC
+        "./python/*"
+    )
+    Find_Package(SDL REQUIRED)
+    Find_Package(SDL_image REQUIRED)
+    find_package(PythonLibs REQUIRED)
 
-add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp ${SAMPLE_MOC_SRCS})
-target_link_libraries(robocupulaval_cli ${libs})
+    if(NOT SDL_FOUND)
+       message(FATAL_ERROR "SDL not found!" )
+    endif( NOT SDL_FOUND )
+
+    add_executable(pythonTest ${python_SRC})
+    include_directories(${PYTHON_INCLUDE_DIRS})
+    target_link_libraries(pythonTest ${PYTHON_LIBRARIES} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} SDLmain)
+
+endif(COMPILE_PYTHONTESTS)
+
+if(COMPILE_CLI)
+
+    add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
+    target_link_libraries(robocupulaval_qt ${libs})
+
+endif(COMPILE_CLI)
+
+if(COMPILE_GUI)
+
+    add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp ${SAMPLE_MOC_SRCS})
+    target_link_libraries(robocupulaval_cli ${libs})
+
+endif(COMPILE_GUI)
+
 
 
