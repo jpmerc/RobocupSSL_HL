@@ -11,6 +11,6 @@ def getPosition(t):
         math.sin(j)
 
     # real code
-    x = math.cos(t/1000)
-    y = math.sin(t/1000)
+    x = 0.5 * math.cos(t/500)
+    y = 0.5 * math.sin(t/500)
     return (x, y)

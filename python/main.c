@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
     const int FPS = 60.0;
-    const int FRAME_TIME = 1000/FPS; //Temps entre chaque frame
+    const int FRAME_TIME = 1000/FPS; //Temps entre chaque frame en ms
     
     long time = 0, lastTime = 0;
     
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 		time = SDL_GetTicks();
 		if(time - lastTime > FRAME_TIME){
 			struct Vector pyPosition = getPosition(SDL_GetTicks());
-			setPosition(ballonTex, &posBallon, pyPosition.x * 100 + ecran->w/2, pyPosition.y * 100 + ecran->h/2);
+			setPosition(ballonTex, &posBallon, pyPosition.x * ecran->w/2 + ecran->w/2, pyPosition.y * ecran->h/2 + ecran->h/2);
 			
 			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
 			SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
