@@ -7,3 +7,4 @@ struct Vector{
 
 struct Vector getPosition(int t);
 int scriptEngine_init();
+int scriptEngine_finalize();
