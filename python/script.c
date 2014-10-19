@@ -37,24 +37,24 @@ struct Vector getPosition(int t)
 
         if (pFunc && PyCallable_Check(pFunc)) {
             pArgs = PyTuple_New(1);
-	    pValue = PyLong_FromLong(t);
-	    if (!pValue) {
-	        Py_DECREF(pArgs);
-	        Py_DECREF(pModule);
-	        fprintf(stderr, "Cannot convert argument\n");
-	        return result;
-	    }
-	    /* pValue reference stolen here: */
-	    PyTuple_SetItem(pArgs, 0, pValue);
-    
-	    pValue = PyObject_CallObject(pFunc, pArgs);
+            pValue = PyLong_FromLong(t);
+            if (!pValue) {
+                Py_DECREF(pArgs);
+                Py_DECREF(pModule);
+                fprintf(stderr, "Cannot convert argument\n");
+                return result;
+            }
+            /* pValue reference stolen here: */
+            PyTuple_SetItem(pArgs, 0, pValue);
+
+            pValue = PyObject_CallObject(pFunc, pArgs);
             Py_DECREF(pArgs);
             if (pValue != NULL) {
-		result.x = PyFloat_AsDouble(PyTuple_GetItem(pValue, 0));
-		result.y = PyFloat_AsDouble(PyTuple_GetItem(pValue, 1));
+                result.x = PyFloat_AsDouble(PyTuple_GetItem(pValue, 0));
+                result.y = PyFloat_AsDouble(PyTuple_GetItem(pValue, 1));
                 printf("Result of call: (%f,%f)\n", result.x, result.y);
                 Py_DECREF(pValue);
-            }
+                }
             else {
                 Py_DECREF(pFunc);
                 Py_DECREF(pModule);
