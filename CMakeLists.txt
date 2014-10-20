@@ -4,7 +4,8 @@ project(RobocupUlaval)
 set(CMAKE_BUILD_TYPE Release)
 
 set(COMPILE_TESTS FALSE)
-set(COMPILE_PYTHONTESTS TRUE)
+set(COMPILE_PYTHONTESTS FALSE)
+set(COMPILE_MULTIVARIABLETESTS TRUE)
 set(COMPILE_CLI FALSE)
 set(COMPILE_GUI FALSE)
 
@@ -153,6 +154,11 @@ if(COMPILE_CLI)
     target_link_libraries(robocupulaval_qt ${libs})
 
 endif(COMPILE_CLI)
+
+if(COMPILE_MULTIVARIABLETESTS)
+    add_executable(MultiVariableTest ${files_SRC} Multivariable/main.cpp)
+    target_link_libraries(MultiVariableTest ${libs})
+endif(COMPILE_MULTIVARIABLETESTS)
 
 if(COMPILE_GUI)
 

@@ -48,6 +48,7 @@ public:
     virtual void SetConnection(std::string iAdress);
     virtual void SetData(int iPort);
     virtual void AddgrSimCommand(CommandStruct &iCommand, bool iTeam);
+    void SendCommandDatagram(grSim_Packet iGrSimPacket);
     virtual void SendCommandDatagram();
 
     void SendUDPVisionDatagram(SSL_WrapperPacket iPacket);

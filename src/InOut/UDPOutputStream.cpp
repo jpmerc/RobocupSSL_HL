@@ -19,6 +19,14 @@ void UDPOutputStream::AddgrSimCommand(CommandStruct& iCommand,bool iTeam){
     addCommandToGrSimPacket(mGrSimPacket, iCommand, iTeam);
 }
 
+void UDPOutputStream::SendCommandDatagram(grSim_Packet iGrSimPacket){
+
+    int lSize = iGrSimPacket.ByteSize();
+    char lSend_buffer[lSize];
+    iGrSimPacket.SerializeToArray(lSend_buffer, lSize);
+    this->SendData(lSend_buffer,lSize);
+}
+
 void UDPOutputStream::SendCommandDatagram(){
 
     int lSize = mGrSimPacket->ByteSize();
