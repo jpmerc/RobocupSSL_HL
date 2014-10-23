@@ -28,8 +28,10 @@ int main(int argc, char *argv[])
 	    while (!exit){
 
 		time = SDL_GetTicks();
+		strategie.setData(time);
+
 		if(time - lastTime > FRAME_TIME){
-			struct Vector pyPosition = strategie.getPosition(SDL_GetTicks());
+			struct Vector pyPosition = strategie.getPosition();
 			setPosition(ballonTex, &posBallon, pyPosition.x * ecran->w/2 + ecran->w/2, pyPosition.y * ecran->h/2 + ecran->h/2);
 			
 			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
 			lastTime = time;
 		}
 		else{
-			SDL_Delay(FRAME_TIME - (time - lastTime));
+			//SDL_Delay(FRAME_TIME - (time - lastTime));
 		}
 
 		//Gestion d'events (Dans ce cas fermeture de fenêtre)

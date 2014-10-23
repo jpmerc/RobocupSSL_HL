@@ -8,8 +8,14 @@ struct Vector{
 
 class StrategieEngine {
 	int t;
+	struct Vector position;
+	
+	void updatePosition();
+	private:
+		boost::thread updateThread;
 	public:
-		struct Vector getPosition(int t);
 		StrategieEngine();
 		~StrategieEngine();
+		void setData(int data);
+		struct Vector getPosition();
 };
