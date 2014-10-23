@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -22,14 +22,14 @@ int main(int argc, char *argv[])
 	    posBallon.x = ecran->w/2 - ballonTex->w/2;
 	    posBallon.y = ecran->h/2 - ballonTex->h/2;
 
-	    scriptEngine_init(); //Initialiseur de l'engin de script
+	    StrategieEngine strategie; //Initialiseur de l'engin de script
 
 	    int exit = 0;
 	    while (!exit){
 
 		time = SDL_GetTicks();
 		if(time - lastTime > FRAME_TIME){
-			struct Vector pyPosition = getPosition(SDL_GetTicks());
+			struct Vector pyPosition = strategie.getPosition(SDL_GetTicks());
 			setPosition(ballonTex, &posBallon, pyPosition.x * ecran->w/2 + ecran->w/2, pyPosition.y * ecran->h/2 + ecran->h/2);
 			
 			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
     else{
 	printf("Cannot find \"football.png\". Exiting...\n");
     }
-    scriptEngine_finalize();
     SDL_FreeSurface(ballonTex);
     SDL_Quit();
 
