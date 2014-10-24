@@ -3,12 +3,15 @@
 StrategieEngine::StrategieEngine(){
    
     Py_Initialize();
+    PyEval_InitThreads(); 
     
     PyObject *sys = PyImport_ImportModule("sys");
     PyObject *path = PyObject_GetAttrString(sys, "path");
     PyList_Append(path, PyUnicode_FromString("."));
     PyRun_SimpleString("import sys"); 
     PyRun_SimpleString("sys.path.insert(0, '')");
+
+    PyEval_ReleaseLock();
     this->updateThread = boost::thread(&StrategieEngine::updatePosition, this);
 }
 
@@ -26,6 +29,9 @@ void StrategieEngine::setData(int data){
 }
 
 void StrategieEngine::updatePosition(){
+	PyGILState_STATE gstate;
+	gstate = PyGILState_Ensure();
+		
 	while(1){
 		int time = this->t;
 		PyObject *pName, *pModule, *pFunc;
@@ -82,9 +88,11 @@ void StrategieEngine::updatePosition(){
 			fprintf(stderr, "Failed to load ");
 		    }
 		    this->position = result;
+
 		    boost::this_thread::interruption_point();
 
 	}
+	PyGILState_Release (gstate); 
 
 }
 
