@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    const int FPS = 60;
+    const int FPS = 120;
     const int FRAME_TIME = 1000/FPS; //Temps entre chaque frame en ms
     
     long time = 0, lastTime = 0;
