@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("Robocup Python POC", NULL);
 
-    ballonTex = IMG_Load("football.png");
+    ballonTex = IMG_Load("images/football.png");
     if(ballonTex != NULL){
 	    
 	    StrategieEngine strategie; //Initialiseur de l'engin de stratégie
