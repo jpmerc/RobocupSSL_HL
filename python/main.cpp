@@ -19,19 +19,19 @@ int main(int argc, char *argv[])
     ballonTex = IMG_Load("football.png");
     if(ballonTex != NULL){
 	    
-	    posBallon.x = ecran->w/2 - ballonTex->w/2;
-	    posBallon.y = ecran->h/2 - ballonTex->h/2;
-
-	    StrategieEngine strategie; //Initialiseur de l'engin de script
+	    StrategieEngine strategie; //Initialiseur de l'engin de stratégie
 
 	    int exit = 0;
 	    while (!exit){
 
-		time = SDL_GetTicks();
-		strategie.setData(time);
+		time = SDL_GetTicks(); //Temps depuis l'execution du programme
 
-		if(time - lastTime > FRAME_TIME){
-			struct Vector pyPosition = strategie.getPosition();
+		strategie.setData(time); //Envoi de l'état du jeu (ici le temps)
+
+		if(time - lastTime > FRAME_TIME){ //Voir s'il est temps de dessiner le prochain frame
+			struct Vector pyPosition = strategie.getPosition(); //Reception de l'état du moteur de stratégie (ici une seule position)
+
+			//Affichage
 			setPosition(ballonTex, &posBallon, pyPosition.x * ecran->w/2 + ecran->w/2, pyPosition.y * ecran->h/2 + ecran->h/2);
 			
 			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 			lastTime = time;
 		}
 		else{
-			//SDL_Delay(FRAME_TIME - (time - lastTime));
+			SDL_Delay(FRAME_TIME - (time - lastTime)); //Attendre jusqu'au prochain frame
 		}
 
 		//Gestion d'events (Dans ce cas fermeture de fenêtre)
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-//Permet de définir la position d'une texture en prenant son centre comme coordonée (0,0)
+//Permet de définir la position d'une texture en prenant son centre comme origine locale
 static void setPosition(SDL_Surface *tex,SDL_Rect *pos, double x, double y){
 	pos->x = x - tex->w/2;
 	pos->y = y - tex->h/2;
