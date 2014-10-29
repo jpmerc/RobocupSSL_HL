@@ -8,9 +8,7 @@ StrategieEngine::StrategieEngine(){
     //Ajouter le dossier 'scripts' au path temporaire Python
     PyObject *sys = PyImport_ImportModule("sys");
     PyObject *path = PyObject_GetAttrString(sys, "path");
-    PyList_Append(path, PyUnicode_FromString("."));
-    PyRun_SimpleString("import sys"); 
-    PyRun_SimpleString("sys.path.insert(0, '')");
+    PyList_Append(path, PyUnicode_FromString("./scripts"));
 
     //Relacher l'exclusivité de l'interpreteur
     //pour pouvoir l'utiliser sur les autres threads
