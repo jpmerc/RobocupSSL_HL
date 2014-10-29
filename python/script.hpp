@@ -1,5 +1,5 @@
-#include <Python.h>
 #include <boost/thread.hpp> 
+#include <boost/python.hpp>
 
 struct Vector{
     double x;
