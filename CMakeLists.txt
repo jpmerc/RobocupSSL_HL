@@ -39,11 +39,13 @@ set(Boost_ADDITIONAL_VERSIONS "1.55" "1.53" "1.46")
 
 
 
-find_package(Boost COMPONENTS filesystem system program_options thread log log_setup REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
-list(APPEND libs ${Boost_LIBRARIES})
+find_package(Boost COMPONENTS filesystem system program_options python thread log log_setup REQUIRED)
 
+if(Boost_FOUND)
+	include_directories(${Boost_INCLUDE_DIR})
+	link_directories(${Boost_LIBRARY_DIRS})
+	list(APPEND libs ${Boost_LIBRARIES})
+endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -143,7 +145,11 @@ if(COMPILE_PYTHONTESTS)
 
     add_executable(pythonTest ${python_SRC})
     include_directories(${PYTHON_INCLUDE_DIRS})
-    target_link_libraries(pythonTest ${PYTHON_LIBRARIES} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} SDLmain)
+    target_link_libraries(pythonTest ${PYTHON_LIBRARIES} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} SDLmain ${libs})
+
+    FILE(COPY ${CMAKE_SOURCE_DIR}/python/scripts DESTINATION ${CMAKE_BINARY_DIR})
+
+    FILE(COPY ${CMAKE_SOURCE_DIR}/python/images DESTINATION ${CMAKE_BINARY_DIR})
 
 endif(COMPILE_PYTHONTESTS)
 
