@@ -6,4 +6,4 @@ coverage-report/
 .project
 CMakeLists.txt.user
 ext/boost/
-
+.idea/
