@@ -22,8 +22,6 @@ StrategieEngine::~StrategieEngine(){
 	Py_Finalize();	
 }
 
-
-
 void StrategieEngine::setData(int data){
 
 	this->t = data;
@@ -41,7 +39,7 @@ void StrategieEngine::updatePosition(){
 
 		struct Vector result = {0,0};
 
-		pName = PyUnicode_FromString("position");
+		pName = PyUnicode_FromString("main");
 		/* Error checking of pName left out */
 
 		pModule = PyImport_Import(pName);

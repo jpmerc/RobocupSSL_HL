@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import math
+import cercle
 
 
 def getPosition(t):
@@ -10,7 +11,4 @@ def getPosition(t):
         j = math.cos(i**42)
         math.sin(j)
 
-    # real code
-    x = 0.5 * math.cos(t/500)
-    y = 0.5 * math.sin(t/500)
-    return (x, y)
+    return cercle.getPosition(t)
