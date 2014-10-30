@@ -58,7 +58,19 @@ void StrategieEngine::updatePosition(){
 				fprintf(stderr, "Cannot convert argument\n");
 			    }
 			    /* pValue reference stolen here: */
-			    PyTuple_SetItem(pArgs, 0, pValue);
+			    //PyTuple_SetItem(pArgs, 0, pValue);
+
+			    //Generate a long array of random data to be sent to python (just to see if things slow down)
+			    long beefLength = 100000;
+			    long listy[beefLength];
+			    listy[0] = time;
+			    for (long x = 1; x<beefLength; x++){
+				    listy[x] = rand() % 1000;
+			    }
+
+			    //Convert this list to a Python tuple and send it to Python
+			    PyObject *pTuply = arrayToTuple(listy);
+			    PyTuple_SetItem(pArgs, 0, pTuply);
 
 			    pValue = PyObject_CallObject(pFunc, pArgs);
 			    Py_DECREF(pArgs);
@@ -95,6 +107,16 @@ void StrategieEngine::updatePosition(){
 
 	}
 	PyGILState_Release (gstate); 
+
+}
+
+PyObject* StrategieEngine::arrayToTuple(long array[]){
+	int size = sizeof(array)/sizeof(long);
+	PyObject *pTuple = PyTuple_New(size);
+	for (int i = 0; i < size; i++){
+		PyTuple_SetItem(pTuple, i, PyLong_FromLong(array[i]));
+	}
+	return pTuple;
 
 }
 

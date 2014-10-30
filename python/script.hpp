@@ -13,6 +13,7 @@ class StrategieEngine {
 	void updatePosition();
 	private:
 		boost::thread updateThread;
+		PyObject* arrayToTuple(long array[]);
 	public:
 		StrategieEngine();
 		~StrategieEngine();
