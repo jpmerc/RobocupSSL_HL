@@ -63,7 +63,7 @@ void StrategieEngine::updatePosition(){
 				    	//PyTuple_SetItem(pArgs, 0, pValue);
 
 				    	//Generate a long array of random data to be sent to python (just to see if things slow down)
-				    	long beefLength = 100;
+				    	long beefLength = 10;
 				    	long listy[beefLength];
 				    	listy[0] = time;
 				    	for (long x = 1; x<beefLength; x++){
@@ -71,8 +71,7 @@ void StrategieEngine::updatePosition(){
 				    	}
 
 				    	//Convert this list to a Python tuple and send it to Python
-				    	PyObject *pTuply = PyTuple_New(1);
-					PyTuple_SetItem(pTuply, 0, PyLong_FromLong(5));
+				    	PyObject *pTuply = arrayToTuple(listy);
 				    	PyTuple_SetItem(pArgs, 0, pTuply);
 
 				    	pValue = PyObject_CallObject(pFunc, pArgs);
