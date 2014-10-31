@@ -54,7 +54,6 @@ void StrategieEngine::updatePosition(){
 					PyObject *pArgs, *pValue;
 
 					pArgs = PyTuple_New(1);
-					pValue = PyLong_FromLong(time);
 					if (!pValue) {
 						Py_DECREF(pArgs);
 						Py_DECREF(pModule);
@@ -64,7 +63,7 @@ void StrategieEngine::updatePosition(){
 				    	//PyTuple_SetItem(pArgs, 0, pValue);
 
 				    	//Generate a long array of random data to be sent to python (just to see if things slow down)
-				    	long beefLength = 300000;
+				    	long beefLength = 100;
 				    	long listy[beefLength];
 				    	listy[0] = time;
 				    	for (long x = 1; x<beefLength; x++){
@@ -72,7 +71,8 @@ void StrategieEngine::updatePosition(){
 				    	}
 
 				    	//Convert this list to a Python tuple and send it to Python
-				    	PyObject *pTuply = arrayToTuple(listy);
+				    	PyObject *pTuply = PyTuple_New(1);
+					PyTuple_SetItem(pTuply, 0, PyLong_FromLong(5));
 				    	PyTuple_SetItem(pArgs, 0, pTuply);
 
 				    	pValue = PyObject_CallObject(pFunc, pArgs);
@@ -87,10 +87,8 @@ void StrategieEngine::updatePosition(){
 							result.players[p] = boost::python::extract<Vector>(pVector);
 							Py_DECREF(pVector);
 						}
-					//result.x = PyFloat_AsDouble(PyTuple_GetItem(pItem, 0));
-					//result.y = PyFloat_AsDouble(PyTuple_GetItem(pItem, 1));
 					
-					//printf("Result of call: (%f,%f)\n", result.players[0].x, result.players[0].y);
+						//printf("Result of call: (%f,%f)\n", result.players[0].x, result.players[0].y);
 						Py_DECREF(pValue);
 				    	}
 				    	else {
