@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     SDL_WM_SetCaption("Robocup Python POC", NULL);
 
     ballonTex[0] = IMG_Load("images/football.png");
-    ballonTex[1] = IMG_Load("images/football.png");
+    ballonTex[1] = IMG_Load("images/football_red.png");
     if(ballonTex != NULL){
 	    
 	    StrategieEngine strategie; //Initialiseur de l'engin de stratégie
