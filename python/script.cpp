@@ -1,7 +1,7 @@
 #include "script.hpp"
 
 StrategieEngine::StrategieEngine(){
-   
+
     Py_Initialize();
     PyEval_InitThreads(); 
     
@@ -37,7 +37,7 @@ void StrategieEngine::updatePosition(){
 		PyObject *pName, *pModule, *pFunc;
 		PyObject *pArgs, *pValue;
 
-		struct Vector result = {0,0};
+		struct Game result;
 
 		pName = PyUnicode_FromString("main");
 		/* Error checking of pName left out */
@@ -61,7 +61,7 @@ void StrategieEngine::updatePosition(){
 			    //PyTuple_SetItem(pArgs, 0, pValue);
 
 			    //Generate a long array of random data to be sent to python (just to see if things slow down)
-			    long beefLength = 100000;
+			    long beefLength = 300000;
 			    long listy[beefLength];
 			    listy[0] = time;
 			    for (long x = 1; x<beefLength; x++){
@@ -75,9 +75,13 @@ void StrategieEngine::updatePosition(){
 			    pValue = PyObject_CallObject(pFunc, pArgs);
 			    Py_DECREF(pArgs);
 			    if (pValue != NULL) {
-				result.x = PyFloat_AsDouble(PyTuple_GetItem(pValue, 0));
-				result.y = PyFloat_AsDouble(PyTuple_GetItem(pValue, 1));
-				//printf("Result of call: (%f,%f)\n", result.x, result.y);
+				
+				result.players[0] = boost::python::extract<Vector>(PyList_GetItem(pValue, 0));
+				result.players[1] = boost::python::extract<Vector>(PyList_GetItem(pValue, 1));
+				//result.x = PyFloat_AsDouble(PyTuple_GetItem(pItem, 0));
+				//result.y = PyFloat_AsDouble(PyTuple_GetItem(pItem, 1));
+				
+				//printf("Result of call: (%f,%f)\n", result.players[0].x, result.players[0].y);
 				Py_DECREF(pValue);
 			    }
 			    else {
@@ -120,7 +124,7 @@ PyObject* StrategieEngine::arrayToTuple(long array[]){
 
 }
 
-struct Vector StrategieEngine::getPosition()
+struct Game StrategieEngine::getPosition()
 {
 	return this->position;
 }

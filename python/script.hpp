@@ -1,14 +1,14 @@
 #include <boost/thread.hpp> 
 #include <boost/python.hpp>
+#include "Vector.hpp"
 
-struct Vector{
-    double x;
-    double y;
+struct Game{
+	struct Vector players[2];
 };
 
 class StrategieEngine {
 	int t;
-	struct Vector position;
+	struct Game position;
 	
 	void updatePosition();
 	private:
@@ -18,5 +18,5 @@ class StrategieEngine {
 		StrategieEngine();
 		~StrategieEngine();
 		void setData(int data);
-		struct Vector getPosition();
+		struct Game getPosition();
 };

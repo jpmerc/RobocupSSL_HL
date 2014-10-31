@@ -7,8 +7,8 @@ int main(int argc, char *argv[])
     
     long time = 0, lastTime = 0;
     
-    SDL_Surface *ecran = NULL, *ballonTex = NULL;
-    SDL_Rect posBallon;
+    SDL_Surface *ecran = NULL, *ballonTex[2];
+    SDL_Rect posBallon[2];
     SDL_Event event;
 
     SDL_Init(SDL_INIT_VIDEO);
@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
     ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("Robocup Python POC", NULL);
 
-    ballonTex = IMG_Load("images/football.png");
+    ballonTex[0] = IMG_Load("images/football.png");
+    ballonTex[1] = IMG_Load("images/football.png");
     if(ballonTex != NULL){
 	    
 	    StrategieEngine strategie; //Initialiseur de l'engin de stratégie
@@ -29,13 +30,17 @@ int main(int argc, char *argv[])
 		strategie.setData(time); //Envoi de l'état du jeu (ici le temps)
 
 		if(time - lastTime > FRAME_TIME){ //Voir s'il est temps de dessiner le prochain frame
-			struct Vector pyPosition = strategie.getPosition(); //Reception de l'état du moteur de stratégie (ici une seule position)
+			struct Game pyGame = strategie.getPosition(); //Reception de l'état du moteur de stratégie
 
 			//Affichage
-			setPosition(ballonTex, &posBallon, pyPosition.x * ecran->w/2 + ecran->w/2, pyPosition.y * ecran->h/2 + ecran->h/2);
-			
 			SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));	
-			SDL_BlitSurface(ballonTex, NULL, ecran, &posBallon);
+			
+			for(int b = 0; b<2; b++){
+				setPosition(ballonTex[b], &posBallon[b], pyGame.players[b].x * ecran->w/2 + ecran->w/2, pyGame.players[b].y * ecran->h/2 + ecran->h/2);
+			
+				SDL_BlitSurface(ballonTex[b], NULL, ecran, &posBallon[b]);
+
+			}
 
 			SDL_Flip(ecran);
 
@@ -59,7 +64,8 @@ int main(int argc, char *argv[])
     else{
 	printf("Cannot find \"football.png\". Exiting...\n");
     }
-    SDL_FreeSurface(ballonTex);
+    SDL_FreeSurface(ballonTex[0]);
+    SDL_FreeSurface(ballonTex[1]);
     SDL_Quit();
 
     return EXIT_SUCCESS;
