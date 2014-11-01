@@ -147,19 +147,19 @@ if(COMPILE_PYTHONTESTS)
 
 endif(COMPILE_PYTHONTESTS)
 
-if(COMPILE_CLI)
+if(COMPILE_GUI)
 
     add_executable(robocupulaval_qt ${files_SRC} main_qt.cpp)
     target_link_libraries(robocupulaval_qt ${libs})
 
-endif(COMPILE_CLI)
+endif(COMPILE_GUI)
 
-if(COMPILE_GUI)
+if(COMPILE_CLI)
 
     add_executable(robocupulaval_cli ${files_SRC} main_cli.cpp ${SAMPLE_MOC_SRCS})
     target_link_libraries(robocupulaval_cli ${libs})
 
-endif(COMPILE_GUI)
+endif(COMPILE_CLI)
 
 
 
